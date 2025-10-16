@@ -28,7 +28,7 @@
 ## CÔNG NGHỆ SỬ DỤNG
 - **Backend:** [PHP](https://www.php.net/), [Laravel](https://laravel.com/)  
 - **Frontend:** [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML), [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [ReactJS](https://react.dev/), [Redux](https://redux.js.org/), [Ant Design](https://ant.design/), [Tailwind CSS](https://tailwindcss.com/)  
-- **Database:** [MySQL](https://www.mysql.com/)
+- **Database:** [T-SQL]
 
 ---
 
