@@ -45,6 +45,6 @@
 ---
 
 <p align="center">
-  <i>Nhóm PhiLe - IS207.N13</i><br>
+  <i>Nhóm PhiLe - IS207.Q13</i><br>
   <b>📅 Cập nhật lần cuối:</b> Tháng 10/2025
 </p>
