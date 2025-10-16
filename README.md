@@ -36,7 +36,7 @@
 
 | STT | MSSV | Họ và Tên | GitHub | Email |
 |-----|------|------------|---------|--------|
-| 1 | 23520846 | Lưu Khánh Linh | [https://github.com/LeHaGiaBao]((https://github.com/linhlk123)) | [23520846@gm.uit.edu.vn](mailto:23520846@gm.uit.edu.vn) |
+| 1 | 23520846 | Lưu Khánh Linh | [https://github.com/linhlk123]((https://github.com/linhlk123)) | [23520846@gm.uit.edu.vn](mailto:23520846@gm.uit.edu.vn) |
 | 2 | 23520432 | Nguyễn Ngọc Hân |
 | 3 | 23520124 | Nguyễn Ngọc Duy Bảo |
 | 4 | 23520124 | Trần Đình Trung Hiếu |
