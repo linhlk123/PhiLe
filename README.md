@@ -19,9 +19,9 @@
 
 ## GIỚI THIỆU ĐỒ ÁN
 - **Đề tài:** Trang web bán điện thoại  
-- **Repository:** [PHÁT TRIỂN ỨNG DỤNG WEB - IS207](https://github.com/yourusername/PhatTrienUngDungWeb-IS207)  
-- **Behance:** [LEVIOSA Website](https://www.behance.net/)  
-- **Trang giới thiệu nhóm:** [PhiLe](https://example.com)
+- **Repository:** [PHÁT TRIỂN ỨNG DỤNG WEB - IS207]
+- **Behance:** [LEVIOSA Website]
+- **Trang giới thiệu nhóm:** [PhiLe]
 
 ---
 
