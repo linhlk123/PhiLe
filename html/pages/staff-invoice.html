@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quản lý hóa đơn - Resort</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/staff.new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .invoice-table-container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .invoice-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .invoice-table th,
+    .invoice-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .invoice-table th {
+      background-color: #1a237e;
+      color: white;
+      font-weight: 500;
+    }
+
+    .invoice-table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      margin: 0 4px;
+    }
+
+    .btn-primary {
+      background: #1a237e;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    .btn-print {
+      background: #4caf50;
+      color: white;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      position: relative;
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #455a64;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .modal-footer {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-paid {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-pending {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .status-cancelled {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .payment-method {
+      text-transform: capitalize;
+    }
+  </style>
+</head>
+<body>
+  <header class="staff-header">
+    <h1>Quản lý hóa đơn</h1>
+    <div class="staff-meta">
+      <div class="user-dropdown">
+        <button class="dropdown-toggle">
+          Xin chào, <strong>Nhân viên Lễ tân</strong>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a href="staff-profile.html" class="dropdown-item">
+            <i class="fas fa-user"></i> Thông tin cá nhân
+          </a>
+          <a href="customer-signin.html" class="dropdown-item">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="display: flex; gap: 20px;">
+    <!-- Danh mục panel -->
+    <div style="width: 250px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
+      <h3 style="margin-top: 0; color: #1a237e; border-bottom: 2px solid #1a237e; padding-bottom: 10px;">Danh mục</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 10px 0;">
+          <a href="staff-room.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-bed" style="margin-right: 8px;"></i>Quản lý phòng
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-employee.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-users" style="margin-right: 8px;"></i>Quản lý nhân viên
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-service.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-concierge-bell" style="margin-right: 8px;"></i>Quản lý dịch vụ
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-invoice.html" style="text-decoration: none; color: #1a237e; display: block; padding: 8px 12px; border-radius: 5px; background: rgba(26, 35, 126, 0.1); transition: all 0.3s;">
+            <i class="fas fa-file-invoice-dollar" style="margin-right: 8px;"></i>Quản lý hóa đơn
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-profile.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main content -->
+    <div style="flex: 1;">
+      <nav class="top-nav">
+        <ul>
+          <li><a href="staff-room.html">Quản lý phòng</a></li>
+          <li><a href="staff-employee.html">Quản lý nhân viên</a></li>
+          <li><a href="staff-service.html">Quản lý dịch vụ</a></li>
+          <li><a href="staff-invoice.html" class="active">Quản lý hóa đơn</a></li>
+        </ul>
+      </nav>
+
+      <div class="invoice-table-container">
+        <div class="invoice-tools">
+          <input type="text" id="invoiceSearch" placeholder="Tìm kiếm hóa đơn..." 
+                style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 300px;">
+          <button id="addInvoiceBtn" class="btn btn-primary">+ Thêm hóa đơn</button>
+        </div>
+
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>Mã hóa đơn</th>
+              <th>Mã đặt phòng</th>
+              <th>Tên khách hàng</th>
+              <th>Ngày thanh toán</th>
+              <th>Số tiền</th>
+              <th>Phương thức</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceTableBody">
+            <!-- Invoice data will be populated here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for invoice management -->
+  <div id="invoiceModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div class="modal-header">
+        <h3 id="invoiceModalTitle">Chỉnh sửa hóa đơn</h3>
+      </div>
+      <form id="invoiceForm">
+        <input type="hidden" id="paymentId">
+        <div class="form-group">
+          <label for="bookingId">Mã đặt phòng *</label>
+          <select id="bookingId" required>
+            <option value="">Chọn mã đặt phòng</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="customerName">Tên khách hàng</label>
+          <input type="text" id="customerName" readonly>
+        </div>
+        <div class="form-group">
+          <label for="paymentDate">Ngày thanh toán *</label>
+          <input type="datetime-local" id="paymentDate" required>
+        </div>
+        <div class="form-group">
+          <label for="amount">Số tiền (VNĐ) *</label>
+          <input type="number" id="amount" required min="0" step="1000">
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Phương thức thanh toán *</label>
+          <select id="paymentMethod" required>
+            <option value="Tiền mặt">Tiền mặt</option>
+            <option value="Thẻ tín dụng">Thẻ tín dụng</option>
+            <option value="Chuyển khoản">Chuyển khoản</option>
+            <option value="Ví điện tử">Ví điện tử</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="paymentStatus">Trạng thái *</label>
+          <select id="paymentStatus" required>
+            <option value="Đã thanh toán">Đã thanh toán</option>
+            <option value="Chờ thanh toán">Chờ thanh toán</option>
+            <option value="Đã hủy">Đã hủy</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelInvoiceEdit">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // User dropdown functionality
+      const dropdownToggle = document.querySelector('.dropdown-toggle');
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      
+      dropdownToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+      });
+      
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.user-dropdown')) {
+          dropdownMenu.style.display = 'none';
+        }
+      });
+      // Sample booking data with customer info
+      const bookingsData = [
+        { id: 'B001', customerId: 'C001', customerName: 'Nguyễn Văn An' },
+        { id: 'B002', customerId: 'C002', customerName: 'Trần Thị Bình' },
+        { id: 'B003', customerId: 'C003', customerName: 'Phạm Văn Cường' }
+      ];
+
+      // Sample invoice data
+      let invoicesData = [
+        {
+          paymentId: 1,
+          bookingId: 'B001',
+          customerName: 'Nguyễn Văn An',
+          paymentDate: '2025-11-03 10:30',
+          amount: 5000000,
+          paymentMethod: 'Thẻ tín dụng',
+          paymentStatus: 'Đã thanh toán'
+        },
+        {
+          paymentId: 2,
+          bookingId: 'B002',
+          customerName: 'Trần Thị Bình',
+          paymentDate: '2025-11-03 11:45',
+          amount: 3500000,
+          paymentMethod: 'Tiền mặt',
+          paymentStatus: 'Đã thanh toán'
+        },
+        {
+          paymentId: 3,
+          bookingId: 'B003',
+          customerName: 'Phạm Văn Cường',
+          paymentDate: '2025-11-03 14:20',
+          amount: 4200000,
+          paymentMethod: 'Chuyển khoản',
+          paymentStatus: 'Chờ thanh toán'
+        }
+      ];
+
+      function renderInvoiceTable(data = invoicesData) {
+        const tbody = document.getElementById('invoiceTableBody');
+        tbody.innerHTML = '';
+        data.forEach(invoice => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${invoice.paymentId}</td>
+            <td>${invoice.bookingId}</td>
+            <td>${invoice.customerName}</td>
+            <td>${invoice.paymentDate}</td>
+            <td>${invoice.amount.toLocaleString('vi-VN')} VNĐ</td>
+            <td class="payment-method">${invoice.paymentMethod}</td>
+            <td>
+              <span class="status-badge status-${invoice.paymentStatus === 'Đã thanh toán' ? 'paid' : 
+                                                invoice.paymentStatus === 'Chờ thanh toán' ? 'pending' : 'cancelled'}">
+                ${invoice.paymentStatus}
+              </span>
+            </td>
+            <td>
+              <button onclick="editInvoice(${invoice.paymentId})" class="btn btn-secondary">
+                <i class="fas fa-edit"></i> Sửa
+              </button>
+              <button onclick="printInvoice(${invoice.paymentId})" class="btn btn-print">
+                <i class="fas fa-print"></i> In
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      function populateBookingSelect() {
+        const select = document.getElementById('bookingId');
+        select.innerHTML = '<option value="">Chọn mã đặt phòng</option>';
+        bookingsData.forEach(booking => {
+          select.innerHTML += `<option value="${booking.id}">${booking.id} - ${booking.customerName}</option>`;
+        });
+      }
+
+      window.editInvoice = function(id) {
+        const invoice = invoicesData.find(i => i.paymentId === id);
+        if (!invoice) return;
+
+        document.getElementById('invoiceModalTitle').textContent = 'Chỉnh sửa hóa đơn';
+        document.getElementById('paymentId').value = invoice.paymentId;
+        document.getElementById('bookingId').value = invoice.bookingId;
+        document.getElementById('customerName').value = invoice.customerName;
+        document.getElementById('paymentDate').value = invoice.paymentDate.replace(' ', 'T');
+        document.getElementById('amount').value = invoice.amount;
+        document.getElementById('paymentMethod').value = invoice.paymentMethod;
+        document.getElementById('paymentStatus').value = invoice.paymentStatus;
+
+        document.getElementById('invoiceModal').style.display = 'block';
+      }
+
+      window.printInvoice = function(id) {
+        const invoice = invoicesData.find(i => i.paymentId === id);
+        if (!invoice) return;
+        
+        // In thực tế sẽ mở một trang mới với template hóa đơn để in
+        alert('Đang chuẩn bị in hóa đơn #' + id);
+      }
+
+      // Invoice management
+      const invoiceModal = document.getElementById('invoiceModal');
+      const addInvoiceBtn = document.getElementById('addInvoiceBtn');
+      const closeInvoiceModal = document.querySelector('#invoiceModal .modal-close');
+      const cancelInvoiceEdit = document.getElementById('cancelInvoiceEdit');
+      const invoiceForm = document.getElementById('invoiceForm');
+      const invoiceSearch = document.getElementById('invoiceSearch');
+
+      // Bookings select change handler
+      document.getElementById('bookingId').addEventListener('change', function() {
+        const booking = bookingsData.find(b => b.id === this.value);
+        if (booking) {
+          document.getElementById('customerName').value = booking.customerName;
+        } else {
+          document.getElementById('customerName').value = '';
+        }
+      });
+
+      addInvoiceBtn.addEventListener('click', function() {
+        document.getElementById('invoiceModalTitle').textContent = 'Thêm hóa đơn mới';
+        document.getElementById('paymentId').value = '';
+        invoiceForm.reset();
+        document.getElementById('paymentDate').value = new Date().toISOString().slice(0, 16);
+        populateBookingSelect();
+        invoiceModal.style.display = 'block';
+      });
+
+      closeInvoiceModal.addEventListener('click', () => invoiceModal.style.display = 'none');
+      cancelInvoiceEdit.addEventListener('click', () => invoiceModal.style.display = 'none');
+      window.addEventListener('click', (e) => {
+        if (e.target === invoiceModal) invoiceModal.style.display = 'none';
+      });
+
+      invoiceForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const booking = bookingsData.find(b => b.id === document.getElementById('bookingId').value);
+        if (!booking) return;
+
+        const formData = {
+          bookingId: booking.id,
+          customerName: booking.customerName,
+          paymentDate: document.getElementById('paymentDate').value.replace('T', ' '),
+          amount: parseInt(document.getElementById('amount').value),
+          paymentMethod: document.getElementById('paymentMethod').value,
+          paymentStatus: document.getElementById('paymentStatus').value
+        };
+
+        const paymentId = document.getElementById('paymentId').value;
+        
+        if (paymentId) {
+          const index = invoicesData.findIndex(i => i.paymentId === parseInt(paymentId));
+          if (index !== -1) {
+            invoicesData[index] = { ...invoicesData[index], ...formData };
+          }
+        } else {
+          const newId = Math.max(...invoicesData.map(i => i.paymentId), 0) + 1;
+          invoicesData.push({ paymentId: newId, ...formData });
+        }
+
+        renderInvoiceTable();
+        invoiceModal.style.display = 'none';
+      });
+
+      invoiceSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredInvoices = invoicesData.filter(invoice => 
+          invoice.bookingId.toLowerCase().includes(searchTerm) ||
+          invoice.customerName.toLowerCase().includes(searchTerm) ||
+          invoice.paymentId.toString().includes(searchTerm)
+        );
+        renderInvoiceTable(filteredInvoices);
+      });
+
+      // Initial render
+      renderInvoiceTable();
+      populateBookingSelect();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quản lý khách hàng - Resort</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/staff.new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .staff-table-container {
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 20px;
+    }
+
+    .staff-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .staff-table th,
+    .staff-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .staff-table th {
+      background-color: #1a237e;
+      color: white;
+      font-weight: 500;
+    }
+
+    .staff-table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .staff-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background: #1a237e;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      position: relative;
+      background: white;
+      width: 90%;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #455a64;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .modal-footer {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    nav.top-nav {
+      background: #1a237e;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+    }
+
+    nav.top-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav.top-nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    nav.top-nav ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    nav.top-nav ul li a.active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Dropdown styles */
+    .user-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 150px;
+      z-index: 1000;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 10px 15px;
+      color: #333;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+
+    .dropdown-item i {
+      margin-right: 8px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header class="staff-header">
+    <h1>Quản lý khách hàng</h1>
+    <div class="staff-meta">
+      <div class="user-dropdown">
+        <button class="dropdown-toggle">
+          Xin chào, <strong>Nhân viên Lễ tân</strong>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a href="staff-profile.html" class="dropdown-item">
+            <i class="fas fa-user"></i> Thông tin cá nhân
+          </a>
+          <a href="customer-signin.html" class="dropdown-item">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="display: flex; gap: 20px;">
+    <!-- Danh mục panel -->
+    <div style="width: 250px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
+      <h3 style="margin-top: 0; color: #1a237e; border-bottom: 2px solid #1a237e; padding-bottom: 10px;">Danh mục</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 10px 0;">
+          <a href="staff-room.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-bed" style="margin-right: 8px;"></i>Quản lý phòng
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-booking.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-calendar-check" style="margin-right: 8px;"></i>Quản lý đặt phòng
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-customer.html" style="text-decoration: none; color: #1a237e; display: block; padding: 8px 12px; border-radius: 5px; background: rgba(26, 35, 126, 0.1); transition: all 0.3s;">
+            <i class="fas fa-user-friends" style="margin-right: 8px;"></i>Quản lý khách hàng
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-employee.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-users" style="margin-right: 8px;"></i>Quản lý nhân viên
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-service.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-concierge-bell" style="margin-right: 8px;"></i>Quản lý dịch vụ
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-invoice.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-file-invoice-dollar" style="margin-right: 8px;"></i>Quản lý hóa đơn
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-profile.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main content -->
+    <div style="flex: 1;">
+      <nav class="top-nav">
+        <ul>
+          <li><a href="staff-room.html">Quản lý phòng</a></li>
+          <li><a href="staff-booking.html">Quản lý đặt phòng</a></li>
+          <li><a href="staff-customer.html" class="active">Quản lý khách hàng</a></li>
+          <li><a href="staff-employee.html">Quản lý nhân viên</a></li>
+          <li><a href="staff-service.html">Quản lý dịch vụ</a></li>
+          <li><a href="staff-invoice.html">Quản lý hóa đơn</a></li>
+        </ul>
+      </nav>
+
+      <div class="staff-table-container">
+        <div class="staff-tools">
+          <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng..." 
+                 style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 300px;">
+          <button id="addCustomerBtn" class="btn btn-primary">+ Thêm khách hàng</button>
+        </div>
+
+        <table class="staff-table">
+          <thead>
+            <tr>
+              <th>Họ và tên</th>
+              <th>Giới tính</th>
+              <th>SĐT</th>
+              <th>Email</th>
+              <th>CCCD</th>
+              <th>Địa chỉ</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="customerTableBody">
+            <!-- Customer data will be populated here -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal for customer management -->
+      <div id="customerModal" class="modal">
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <div class="modal-header">
+            <h3 id="customerModalTitle">Thêm khách hàng mới</h3>
+          </div>
+          <form id="customerForm">
+            <input type="hidden" id="customerId">
+            <div class="form-group">
+              <label for="customerName">Họ và tên *</label>
+              <input type="text" id="customerName" required>
+            </div>
+            <div class="form-group">
+              <label for="customerGender">Giới tính *</label>
+              <select id="customerGender" required>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="customerPhone">Số điện thoại *</label>
+              <input type="tel" id="customerPhone" required>
+            </div>
+            <div class="form-group">
+              <label for="customerEmail">Email *</label>
+              <input type="email" id="customerEmail" required>
+            </div>
+            <div class="form-group">
+              <label for="customerIdNumber">CCCD/CMND *</label>
+              <input type="text" id="customerIdNumber" required>
+            </div>
+            <div class="form-group">
+              <label for="customerAddress">Địa chỉ *</label>
+              <input type="text" id="customerAddress" required>
+            </div>
+            <div class="form-group">
+              <label for="customerPassword">Mật khẩu *</label>
+              <input type="password" id="customerPassword" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="cancelCustomerEdit">Hủy</button>
+              <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sample customer data
+      let customerData = [
+        {
+          id: 1,
+          fullName: 'Nguyễn Thị Mai',
+          gender: 'Nữ',
+          phone: '0901234567',
+          email: 'nguyenthimai@gmail.com',
+          idNumber: '001301005678',
+          address: 'Số 123, Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh',
+          password: 'password123'
+        },
+        {
+          id: 2,
+          fullName: 'Trần Văn Hùng',
+          gender: 'Nam',
+          phone: '0912345678',
+          email: 'tranvanhung@yahoo.com',
+          idNumber: '001301006789',
+          address: 'Số 45, Đường Nguyễn Huệ, Hải Châu, Đà Nẵng',
+          password: 'secure456'
+        },
+        {
+          id: 3,
+          fullName: 'Lê Thị Hoa',
+          gender: 'Nữ',
+          phone: '0923456789',
+          email: 'lethihoa@outlook.com',
+          idNumber: '001301007890',
+          address: 'Số 78, Đường Trần Phú, Ba Đình, Hà Nội',
+          password: 'mypass789'
+        },
+        {
+          id: 4,
+          fullName: 'Phạm Minh Tuấn',
+          gender: 'Nam',
+          phone: '0934567890',
+          email: 'phamminhtuan@gmail.com',
+          idNumber: '001301008901',
+          address: 'Số 234, Đường Hai Bà Trưng, Quận 3, TP. Hồ Chí Minh',
+          password: 'tuan2024'
+        },
+        {
+          id: 5,
+          fullName: 'Võ Thị Lan',
+          gender: 'Nữ',
+          phone: '0945678901',
+          email: 'vothilan@hotmail.com',
+          idNumber: '001301009012',
+          address: 'Số 567, Đường Phan Chu Trinh, Nha Trang, Khánh Hòa',
+          password: 'lan@resort'
+        },
+        {
+          id: 6,
+          fullName: 'Đặng Văn Nam',
+          gender: 'Nam',
+          phone: '0956789012',
+          email: 'dangvannam@email.com',
+          idNumber: '001301010123',
+          address: 'Số 89, Đường Lý Thường Kiệt, Hội An, Quảng Nam',
+          password: 'namhoian'
+        }
+      ];
+
+      const customerTableBody = document.getElementById('customerTableBody');
+      const customerModal = document.getElementById('customerModal');
+      const addCustomerBtn = document.getElementById('addCustomerBtn');
+      const closeCustomerModal = document.querySelector('#customerModal .modal-close');
+      const cancelCustomerEdit = document.getElementById('cancelCustomerEdit');
+      const customerForm = document.getElementById('customerForm');
+      const customerSearch = document.getElementById('customerSearch');
+
+      function renderCustomerTable(data = customerData) {
+        customerTableBody.innerHTML = '';
+        data.forEach(customer => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${customer.fullName}</td>
+            <td>${customer.gender}</td>
+            <td>${customer.phone}</td>
+            <td>${customer.email}</td>
+            <td>${customer.idNumber}</td>
+            <td>${customer.address}</td>
+            <td>
+              <button onclick="editCustomer(${customer.id})" class="btn btn-secondary">Sửa</button>
+              <button onclick="deleteCustomer(${customer.id})" class="btn btn-secondary">Xóa</button>
+            </td>
+          `;
+          customerTableBody.appendChild(row);
+        });
+      }
+
+      window.editCustomer = function(id) {
+        const customer = customerData.find(c => c.id === id);
+        if (!customer) return;
+
+        document.getElementById('customerModalTitle').textContent = 'Chỉnh sửa thông tin khách hàng';
+        document.getElementById('customerId').value = customer.id;
+        document.getElementById('customerName').value = customer.fullName;
+        document.getElementById('customerGender').value = customer.gender;
+        document.getElementById('customerPhone').value = customer.phone;
+        document.getElementById('customerEmail').value = customer.email;
+        document.getElementById('customerIdNumber').value = customer.idNumber;
+        document.getElementById('customerAddress').value = customer.address;
+        document.getElementById('customerPassword').value = customer.password;
+
+        customerModal.style.display = 'block';
+      }
+
+      window.deleteCustomer = function(id) {
+        if (confirm('Bạn có chắc muốn xóa khách hàng này?')) {
+          customerData = customerData.filter(c => c.id !== id);
+          renderCustomerTable();
+        }
+      }
+
+      addCustomerBtn.addEventListener('click', function() {
+        document.getElementById('customerModalTitle').textContent = 'Thêm khách hàng mới';
+        document.getElementById('customerId').value = '';
+        customerForm.reset();
+        customerModal.style.display = 'block';
+      });
+
+      closeCustomerModal.addEventListener('click', () => customerModal.style.display = 'none');
+      cancelCustomerEdit.addEventListener('click', () => customerModal.style.display = 'none');
+      window.addEventListener('click', (e) => {
+        if (e.target === customerModal) customerModal.style.display = 'none';
+      });
+
+      customerForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          fullName: document.getElementById('customerName').value,
+          gender: document.getElementById('customerGender').value,
+          phone: document.getElementById('customerPhone').value,
+          email: document.getElementById('customerEmail').value,
+          idNumber: document.getElementById('customerIdNumber').value,
+          address: document.getElementById('customerAddress').value,
+          password: document.getElementById('customerPassword').value
+        };
+
+        const customerId = document.getElementById('customerId').value;
+        
+        if (customerId) {
+          // Edit existing customer
+          const index = customerData.findIndex(c => c.id === parseInt(customerId));
+          if (index !== -1) {
+            customerData[index] = { ...customerData[index], ...formData };
+          }
+        } else {
+          // Add new customer
+          const newId = Math.max(...customerData.map(c => c.id), 0) + 1;
+          customerData.push({ id: newId, ...formData });
+        }
+
+        renderCustomerTable();
+        customerModal.style.display = 'none';
+      });
+
+      customerSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredCustomers = customerData.filter(customer => 
+          customer.fullName.toLowerCase().includes(searchTerm) ||
+          customer.phone.includes(searchTerm) ||
+          customer.email.toLowerCase().includes(searchTerm) ||
+          customer.idNumber.includes(searchTerm)
+        );
+        renderCustomerTable(filteredCustomers);
+      });
+
+      // Dropdown functionality
+      const dropdownToggle = document.querySelector('.dropdown-toggle');
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+
+      dropdownToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        dropdownMenu.classList.remove('show');
+      });
+
+      // Initial render
+      renderCustomerTable();
+    });
+  </script>
+</body>
+</html>

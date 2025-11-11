@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sơ đồ phòng resort Leviosa</title>
+  <link rel="stylesheet" href="../assets/css/map.css">
+</head>
+<body>
+  <h1>SƠ ĐỒ PHÒNG RESORT LEVIOSA</h1>
+
+  <div class="legend">
+    <div><span class="icon garden"></span> Khu A: Leviosa Garden (Standard)</div>
+    <div><span class="icon lake"></span> Khu B: Leviosa Lake View (Superior)</div>
+    <div><span class="icon beach"></span> Khu C: Leviosa Beach Villas (Deluxe)</div>
+    <div><span class="icon royal"></span> Khu D: Leviosa Royal (Villa)</div>
+    <div><span class="icon service"></span> Khu E: Khu dịch vụ</div>
+  </div>
+
+  <!-- Hộp thông báo chọn phòng -->
+  <div id="room-selection" class="room-selection-box" style="display: none;">
+    <div class="selection-content">
+      <h3>Bạn đang chọn phòng</h3>
+      <p class="room-list"><span id="selected-room-number"></span></p>
+      <p class="room-type-info">Loại phòng: <span id="selected-room-type"></span></p>
+      <p class="help-text">💡 Nhấn vào phòng để thêm/bỏ chọn</p>
+      <div class="selection-buttons">
+        <button id="confirm-btn" class="btn-confirm">Xác nhận chọn phòng</button>
+        <button id="cancel-btn" class="btn-cancel">Hủy tất cả</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-container">
+    <div class="map">
+    <!-- Màu xanh lơ -->
+    <!-- Khu A (hàng trên cùng) -->
+    <div class="row-top"> 
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div> <div class="house service"></div> <div class="house service"></div>
+      <div class="house service"></div>
+    </div>
+
+    <!-- Khu giữa -->
+    <div class="middle">
+
+      <!-- Khu màu xanh tím + vàng -->
+      <div class="left-group">
+        <!-- Trái: Standard + Deluxe -->
+        <div class="left-standard">
+          <div class="standard-Lrow1"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+          <div class="standard-Lrow2"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+          <div class="standard-Lrow3"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+          <div class="standard-Lrow4"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+
+          <div class="standard-Lrow5"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+          <div class="standard-Lrow6"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+          <div class="standard-Lrow7"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+          <div class="standard-Lrow8"> 
+            <div class="house standard"></div> <div class="house standard"></div> <div class="house standard"></div>
+            <div class="house standard"></div> <div class="house standard"></div>
+          </div>
+        </div>
+
+        <div class="left-deluxe">
+          <div class="deluxe-Lrow1"> 
+            <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Lrow2"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Lrow3"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Lrow4"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+
+          <div class="deluxe-Lrow5"> 
+            <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Lrow6"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>  
+          </div>
+          <div class="deluxe-Lrow7"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Lrow8"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- Khu màu đỏ -->
+      <!-- Giữa: Royal hình chữ T -->
+      <div class="center-group"> 
+        <div class="royal-row1"> <!-- Hàng 1 -->
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+        </div>
+        <div class="royal-row2"> <!-- Hàng 2 -->
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+          <div class="house royal"></div><div class="house royal"></div><div class="house royal"></div>
+        </div>
+
+        <div class="royal-row3"> <!-- Hàng 3 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+        <div class="royal-row4"> <!-- Hàng 4 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+        <div class="royal-row5"> <!-- Hàng 5 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+        <div class="royal-row6"> <!-- Hàng 6 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+        <div class="royal-row7"> <!-- Hàng 7 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+
+        <div class="royal-row8"> <!-- Hàng 8 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+        <div class="royal-row9"> <!-- Hàng 9 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+        <div class="royal-row10"> <!-- Hàng 10 -->
+          <div class="house royal"></div>
+          <div class="house royal"></div>
+        </div>
+      </div>
+
+      <div class="right-group">
+        <!-- Phải: Superior + Deluxe -->
+        <div class="right-superior">
+          <div class="superior-Rrow1"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+          <div class="superior-Rrow2"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+          <div class="superior-Rrow3"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+          <div class="superior-Rrow4"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+
+          <div class="superior-Rrow5"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+          <div class="superior-Rrow6"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+          <div class="superior-Rrow7"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+          <div class="superior-Rrow8"> 
+            <div class="house superior"></div> <div class="house superior"></div> <div class="house superior"></div>
+            <div class="house superior"></div> <div class="house superior"></div>
+          </div>
+        </div>
+
+        <div class="right-deluxe">
+          <div class="deluxe-Rrow1"> 
+            <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Rrow2"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Rrow3"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Rrow4"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+
+          <div class="deluxe-Rrow5"> 
+            <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Rrow6"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div> <div class="house deluxe"></div>  
+          </div>
+          <div class="deluxe-Rrow7"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+          <div class="deluxe-Rrow8"> 
+              <div class="house deluxe"></div> <div class="house deluxe"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Hàng dưới: thêm Lake + Beach  -->
+    <div class="container">
+      <div class="block lake"></div>
+      <div class="block beach"></div>
+      <div class="block service"></div>
+    </div>
+
+  <!-- Menu cập nhật trạng thái -->
+  <div id="status-menu" class="status-menu">
+    <h4>Cập nhật trạng thái phòng</h4>
+    <ul>
+      <li data-status="available">🟢 Khả dụng</li>
+      <li data-status="busy">🏨 Đã đặt</li>
+      <li data-status="maintenance">🔧 Đang bảo trì</li>
+      <li data-status="cleaning">🧹 Đang dọn dẹp</li>
+    </ul>
+  </div>
+
+  <script src="../assets/js/map.js"></script>
+</body>
+</html>

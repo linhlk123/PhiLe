@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Legacy Hoi An</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f6f8f2;
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            color: #666;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            color: #184f2b;
+            border-bottom: 2px solid #184f2b;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #184f2b;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #184f2b;
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: #184f2b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: #1d5a2e;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: #184f2b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-login p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-social {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-social:hover {
+            background: #f8f8f8;
+        }
+
+        .btn-social img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .return-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #184f2b;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .return-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="return-home">
+        <i class="fas fa-arrow-left"></i>
+        Trở về trang chủ
+    </a>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('signin')">Đăng nhập</div>
+                <div class="auth-tab" onclick="switchTab('signup')">Đăng ký</div>
+            </div>
+
+            <!-- Form đăng nhập -->
+            <form class="auth-form active" id="signin-form" action="/login" method="POST">
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" id="Email" name="Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-submit">Đăng nhập</button>
+                <div class="forgot-password">
+                    <a href="#">Quên mật khẩu?</a>
+                </div>
+                <div class="social-login">
+                    <p>Hoặc đăng nhập với</p>
+                    <div class="social-buttons">
+                        <button type="button" class="btn-social">
+                            <img src="../assets/images/icons/google.png" alt="Google">
+                            Google
+                        </button>
+                        <button type="button" class="btn-social">
+                            <img src="../assets/images/icons/facebook.png" alt="Facebook">
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+
+                <div class="staff-login" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                    <p style="text-align: center; color: #666; margin-bottom: 15px;">Đăng nhập với vai trò khác</p>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="staff-signin.html" class="btn-social" style="text-decoration: none; color: #333; font-weight: 500;">
+                            <i class="fas fa-user-tie" style="color: #184f2b;"></i>
+                            Nhân viên
+                        </a>
+                        <a href="manager-signin.html" class="btn-social" style="text-decoration: none; color: #333; font-weight: 500;">
+                            <i class="fas fa-user-shield" style="color: #184f2b;"></i>
+                            Quản lý
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Form đăng ký -->
+            <form class="auth-form" id="signup-form" action="/register" method="POST">
+                <div class="form-group">
+                    <label for="FullName">Họ tên</label>
+                    <input type="text" id="FullName" name="FullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="Gender">Giới tính</label>
+                    <select id="Gender" name="Gender" required>
+                        <option value="">Chọn giới tính</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" id="Email" name="Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="Phone">Số điện thoại</label>
+                    <input type="tel" id="Phone" name="Phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="IDNumber">Số CCCD/CMND</label>
+                    <input type="text" id="IDNumber" name="IDNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="Address">Địa chỉ</label>
+                    <textarea id="Address" name="Address" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-submit">Đăng ký</button>
+            </form>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        function switchTab(tab) {
+            // Remove active class from all tabs and forms
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
+            // Add active class to selected tab and form
+            if (tab === 'signin') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('signin-form').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('signup-form').classList.add('active');
+            }
+        }
+
+        // Xử lý form đăng ký
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Chuyển form data thành object
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+            
+            // Thêm CSRF token
+            data._token = '{{ csrf_token() }}';
+            
+            // Gửi form bằng AJAX đến Laravel server
+            fetch('http://localhost:8000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Hiển thị thông báo
+                    alert('Tài khoản đã được tạo, vui lòng đăng nhập lại');
+                    
+                    // Chuyển sang tab đăng nhập
+                    switchTab('signin');
+                    
+                    // Reset form đăng ký
+                    this.reset();
+                } else {
+                    return response.json().then(errors => {
+                        throw new Error(Object.values(errors).flat().join('\n'));
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message || 'Có lỗi xảy ra khi đăng ký. Vui lòng thử lại.');
+            });
+        });
+
+    </script>
+</body>
+</html>

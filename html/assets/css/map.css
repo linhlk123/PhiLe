@@ -1,0 +1,449 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+  background: #f7f9fb;
+  color: #007b87;
+}
+
+h1 {
+  margin-top: 20px;
+  color: #007b87;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 20px;
+  flex-wrap: wrap;  
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+}
+
+.icon.garden { background: #bcb6f2; }
+.icon.lake { background: #f37bc5; }
+.icon.beach { background: #eacd6f; }
+.icon.royal { background: #e47265; }
+.icon.service { background: #B5EAD7; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px;
+}
+
+.map-container {
+  max-height: 80vh;
+  overflow-y: auto;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar styling */
+.map-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.map-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.map-container::-webkit-scrollbar-thumb {
+  background: #007b87;
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
+}
+
+.map-container::-webkit-scrollbar-thumb:hover {
+  background: #005f6b;
+}
+
+.map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background-image: url("../images/map.png");
+  background-size: cover;        
+  background-position: center;   
+  background-repeat: no-repeat;  
+  border-radius: 10px;
+  padding: 100px;
+  margin: 0 auto;
+}
+
+/* Hàng trên cùng */
+.row-top {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Giữa */
+.middle {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* căn theo đỉnh để không bị lệch xuống */
+  gap: 80px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* --- Bên trái --- */
+.left-group {
+  display: flex;
+  flex-direction: row; /* Giữ nguyên hướng */
+  align-items: flex-start; /* đảm bảo hai khối cùng đỉnh */
+  gap: 80px;
+}
+
+/* --- Bên phải --- */
+.right-group {
+  display: flex;
+  flex-direction: row-reverse; /* Giữ nguyên hướng */
+  align-items: flex-start; /* Căn cùng đỉnh trên */
+  gap: 80px;
+}
+
+/* Đảm bảo khối con không bị margin/padding lệch */
+.left-standard, .left-deluxe,
+.right-superior, .right-deluxe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.center-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.standard-Lrow1, .standard-Lrow2, .standard-Lrow3, .standard-Lrow4, .standard-Lrow5,
+.standard-Lrow6, .standard-Lrow7, .standard-Lrow8 {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.deluxe-Lrow1, .deluxe-Lrow2, .deluxe-Lrow3, .deluxe-Lrow4, .deluxe-Lrow5,
+.deluxe-Lrow6, .deluxe-Lrow7, .deluxe-Lrow8{
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.royal-row1, .royal-row2, .royal-row3, .royal-row4, .royal-row5,
+.royal-row6, .royal-row7, .royal-row8, .royal-row9, .royal-row10 {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.superior-Rrow1, .superior-Rrow2, .superior-Rrow3, .superior-Rrow4, .superior-Rrow5,
+.superior-Rrow6, .superior-Rrow7, .superior-Rrow8 {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.deluxe-Rrow1, .deluxe-Rrow2, .deluxe-Rrow3, .deluxe-Rrow4, .deluxe-Rrow5,
+.deluxe-Rrow6, .deluxe-Rrow7, .deluxe-Rrow8 {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Nhà */
+.house {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.house:hover {
+  transform: scale(1.2);
+}
+
+.house::after {
+  content: attr(data-room);
+  position: absolute;
+  font-size: 9px;
+  font-weight: bold;
+  color: #333;
+  pointer-events: none;
+}
+
+
+/* Màu khu */
+/* .garden { background-color: #B5EAD7; } */
+.lake { background-color: #27ae60; }
+.beach { background-color: #f1a93c; }
+.royal { background-color: #e47265; }
+.service { background-color: #B5EAD7; }
+.standard { background-color: #bcb6f2; }
+.deluxe { background-color: #eacd6f; }
+.superior { background-color: #f37bc5; }
+
+.busy {
+  opacity: 0.4;
+  border: 2px solid #e74c3c;
+  position: relative;
+}
+
+.busy::before {
+  content: '🏨';
+  position: absolute;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.maintenance {
+  opacity: 0.4;
+  border: 2px solid #f39c12;
+  position: relative;
+}
+
+.maintenance::before {
+  content: '🔧';
+  position: absolute;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cleaning {
+  opacity: 0.4;
+  border: 2px solid #3498db;
+  position: relative;
+}
+
+.cleaning::before {
+  content: '🧹';
+  position: absolute;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hộp thông báo chọn phòng */
+.room-selection-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  animation: slideInUp 0.3s ease;
+  max-width: 100%;
+  width: calc(100% - 40px);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.selection-content {
+  padding: 10px 20px;
+  text-align: center;
+  max-height: 780px;
+  overflow-y: auto;
+}
+
+.selection-content h3 {
+  margin: 0 0 15px 0;
+  color: #007b87;
+  font-size: 20px;
+}
+
+.selection-content p {
+  margin: 10px 0;
+  color: #555;
+  font-size: 16px;
+}
+
+.room-list {
+  margin: 15px 0 !important;
+  padding: 10px;
+  background: #f0f8ff;
+  border-radius: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.room-type-info {
+  margin: 10px 0 5px 0 !important;
+}
+
+.help-text {
+  font-size: 14px !important;
+  color: #888 !important;
+  font-style: italic;
+  margin: 10px 0 20px 0 !important;
+}
+
+#selected-room-number {
+  color: #e47265;
+  font-weight: bold;
+  font-size: 20px;
+  display: block;
+  line-height: 1.6;
+}
+
+#selected-room-type {
+  color: #007b87;
+  font-weight: 600;
+}
+
+.selection-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn-confirm, .btn-cancel {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-confirm {
+  background: #007b87;
+  color: white;
+}
+
+.btn-confirm:hover {
+  background: #005f6b;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 135, 0.3);
+}
+
+.btn-cancel {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.house.selected {
+  border: 3px solid #007b87;
+  box-shadow: 0 0 10px rgba(0, 123, 135, 0.5);
+  transform: scale(1.15);
+}
+
+/* Menu cập nhật trạng thái */
+.status-menu {
+  position: absolute;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  padding: 10px;
+  min-width: 200px;
+  z-index: 1000;
+  display: none;
+}
+
+.status-menu h4 {
+  margin: 0 0 10px 0;
+  color: #007b87;
+  font-size: 14px;
+  text-align: center;
+}
+
+.status-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.status-menu li:hover {
+  background: #f0f8ff;
+}
+
+.status-menu .icon {
+  font-size: 16px;
+}
+
+.status-menu li.active {
+  background: #e3f2fd;
+  color: #007b87;
+  font-weight: bold;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .room-selection-box {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-width: none;
+  }
+  
+  .selection-content {
+    padding: 20px 25px;
+  }
+}
+
+
+/* .middle, .left-group, .center-group, .right-group {
+  border: 1px dashed red; 
+}
+
+.center-group {
+  margin-top: 0 !important;
+  align-self: flex-start; 
+} */

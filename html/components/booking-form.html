@@ -1,0 +1,26 @@
+<form action="/submit-booking" method="POST" class="booking-form">
+    <h2>Book Your Stay</h2>
+    <label for="name">Full Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="check-in">Check-in Date:</label>
+    <input type="date" id="check-in" name="check-in" required>
+
+    <label for="check-out">Check-out Date:</label>
+    <input type="date" id="check-out" name="check-out" required>
+
+    <label for="room-type">Room Type:</label>
+    <select id="room-type" name="room-type" required>
+        <option value="single">Single Room</option>
+        <option value="double">Double Room</option>
+        <option value="suite">Suite</option>
+    </select>
+
+    <label for="special-requests">Special Requests:</label>
+    <textarea id="special-requests" name="special-requests" rows="4"></textarea>
+
+    <button type="submit">Submit Booking</button>
+</form>

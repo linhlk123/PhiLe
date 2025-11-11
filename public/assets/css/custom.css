@@ -1,0 +1,30 @@
+.btn-logout {
+    padding: 8px 16px;
+    background-color: #d64045;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.btn-logout:hover {
+    background-color: #c13538;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-logout:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.customer-welcome {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1d5a2e;
+    font-weight: 500;
+}

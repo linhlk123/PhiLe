@@ -1,0 +1,476 @@
+/* Container chính cho form đặt phòng */
+.booking-form-container {
+    width: 100%;
+    background-color: var(--color-new-secondary, #F5F7F2); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px; /* Thêm khoảng đệm trên/dưới */
+    min-height: 100vh;
+    background-image: url('../images/background.jpg'); 
+    background-size: cover; /* Đảm bảo ảnh phủ kín */
+    background-position: center center; /* Căn giữa ảnh */
+    background-repeat: no-repeat; /* Không lặp lại ảnh */
+    background-attachment: fixed; /* Ảnh nền cố định khi cuộn */
+    position: relative; /* Quan trọng cho lớp phủ mờ */
+    z-index: 0; /* Đặt lớp nền xuống dưới */
+}
+
+/* Thêm một lớp phủ (overlay) để làm mờ ảnh nền, giúp form dễ đọc hơn */
+.booking-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Màu đen với độ trong suốt 40% */
+    z-index: 1; /* Đặt lớp phủ lên trên ảnh nền */
+}
+
+/* Khung form chính */
+.booking-form {
+    max-width: 600px;
+    width: 100%;
+    background-color: var(--white, #fff);
+    padding: 30px 35px;
+    border-radius: 8px; /* Giống .booking-form của bạn */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); 
+
+    position: relative; /* Quan trọng để z-index hoạt động */
+    z-index: 2; /* Đặt form lên trên lớp phủ */
+}
+
+/* Tiêu đề (sẽ tự động dùng font 'MTD Quimbly' do kế thừa) */
+.booking-form h2 {
+    text-align: center;
+    color: var(--color-new-primary, #1d5a2e);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 40px; /* Tùy chỉnh kích thước nếu cần */
+}
+
+/* Mô tả (sẽ tự động dùng font 'SVN Gilroy' do kế thừa) */
+.booking-form p {
+    text-align: center;
+    color: var(--color-new-primary, #1d5a2e);
+    margin-bottom: 30px;
+    font-size: 16px;
+    font-weight: 300; /* Đảm bảo dùng font light */
+}
+
+/* Bố cục hàng cho các trường nhập liệu */
+.form-row {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa các cột */
+    margin-bottom: 20px;
+}
+
+.form-group {
+    flex: 1; /* Chia đều không gian */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Khi không nằm trong .form-row (chiếm đủ chiều rộng) */
+.form-group:not(:last-child):not(:first-child) {
+     margin-bottom: 20px;
+}
+
+/* Nhãn (Label) */
+.form-group label {
+    font-weight: 700; /* Dùng SVN Gilroy Bold */
+    color: var(--color-new-primary, #1d5a2e);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Ô nhập liệu và Select */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc; /* Giữ đường viền rõ ràng cho form chi tiết */
+    border-radius: 8px;
+    box-sizing: border-box; 
+    font-size: 16px;
+    font-family: var(--font-new-secondary, 'SVN Gilroy'); /* Đảm bảo đúng font */
+    font-weight: 300;
+    color: var(--color-new-primary, #1d5a2e);
+    background-color: #fdfdfd;
+    transition: all 0.3s ease;
+}
+
+/* Thay đổi màu khi focus */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--color-new-primary, #1d5a2e);
+    box-shadow: 0 0 5px rgba(29, 90, 46, 0.25); /* Shadow màu xanh lá */
+}
+
+/* Tóm tắt đặt phòng */
+.booking-summary {
+    background-color: var(--color-new-secondary, #F5F7F2);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 25px;
+    border: 1px solid var(--color-header, #d0e5b4);
+}
+
+.booking-summary p {
+    text-align: left;
+    margin: 0;
+    font-size: 16px;
+    color: var(--color-new-primary, #1d5a2e);
+}
+
+.booking-summary #total-nights {
+    font-weight: 700; /* Bold */
+}
+
+/* Nút Submit  */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--color-new-primary, #1D5a2E);
+    color: var(--white, #fff);
+    border: none;
+    border-radius: 8px; /* Đồng bộ radius */
+    font-size: 18px;
+    font-family: var(--font-new-secondary, 'SVN Gilroy');
+    font-weight: 700; /* Bold */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Kế thừa từ biến --t nếu có */
+    margin-top: 25px;
+    text-transform: uppercase; /* Thêm để giống các nút khác */
+    letter-spacing: 1px;
+}
+
+/* Hiệu ứng hover (Dựa theo .btn-search:hover) */
+.submit-btn:hover {
+    background: var(--color-header, #D0E5B4);
+    color: var(--color-new-primary, #1D5a2E);
+}
+
+/* Tùy chỉnh cho thiết bị di động */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column; /* Xếp chồng lên nhau */
+        gap: 20px;
+        margin-bottom: 0; /* Bỏ margin-bottom vì group đã có */
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* Thêm margin cho từng group */
+    }
+    
+    .booking-form {
+        padding: 25px 20px;
+    }
+
+    .booking-form h2 {
+        font-size: 32px;
+    }
+}
+
+/* ===============================================
+   BỔ SUNG CSS CHO MODAL CHỌN PHÒNG (V2)
+===============================================
+*/
+
+/* ---Nút Xem sơ đồ resort --- */
+.second-btn {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background-color: #D0E5B4; /* Màu nền sáng */
+    color: var(--color-new-primary, #1D5a2E);
+    border: 1px solid var(--color-new-primary, #1D5a2E);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: var(--font-new-secondary, 'SVN Gilroy');
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.second-btn:hover {
+    background-color: var(--color-header, #1D5a2E);
+    color: #D0E5B4;
+}
+
+/* Ảnh sơ đồ resort  */
+#image-map-modal .modal-content {
+    max-width: 90vw;   
+    width: 75%;
+    text-align: center;
+}
+
+#image-map-modal img {
+    width: 100%;      
+    height: auto;        
+    max-height: 80vh;  
+    object-fit: contain; 
+    border-radius: 8px; 
+}
+
+/* ---Nút Chọn phòng --- */
+.secondary-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #f0f0f0; /* Màu nền sáng */
+    color: var(--color-new-primary, #1D5a2E);
+    border: 1px solid var(--color-new-primary, #1D5a2E);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: var(--font-new-secondary, 'SVN Gilroy');
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background-color: var(--color-header, #1D5a2E);
+    color: #D0E5B4;
+}
+
+/* --- Bổ sung CSS cho Modal Chọn phòng --- */
+
+/* Lớp phủ toàn màn hình */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Ẩn modal ban đầu */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Hiển thị modal khi có class 'active' */
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Nội dung modal */
+.modal-content {
+    background-color: var(--white, #fff);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 700px; 
+    position: relative;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content h3 {
+    font-family: var(--font-new-primary, 'MTDQuimbly');
+    color: var(--color-new-primary, #1d5a2e);
+    font-size: 28px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    font-family: var(--font-new-secondary, 'SVN Gilroy');
+    color: #333;
+    margin-bottom: 20px;
+    /* Ghi đè CSS từ .booking-form p */
+    text-align: left;
+    font-weight: 300;
+}
+
+/* Nút đóng modal */
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+}
+.modal-close:hover {
+    color: #333;
+}
+
+/* Chú thích */
+.room-map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; 
+    margin-bottom: 20px;
+    font-family: var(--font-new-secondary, 'SVN Gilroy');
+    font-size: 14px;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.room-box-legend {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+/* Lưới sơ đồ phòng */
+.room-map-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: var(--color-new-secondary, #F5F7F2);
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+/* Các ô phòng */
+.room-box {
+    padding: 15px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    font-family: var(--font-new-secondary, 'SVN Gilroy');
+    cursor: not-allowed; /* Mặc định không thể chọn */
+    transition: all 0.2s ease;
+}
+
+.modal-content.large {
+    max-width: 500px;
+}
+
+.map-tabs {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+    flex-wrap: wrap; 
+}
+
+.tab-link {
+    padding: 10px 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: var(--font-new-secondary, 'SVN Gilroy');
+    color: #999;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-link:hover {
+    color: var(--color-new-primary, #1d5a2e);
+}
+
+.tab-link.active {
+    color: var(--color-new-primary, #1d5a2e);
+    border-bottom-color: var(--color-new-primary, #1d5a2e);
+}
+
+/* --- [MỚI] Nội dung các Khu vực --- */
+.map-area {
+    display: none; /* Ẩn tất cả các khu vực */
+}
+
+.map-area.active {
+    display: block; /* Chỉ hiện khu vực được chọn */
+}
+
+/* [MỚI] Thêm chi tiết cho ô phòng (Tên phòng, loại phòng) */
+.room-box .room-id {
+    font-weight: 700;
+    font-size: 18px;
+    display: block;
+}
+.room-box .room-type {
+    font-size: 12px;
+    color: #777;
+    display: block;
+    font-weight: 300;
+}
+
+/* Trạng thái phòng (Cập nhật) */
+.room-box.available {
+    background-color: var(--white, #fff);
+    border-color: var(--color-new-primary, #1d5a2e);
+    color: var(--color-new-primary, #1d5a2e);
+    cursor: pointer;
+}
+.room-box.available:hover {
+    background-color: var(--color-header, #D0E5B4);
+}
+/* [MỚI] Cập nhật màu chữ phụ */
+.room-box.available .room-type {
+    color: var(--color-new-primary, #1d5a2e);
+}
+
+.room-box.busy {
+    background-color: #eee;
+    color: #999;
+    border-color: #ddd;
+    text-decoration: line-through;
+}
+.room-box.busy .room-type {
+    color: #999;
+}
+
+/* [MỚI] Trạng thái "Không phù hợp" (ví dụ: thiếu sức chứa) */
+.room-box.unavailable {
+    background-color: #f5f5f5;
+    color: #aaa;
+    border-color: #eee;
+    opacity: 0.7;
+}
+.room-box.unavailable .room-type {
+    color: #aaa;
+}
+
+.room-box.selected {
+    background-color: var(--color-new-primary, #1d5a2e);
+    color: var(--white, #fff);
+    border-color: var(--color-new-primary, #1d5a2e);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(29, 90, 46, 0.5);
+}
+.room-box.selected .room-type {
+    color: var(--white, #fff);
+}
+
+
+/* Trạng thái Chú thích (thêm) */
+.room-box-legend.available { background-color: var(--white, #fff); border-color: var(--color-new-primary, #1d5a2e); }
+.room-box-legend.busy { background-color: #eee; }
+.room-box-legend.unavailable { background-color: #f5f5f5; border-color: #eee; }
+.room-box-legend.selected { background-color: var(--color-new-primary, #1d5a2e); }
+
+/* Nút xác nhận trong modal */
+#btn-confirm-room:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+#btn-confirm-room {
+    margin-top: 0; /* Reset margin-top */
+}

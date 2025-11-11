@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quản lý phòng - Resort</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/staff.new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .room-types-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .room-type-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .room-type-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .room-type-header {
+      margin-bottom: 15px;
+    }
+
+    .room-type-header h3 {
+      color: #1a237e;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .room-count {
+      color: #455a64;
+      font-size: 18px;
+      margin: 5px 0;
+    }
+
+    .room-status {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 14px;
+    }
+
+    .status-available {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-occupied {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      padding: 20px;
+      display: none;
+    }
+
+    .room-box {
+      border-radius: 8px;
+      padding: 15px;
+      color: white;
+      min-height: 100px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .room-box:hover {
+      transform: scale(1.05);
+    }
+
+    .room-box.available {
+      background: #4caf50;
+    }
+
+    .room-box.occupied {
+      background: #f44336;
+    }
+
+    .room-box.cleaning {
+      background: #ff9800;
+    }
+
+    .room-box.maintenance {
+      background: #2196f3;
+    }
+
+    .room-number {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .guest-info {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .room-details {
+      margin-top: 8px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      position: relative;
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #455a64;
+      font-weight: 500;
+    }
+
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .modal-footer {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background: #1a237e;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    #backButton {
+      background: #1a237e;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    #backButton:hover {
+      background: #283593;
+    }
+
+    nav.top-nav {
+      background: #1a237e;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+    }
+
+    nav.top-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav.top-nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    nav.top-nav ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    nav.top-nav ul li a.active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <header class="staff-header">
+    <h1>Quản lý phòng</h1>
+    <div class="staff-meta">
+      <div class="user-dropdown">
+        <button class="dropdown-toggle">
+          Xin chào, <strong>Nhân viên Lễ tân</strong>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a href="staff-profile.html" class="dropdown-item">
+            <i class="fas fa-user"></i> Thông tin cá nhân
+          </a>
+          <a href="customer-signin.html" class="dropdown-item">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="display: flex; gap: 20px;">
+    <!-- Danh mục panel -->
+    <div style="width: 250px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
+      <h3 style="margin-top: 0; color: #1a237e; border-bottom: 2px solid #1a237e; padding-bottom: 10px;">Danh mục</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 10px 0;">
+          <a href="staff-room.html" style="text-decoration: none; color: #1a237e; display: block; padding: 8px 12px; border-radius: 5px; background: rgba(26, 35, 126, 0.1); transition: all 0.3s;">
+            <i class="fas fa-bed" style="margin-right: 8px;"></i>Quản lý phòng
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-booking.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-calendar-check" style="margin-right: 8px;"></i>Quản lý đặt phòng
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-customer.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-user-friends" style="margin-right: 8px;"></i>Quản lý khách hàng
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-employee.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-users" style="margin-right: 8px;"></i>Quản lý nhân viên
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-service.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-concierge-bell" style="margin-right: 8px;"></i>Quản lý dịch vụ
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-invoice.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-file-invoice-dollar" style="margin-right: 8px;"></i>Quản lý hóa đơn
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="staff-profile.html" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main content -->
+    <div style="flex: 1;">
+      <nav class="top-nav">
+        <ul>
+          <li><a href="staff-room.html" class="active">Quản lý phòng</a></li>
+          <li><a href="staff-booking.html">Quản lý đặt phòng</a></li>
+          <li><a href="staff-customer.html">Quản lý khách hàng</a></li>
+          <li><a href="staff-employee.html">Quản lý nhân viên</a></li>
+          <li><a href="staff-service.html">Quản lý dịch vụ</a></li>
+          <li><a href="staff-invoice.html">Quản lý hóa đơn</a></li>
+        </ul>
+      </nav>
+
+  <div class="main-content">
+    <button id="backButton">← Quay lại danh sách phòng</button>
+
+    <div class="room-types-grid" id="roomTypesGrid">
+      <div class="room-type-card" data-type="Standard">
+        <div class="room-type-header">
+          <h3>Standard</h3>
+          <div class="room-count">40 phòng</div>
+        </div>
+        <div class="room-status">
+          <span class="status-badge status-available">Trống: 35</span>
+          <span class="status-badge status-occupied">Đã đặt: 5</span>
+        </div>
+      </div>
+
+      <div class="room-type-card" data-type="Superior">
+        <div class="room-type-header">
+          <h3>Superior</h3>
+          <div class="room-count">40 phòng</div>
+        </div>
+        <div class="room-status">
+          <span class="status-badge status-available">Trống: 38</span>
+          <span class="status-badge status-occupied">Đã đặt: 2</span>
+        </div>
+      </div>
+
+      <div class="room-type-card" data-type="Deluxe">
+        <div class="room-type-header">
+          <h3>Deluxe</h3>
+          <div class="room-count">40 phòng</div>
+        </div>
+        <div class="room-status">
+          <span class="status-badge status-available">Trống: 36</span>
+          <span class="status-badge status-occupied">Đã đặt: 4</span>
+        </div>
+      </div>
+
+      <div class="room-type-card" data-type="Villa">
+        <div class="room-type-header">
+          <h3>Villa</h3>
+          <div class="room-count">50 phòng</div>
+        </div>
+        <div class="room-status">
+          <span class="status-badge status-available">Trống: 45</span>
+          <span class="status-badge status-occupied">Đã đặt: 5</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="roomsGrid" class="rooms-grid">
+      <!-- Room boxes will be inserted here by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Modal for editing room -->
+  <div id="roomModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div class="modal-header">
+        <h3>Chỉnh sửa thông tin phòng <span id="modalRoomNumber"></span></h3>
+      </div>
+      <form id="roomEditForm">
+        <input type="hidden" id="editRoomId">
+        <div class="form-group">
+          <label for="editStatus">Trạng thái</label>
+          <select id="editStatus" required>
+            <option value="Available">Trống</option>
+            <option value="Occupied">Đã đặt</option>
+            <option value="Cleaning">Đang dọn dẹp</option>
+            <option value="Maintenance">Đang bảo trì</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editSingleBeds">Số giường đơn</label>
+          <input type="number" id="editSingleBeds" min="0" max="5" required>
+        </div>
+        <div class="form-group">
+          <label for="editDoubleBeds">Số giường đôi</label>
+          <input type="number" id="editDoubleBeds" min="0" max="5" required>
+        </div>
+        <div id="guestInfoSection">
+          <div class="form-group">
+            <label for="editGuestName">Tên khách hàng</label>
+            <input type="text" id="editGuestName">
+          </div>
+          <div class="form-group">
+            <label for="editCheckIn">Ngày check-in</label>
+            <input type="date" id="editCheckIn">
+          </div>
+          <div class="form-group">
+            <label for="editCheckOut">Ngày check-out</label>
+            <input type="date" id="editCheckOut">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelEdit">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // User dropdown functionality
+      const dropdownToggle = document.querySelector('.dropdown-toggle');
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      
+      dropdownToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+      });
+      
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.user-dropdown')) {
+          dropdownMenu.style.display = 'none';
+        }
+      });
+      const roomTypesGrid = document.getElementById('roomTypesGrid');
+      const roomsGrid = document.getElementById('roomsGrid');
+      const backButton = document.getElementById('backButton');
+      const modal = document.getElementById('roomModal');
+      const modalClose = document.querySelector('.modal-close');
+      const cancelEdit = document.getElementById('cancelEdit');
+      const roomEditForm = document.getElementById('roomEditForm');
+      const guestInfoSection = document.getElementById('guestInfoSection');
+      const editStatus = document.getElementById('editStatus');
+
+      // Xử lý click vào loại phòng
+      const roomTypeCards = document.querySelectorAll('.room-type-card');
+      roomTypeCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const roomType = this.getAttribute('data-type');
+          
+          roomTypesGrid.style.display = 'none';
+          roomsGrid.style.display = 'grid';
+          backButton.style.display = 'block';
+
+          roomsGrid.innerHTML = '';
+          const rooms = generateRoomData(roomType);
+          displayRooms(rooms);
+        });
+      });
+
+      // Xử lý nút quay lại
+      backButton.addEventListener('click', function() {
+        roomsGrid.style.display = 'none';
+        roomTypesGrid.style.display = 'grid';
+        backButton.style.display = 'none';
+      });
+
+      // Xử lý đóng modal
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+
+      modalClose.addEventListener('click', closeModal);
+      cancelEdit.addEventListener('click', closeModal);
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // Xử lý hiện/ẩn thông tin khách hàng dựa trên trạng thái
+      editStatus.addEventListener('change', function() {
+        if (this.value === 'Occupied') {
+          guestInfoSection.style.display = 'block';
+          document.getElementById('editGuestName').required = true;
+          document.getElementById('editCheckIn').required = true;
+          document.getElementById('editCheckOut').required = true;
+        } else {
+          guestInfoSection.style.display = 'none';
+          document.getElementById('editGuestName').required = false;
+          document.getElementById('editCheckIn').required = false;
+          document.getElementById('editCheckOut').required = false;
+        }
+      });
+
+      // Hàm tạo dữ liệu mẫu cho phòng
+      function generateRoomData(roomType) {
+        const rooms = [];
+        const total = roomType === 'Villa' ? 50 : 40;
+        const statuses = ['Available', 'Occupied', 'Cleaning', 'Maintenance'];
+        const guestNames = [
+          'Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Thị D',
+          'James Smith', 'Maria Garcia', 'David Kim', 'Sarah Johnson'
+        ];
+        
+        for (let i = 1; i <= total; i++) {
+          const status = statuses[Math.floor(Math.random() * statuses.length)];
+          const guestName = status === 'Occupied' ? guestNames[Math.floor(Math.random() * guestNames.length)] : null;
+          const checkInDate = status === 'Occupied' ? new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000) : null;
+          
+          rooms.push({
+            roomId: i + (roomType === 'Standard' ? 100 : roomType === 'Superior' ? 200 : roomType === 'Deluxe' ? 300 : 400),
+            roomNumber: `${roomType.charAt(0)}${i.toString().padStart(2, '0')}`,
+            roomType: roomType,
+            status: status,
+            singleBeds: Math.floor(Math.random() * 3) + 1,
+            doubleBeds: Math.floor(Math.random() * 2) + 1,
+            guestName: guestName,
+            checkInDate: checkInDate
+          });
+        }
+        return rooms;
+      }
+
+      function displayRooms(rooms) {
+        rooms.forEach(room => {
+          const roomBox = document.createElement('div');
+          roomBox.className = `room-box ${room.status.toLowerCase()}`;
+          
+          let content = `
+            <div class="room-number">${room.roomNumber}</div>
+          `;
+
+          if (room.status === 'Occupied' && room.guestName) {
+            const checkInDate = room.checkInDate.toLocaleDateString('vi-VN');
+            content += `
+              <div class="guest-info">
+                Khách: ${room.guestName}<br>
+                Check-in: ${checkInDate}
+              </div>
+            `;
+          } else if (room.status === 'Cleaning') {
+            content += '<div class="guest-info">Đang dọn dẹp</div>';
+          } else if (room.status === 'Maintenance') {
+            content += '<div class="guest-info">Đang bảo trì</div>';
+          }
+
+          content += `
+            <div class="room-details">
+              ${room.singleBeds} giường đơn, ${room.doubleBeds} giường đôi
+            </div>
+          `;
+
+          roomBox.innerHTML = content;
+          roomBox.title = `Phòng ${room.roomNumber} - ${room.status}`;
+          
+          roomBox.addEventListener('click', () => {
+            openEditModal(room);
+          });
+
+          roomsGrid.appendChild(roomBox);
+        });
+      }
+
+      // Mở modal và điền thông tin phòng
+      function openEditModal(room) {
+        document.getElementById('modalRoomNumber').textContent = room.roomNumber;
+        document.getElementById('editRoomId').value = room.roomId;
+        document.getElementById('editStatus').value = room.status;
+        document.getElementById('editSingleBeds').value = room.singleBeds;
+        document.getElementById('editDoubleBeds').value = room.doubleBeds;
+        document.getElementById('editGuestName').value = room.guestName || '';
+        
+        if (room.checkInDate) {
+          document.getElementById('editCheckIn').value = room.checkInDate.toISOString().split('T')[0];
+        } else {
+          document.getElementById('editCheckIn').value = '';
+        }
+        
+        if (room.checkOutDate) {
+          document.getElementById('editCheckOut').value = room.checkOutDate.toISOString().split('T')[0];
+        } else {
+          document.getElementById('editCheckOut').value = '';
+        }
+
+        if (room.status === 'Occupied') {
+          guestInfoSection.style.display = 'block';
+          document.getElementById('editGuestName').required = true;
+          document.getElementById('editCheckIn').required = true;
+          document.getElementById('editCheckOut').required = true;
+        } else {
+          guestInfoSection.style.display = 'none';
+          document.getElementById('editGuestName').required = false;
+          document.getElementById('editCheckIn').required = false;
+          document.getElementById('editCheckOut').required = false;
+        }
+
+        modal.style.display = 'block';
+      }
+
+      // Xử lý submit form
+      roomEditForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const roomId = document.getElementById('editRoomId').value;
+        const status = document.getElementById('editStatus').value;
+        const singleBeds = document.getElementById('editSingleBeds').value;
+        const doubleBeds = document.getElementById('editDoubleBeds').value;
+        const guestName = document.getElementById('editGuestName').value;
+        const checkIn = document.getElementById('editCheckIn').value;
+        const checkOut = document.getElementById('editCheckOut').value;
+
+        // Trong thực tế, ở đây sẽ gọi API để cập nhật thông tin phòng
+        alert('Đã cập nhật thông tin phòng thành công!');
+        
+        closeModal();
+        
+        const roomType = document.querySelector('.room-type-card.active')?.getAttribute('data-type');
+        if (roomType) {
+          const rooms = generateRoomData(roomType);
+          displayRooms(rooms);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

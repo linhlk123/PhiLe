@@ -1,0 +1,195 @@
+~~~{"variant":"standard","title":"Trang nhân viên – Quản lý phòng/khách hàng","id":"58291"}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang nhân viên</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f7f8fc;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      border-right: 1px solid #ddd;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      color: #1a237e;
+      margin-bottom: 24px;
+    }
+
+    .menu-item {
+      display: block;
+      padding: 10px 14px;
+      color: #1a237e;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .menu-item.active, .menu-item:hover {
+      background-color: #1a237e;
+      color: #fff;
+    }
+
+    main {
+      margin-left: 260px;
+      padding: 30px;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Styling for demo */
+    h2 { color: #1a237e; }
+    .card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-top: 20px; }
+  </style>
+</head>
+
+<body>
+  <aside class="sidebar">
+    <h2>Trang nhân viên</h2>
+    <a class="menu-item active" data-target="rooms">Quản lý phòng</a>
+    <a class="menu-item" data-target="staff">Quản lý nhân viên</a>
+    <a class="menu-item" data-target="customers">Quản lý khách hàng</a>
+    <a class="menu-item" data-target="services">Quản lý dịch vụ</a>
+  </aside>
+
+  <main>
+    <!-- Quản lý phòng -->
+    <section id="rooms" class="active offers-section container">
+      <h2>Danh sách phòng</h2>
+      <div class="list">
+        <!-- Deluxe -->
+        <div class="room-listing">
+          <div class="listing-with-gallery listing-with-gallery--wide">
+            <div class="listing-with-gallery__gallery">
+              <img src="../assets/images/booking/deluxe-suite.jpg" alt="Deluxe Garden View Room">
+            </div>
+            <div class="listing-with-gallery__content">
+              <h3>Deluxe Garden View Room</h3>
+              <ul>
+                <li>35 m² / 2 người lớn</li>
+                <li>Ban công riêng</li>
+              </ul>
+              <p>• Tầm nhìn vườn xanh tuyệt đẹp<br>• Thiết kế sang trọng</p>
+              <div class="listing-with-gallery__cta">
+                <div class="flex-strect-btn">
+                  <a href="#" class="btn t-xs btn--gold btn--dynamic-width">Đặt Ngay</a>
+                  <a href="#" class="btn t-xs btn--ghost btn--dynamic-width">Chi Tiết</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sea View -->
+        <div class="room-listing">
+          <div class="listing-with-gallery">
+            <div class="listing-with-gallery__gallery">
+              <img src="../assets/images/booking/bed-beach.jpg" alt="Sea View Room">
+            </div>
+            <div class="listing-with-gallery__content">
+              <h3>Sea View Room</h3>
+              <ul><li>40 m² / 2 người lớn</li></ul>
+              <p>• View biển tuyệt đẹp<br>• Ban công rộng rãi</p>
+              <div class="listing-with-gallery__cta">
+                <a href="#" class="btn btn--gold">Đặt Ngay</a>
+                <a href="#" class="btn btn--ghost">Chi Tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Garden Villa -->
+        <div class="room-listing">
+          <div class="listing-with-gallery">
+            <div class="listing-with-gallery__gallery">
+              <img src="../assets/images/booking/garden-view.jpg" alt="Garden Villa">
+            </div>
+            <div class="listing-with-gallery__content">
+              <h3>Garden Villa</h3>
+              <ul><li>80 m² / 4 người lớn</li></ul>
+              <p>• Biệt thự riêng biệt<br>• Sân vườn riêng</p>
+              <div class="listing-with-gallery__cta">
+                <a href="#" class="btn btn--gold">Đặt Ngay</a>
+                <a href="#" class="btn btn--ghost">Chi Tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nhân viên -->
+    <section id="staff" class="container">
+      <h2>Quản lý nhân viên</h2>
+      <div class="card">
+        <p>Danh sách nhân viên hiển thị tại đây...</p>
+      </div>
+    </section>
+
+    <!-- Khách hàng -->
+    <section id="customers" class="container">
+      <h2>Quản lý khách hàng</h2>
+      <div class="card">
+        <table border="1" cellpadding="6">
+          <thead>
+            <tr>
+              <th>Tên</th><th>Giới tính</th><th>Email</th><th>CCCD</th><th>Địa chỉ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Lưu Khánh Linh</td><td>Nữ</td><td>linhluutk@gmail.com</td><td>0123456789</td><td>KTX Khu B, Thủ Đức</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Dịch vụ -->
+    <section id="services" class="container">
+      <h2>Quản lý dịch vụ</h2>
+      <div class="card">
+        <p>Thông tin dịch vụ hiển thị tại đây...</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(item.dataset.target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

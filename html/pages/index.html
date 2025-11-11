@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy Hoi An Resort - Khu Nghỉ Dưỡng Hội An</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+    <div class="header-top">
+        <div class="container">
+        <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="logo">
+            <img src="../assets/images/LEVIOSA_logo.png" alt="Legacy Hoi An Resort">
+        </div>
+
+        <div class="header-actions">
+            <div class="language-selector">
+            <img src="../assets/images/index/Flag_of_Vietnam.svg.webp" alt="Vietnamese">
+            <i class="fas fa-chevron-down"></i>
+            </div>
+            <a href="customer-signin.html" class="btn-auth">Đăng nhập/Đăng ký</a>
+        </div>
+        </div>
+
+        <!-- MENU CHÍNH -->
+        <div class="nav-wrapper">
+        <div class="main-nav">
+            <nav class="nav-menu">
+            <button class="menu-close">&times;</button>
+
+            <ul class="nav-list">
+                <li class="nav-item dropdown" data-target="phongnghi"><a href="#">Phòng nghỉ</a></li>
+                <li class="nav-item dropdown" data-target="amthuc"><a href="#">Ẩm thực</a></li>
+                <li><a href="#">Coco Spa</a></li>
+                <li><a href="#">Tiện ích</a></li>
+                <li><a href="#">Dịch vụ</a></li>
+                <li><a href="#">Hội nghị & Sự kiện</a></li>
+                <li><a href="#">Ưu đãi</a></li>
+                <li><a href="#">Điểm đến</a></li>
+                <li><a href="#">Thư viện</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+            </nav>
+        </div>
+        </div>
+    </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-image">
+            <img src="../assets/images/index/index-1.jpg" alt="Legacy Hoi An Garden">
+        </div>
+        
+        <!-- Booking Form -->
+        <div class="booking-form-wrapper">
+            <div class="booking-form">
+                <div class="form-group">
+                    <i class="far fa-calendar"></i>
+                    <input type="text" id="checkin" placeholder="30/10/2025" readonly>
+                    <span class="arrow">→</span>
+                    <input type="text" id="checkout" placeholder="31/10/2025" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="guests" placeholder="2 Khách" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <i class="fas fa-tag"></i>
+                    <input type="text" id="promo" placeholder="Mã khuyến mãi">
+                </div>
+                
+                <button class="btn-search">TÌM PHÒNG</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="intro-section">
+        <div class="container">
+            <div class="intro-content"style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+                <h1>Một Dấu Ấn Tinh Hoa<br>Hội An Vượt Thời Gian</h1>
+                <p style="font-size: 16px">Nép mình giữa những hàng tre xanh mướt và những khoảnh vườn nhiệt đới tươi mát, Legacy Hoi An Resort là nơi hòa quyện giữa nét đẹp kiến trúc truyền thống Việt Nam và sự tinh tế hiện đại. Từng không gian tại đây được thiết kế để mang đến sự yên bình, giúp bạn tạm gác lại nhịp sống hối hả và tìm về với chính mình.</p>
+            </div>
+            
+            <div class="intro-gallery span-10">
+                <div class="gallery-grid grid-span-10">
+                    <div class="gallery-item large">
+                        <img src="../assets/images/index/index-2.jpg" alt="Pool">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../assets/images/index/index-3.jpg" alt="Interior">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../assets/images/index/index-4.jpg" alt="Beach">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../assets/images/index/index-5.jpg" alt="Room">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../assets/images/index/index-6.jpg" alt="Garden">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../assets/images/index/index-7.jpg" alt="Terrace">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../assets/images/index/index-8.jpg" alt="Lobby">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../assets/images/index/index-9.jpg" alt="Exterior">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="room-preview">
+        <div class="room-slider">
+            <!-- Slide 1 -->
+            <div class="room-slide active">
+                <div class="room-image">
+                    <img src="../assets/images/index/index-10.jpg" alt="Suites">
+                </div>
+                <div class="room__content">
+                    <h5 class="room__title h2-font">
+                        <a href="https://legacyhoian.com/phong-nghi-resort-hoi-an/#suites">Suites</a>
+                    </h5>
+                    <div class="room__desc">
+                        <p>Ốc đảo tinh tế nuôi dưỡng tâm hồn</p>
+                    </div>
+                    <a class="room__btn" href="https://legacyhoian.com/phong-nghi-resort-hoi-an/#suites">
+                        <span>KHÁM PHÁ</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="room-slide">
+                <div class="room-image">
+                    <img src="../assets/images/index/index-10-2.jpg" alt="Villas">
+                </div>
+                <div class="room__content">
+                    <h5 class="room__title h2-font">
+                        <a href="https://legacyhoian.com/phong-nghi-resort-hoi-an/#villas">Villas</a>
+                    </h5>
+                    <div class="room__desc">
+                        <p>Không gian riêng tư tuyệt đối</p>
+                    </div>
+                    <a class="room__btn" href="https://legacyhoian.com/phong-nghi-resort-hoi-an/#villas">
+                        <span>KHÁM PHÁ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <div class="slider-nav">
+            <button class="slider-arrow prev-arrow">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-arrow next-arrow">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+
+        <section class="restaurant-section">
+        <div class="container">
+            <h2>Nhà Hàng & Bar</h2>
+
+            <div class="restaurant-content">
+            <!-- Hình ảnh bên trái -->
+            <div class="restaurant-image">
+                <img id="restaurant-img" src="../assets/images/index/index-12.jpg" alt="Restaurant">
+            </div>
+
+            <!-- Thông tin bên phải -->
+            <div class="restaurant-info">
+                <p class="restaurant-desc">
+                Legacy Hoi An Resort tự hào mang đến không gian ẩm thực đa dạng, nơi tinh hoa ẩm thực Việt Nam và quốc tế hòa quyện.
+                Từ các món ăn truyền thống được chế biến tinh tế đến những sáng tạo hiện đại, mỗi bữa ăn đều là một hành trình khám phá hương vị đáng nhớ.
+                </p>
+
+                <!-- Danh sách nhà hàng -->
+                <ul class="restaurant-list">
+                <li data-img="../assets/images/index/index-12.jpg">Nhà hàng Field ></li>
+                <li data-img="../assets/images/index/index-12-2.jpg">Nhà hàng Sen ></li>
+                <li data-img="../assets/images/index/index-12-3.jpg">Pad & Buff Bar ></li>
+                </ul>
+
+                <a href="#" class="btn-detail">KHÁM PHÁ</a>
+            </div>
+            </div>
+        </div>
+        </section>
+
+    <!-- Offers Section -->
+    <section class="offers-section">
+        <div class="container">
+            <h2>Ưu đãi</h2>
+            
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <img src="../assets/images/index/index-13.jpg" alt="Offer 1">
+                    <div class="offer-content">
+                        <h3>Ưu Đãi Đặt Phòng Sớm</h3>
+                        <p>Đặt trước 60 ngày và tiết kiệm 30% trên tất cả các hạng phòng. Bao gồm bữa sáng buffet miễn phí.</p>
+                        <a href="#" class="btn-offer">XEM CHI TIẾT</a>
+                    </div>
+                </div>
+                
+                <div class="offer-card">
+                    <img src="../assets/images/index/index-14.jpg" alt="Offer 2">
+                    <div class="offer-content">
+                        <h3>Gói Khám Phá Tuyệt Vời</h3>
+                        <p>Gói combo hấp dẫn gồm tour tham quan phố cổ, massage truyền thống và bữa tối lãng mạn.</p>
+                        <a href="#" class="btn-offer">XEM CHI TIẾT</a>
+                    </div>
+                </div>
+                
+                <div class="offer-card">
+                    <img src="../assets/images/index/index-15.png" alt="Offer 3">
+                    <div class="offer-content">
+                        <h3>Nghỉ Dưỡng Dài Ngày</h3>
+                        <p>Nghỉ từ 5 đêm trở lên, nhận ưu đãi đặc biệt cùng nhiều dịch vụ cao cấp miễn phí.</p>
+                        <a href="#" class="btn-offer">XEM CHI TIẾT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2>Các Điểm Tham Quan</h2>
+            
+            <div class="map-content">
+                <div class="map-container">
+                    <img src="../assets/images/index/MAP-new.png" alt="Map">
+                </div>
+                
+                <div class="attractions-list">
+                    <div class="attraction-item">
+                        <img src="../assets/images/index/tham-quan/anh-1.png
+                        " alt="Beach">
+                        <div class="attraction-info">
+                            <h4>1. Bãi biển Cửa Đại</h4>
+                            <span>4.0km</span>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-item">
+                        <img src="../assets/images/index/tham-quan/anh-2.png" alt="Old Town">
+                        <div class="attraction-info">
+                            <h4>2. Khu Phố Cổ Hội An</h4>
+                            <span>2.5km</span>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-item">
+                        <img src="../assets/images/index/tham-quan/anh-3.png" alt="Museum">
+                        <div class="attraction-info">
+                            <h4>3. Bảo tàng Phúc Kiến</h4>
+                            <span>3.2km</span>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-item">
+                        <img src="../assets/images/index/tham-quan/anh04.png" alt="Bridge">
+                        <div class="attraction-info">
+                            <h4>4. Chùa Cầu Nhật Bản</h4>
+                            <span>3.0km</span>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-item">
+                        <img src="../assets/images/index/tham-quan/anh-5.png" alt="Sanctuary">
+                        <div class="attraction-info">
+                            <h4>5. Khu Du Lịch Nhật Bản</h4>
+                            <span>5.8km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <h2>Đăng Ký Nhận Bản Tin Của Chúng Tôi</h2>
+            <p>Nhận thông tin về ưu đãi đặc biệt và tin tức mới nhất từ Legacy Hoi An Resort</p>
+            
+            <form class="newsletter-form">
+                <input type="email" placeholder="Địa chỉ email của bạn" required>
+                <button type="submit">ĐĂNG KÝ</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../assets/images/logo-white.png" alt="Legacy Hoi An Resort">
+                </div>
+                
+                <div class="footer-info">
+                    <h4>LEGACY HOI AN RESORT</h4>
+                    <p>Cẩm Thanh, Hội An, Quảng Nam, Việt Nam</p>
+                    <p>Email: info@legacyhoian.com</p>
+                    <p>Tel: +84 235 3927 999</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Liên Kết Nhanh</h4>
+                    <ul>
+                        <li><a href="#">Về chúng tôi</a></li>
+                        <li><a href="#">Phòng & Suites</a></li>
+                        <li><a href="#">Ẩm thực</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-social">
+                    <h4>Theo Dõi Chúng Tôi</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tripadvisor"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Legacy Hoi An Resort. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <button class="btn-phone">
+            <i class="fas fa-phone"></i>
+        </button>
+        <button class="btn-chat">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/booking.js"></script>
+</body>
+</html>

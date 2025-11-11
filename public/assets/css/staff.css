@@ -1,0 +1,152 @@
+/* staff.css - styles for staff dashboard */
+:root {
+  --clr-sec: #1d5a2e;
+  --font-new-primary: "MTDQuimbly";
+  --font-new-secondary: "SVN-Gilroy";
+  --color-new-primary: #1d5a2e;
+  --color-new-secondary: #F5F7F2;
+  --color-header: #d0e5b4;
+  --swiper-theme-color: var(--clr-sec);
+  --white: #fff;
+  
+  --bg: #F5F7F2;
+  --card: #ffffff;
+  --accent: #1d5a2e;
+  --muted: #657787;
+  --success: #1d5a2e;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+  --sidebar: #d0e5b4;
+}
+
+.staff-grid{display:grid;grid-template-columns:1fr 420px;gap:18px;margin-top:18px}
+.panel{background:#fff;border-radius:10px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.panel h2{margin:0 0 12px 0}
+.reservation{display:flex;justify-content:space-between;align-items:flex-start;padding:10px;border-bottom:1px solid #f1f5f9}
+.reservation .meta{max-width:65%}
+.reservation .meta p{margin:6px 0;color:#6b7d88}
+.reservation .actions{display:flex;gap:8px}
+.reservation .badge{display:inline-block;padding:6px 10px;border-radius:14px;font-weight:600}
+.badge.pending{background:#fff7e6;color:#b06400;border:1px solid #ffe5b4}
+.badge.confirmed{background:#e8f7ee;color:#1d5a2e;border:1px solid #cfeed4}
+.badge.checkedin{background:#e3f2ff;color:#075985;border:1px solid #cfe8ff}
+
+.room-row{display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid #f1f5f9}
+.room-row select{padding:6px;border-radius:6px;border:1px solid #e6eef7}
+
+.tools{display:flex;gap:12px}
+
+@media (max-width:900px){
+  .staff-grid{grid-template-columns:1fr}
+}
+/* staff.css - styles specific to staff dashboard */
+:root{
+  --bg:#F5F7F2;
+  --card:#ffffff;
+  --accent:#1d5a2e;
+  --muted:#657787;
+  --success:#1d5a2e;
+  --warning:#f39c12;
+  --danger:#e74c3c;
+  --sidebar:#d0e5b4;
+}
+
+body{
+  background:var(--bg);
+  color:#0b2336;
+  font-family: inherit; /* inherit from shared style.css font */
+}
+
+.staff-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 28px;
+  background:linear-gradient(90deg, #d0e5b4, #f6fbff);
+  border-bottom:1px solid #e6eef7;
+}
+.staff-header h1{margin:0;font-size:25px}
+.staff-meta{color:var(--muted)}
+
+.staff-container{display:flex;min-height:calc(100vh - 90px)}
+.staff-sidebar{width:260px;padding:18px;border-right:1px solid #eef4fb;background:var(--sidebar)}
+.staff-main{flex:1;display:flex;gap:20px;padding:20px}
+.content-left{flex:1;min-width:360px}
+.content-right{flex:1.2;min-width:420px}
+
+.card{background:var(--card);padding:16px;border-radius:8px;box-shadow:0 1px 3px rgba(12,24,40,0.04);margin-bottom:18px}
+.card h2{margin:0 0 12px;font-size:25px}
+
+.bookings-table{width:100%;border-collapse:collapse;font-size:18px}
+.bookings-table th,.bookings-table td{padding:8px;border-bottom:1px solid #eef4fb;text-align:left}
+.bookings-table tr:last-child td{border-bottom:0}
+.bookings-table .btn{padding:6px 10px;border-radius:6px;border:0;cursor:pointer}
+.btn-confirm{background:var(--success);color:#fff}
+.btn-checkin{background:var(--accent);color:#fff}
+.btn-checkout{background:var(--danger);color:#fff}
+
+.actions-grid{display:flex;gap:8px;flex-wrap:wrap}
+.actions-grid button{padding:8px 12px;border-radius:6px;border:1px solid #dbeaf7;background:#fff;cursor:pointer}
+
+.rooms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.room-card{padding:10px;border-radius:8px;border:1px solid #e6eef7;background:#fff;display:flex;flex-direction:column;gap:6px}
+.room-title{font-weight:600}
+.room-status{font-size:25px;padding:6px;border-radius:6px;color:#fff;display:inline-block}
+.status-available{background:var(--success)}
+.status-booked{background:var(--warning)}
+.status-cleaning{background:#6c7a89}
+.status-maintain{background:#a93226}
+
+.details{min-height:120px}
+
+.staff-footer{padding:12px;text-align:center;color:var(--muted);font-size:13px}
+
+/* Sidebar */
+.menu{margin-bottom:12px}
+.menu h3{margin:0 0 8px;font-size:25px}
+.menu ul{list-style:none;padding:0;margin:0}
+.menu-item{padding:8px 10px;border-radius:6px;cursor:pointer;color:#0b2336}
+.menu-item:hover{background:#f1f7ff}
+
+.sidebar-section{margin-top:12px}
+.roomtypes-list{list-style:none;padding:0;margin:0}
+.roomtypes-list li{padding:8px;border-radius:6px;cursor:pointer;border:1px solid #f0f6fb;margin-bottom:8px}
+.roomtypes-list li .count{float:right;color:var(--muted)}
+
+.kpis{display:flex;flex-direction:column;gap:8px}
+.kpi{background:#f8fcff;padding:8px;border-radius:6px;border:1px solid #eef6fb}
+.kpi-value{font-weight:700;font-size:25px}
+.kpi-label{font-size:20px;color:var(--muted)}
+
+/* Horizontal KPI layout for main panel */
+.kpis.horizontal{flex-direction:row}
+.kpis.horizontal .kpi{flex:1;text-align:center}
+
+.staff-list{list-style:none;padding:0;margin:0}
+.staff-list li{padding:8px;border-bottom:1px solid #eef4fb;display:flex;justify-content:space-between;align-items:center}
+.staff-list li:last-child{border-bottom:0}
+.form-row{display:flex;flex-direction:column;margin-bottom:8px}
+.form-row label{font-size:13px;color:var(--muted);margin-bottom:6px}
+.form-row input{padding:8px;border-radius:6px;border:1px solid #eef4fb}
+.form-actions{display:flex;gap:8px}
+.form-actions button{padding:8px 12px;border-radius:6px;cursor:pointer}
+
+/* panels */
+.panel{width:100%}
+
+#panelStaff .card{margin-bottom:12px}
+
+/* Customers main results */
+#mainCustomerResults{max-height:420px;overflow:auto}
+
+.customer-list{list-style:none;padding:0;margin:8px 0 0}
+.customer-list li{padding:6px;border-bottom:1px solid #eef4fb}
+.customer-list li:last-child{border-bottom:0}
+.customer-list .small{font-size:13px;color:var(--muted)}
+
+/* small responsive tweaks */
+@media (max-width:900px){
+  .staff-container{flex-direction:column}
+  .staff-sidebar{width:auto;border-right:0}
+  .staff-main{flex-direction:column}
+}
