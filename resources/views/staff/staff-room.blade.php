@@ -1,6 +1,6 @@
 @extends('layouts.staff')
 
-@section('title', 'Quản lý phòng - Resort')
+@section('title', 'Quản lý phòng - Leviosa Resort')
 @section('page-title', 'Quản lý phòng')
 
 @section('styles')
@@ -15,7 +15,7 @@
   .room-type-card {
     background: white;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     cursor: pointer;
     transition: transform 0.2s;
@@ -277,322 +277,325 @@
 
 @section('content')
 
-  <!-- Main content -->
-  <div style="flex: 1;">
-    <nav class="top-nav">
-      <ul>
-        <li><a href="{{ route('staff.staff-room') }}" class="active">Quản lý phòng</a></li>
-        <li><a href="{{ route('staff.booking') }}">Quản lý đặt phòng</a></li>
-        <li><a href="{{ route('staff.customer') }}">Quản lý khách hàng</a></li>
-        <li><a href="{{ route('staff.employee') }}">Quản lý nhân viên</a></li>
-        <li><a href="{{ route('staff.service') }}">Quản lý dịch vụ</a></li>
-        <li><a href="{{ route('staff.invoice') }}">Quản lý hóa đơn</a></li>
-      </ul>
-    </nav>
+<!-- Main content -->
+<div style="flex: 1;">
+  <nav class="top-nav">
+    <ul>
+      <li><a href="{{ route('staff.staff-room') }}" class="active">Quản lý phòng</a></li>
+      <li><a href="{{ route('staff.booking') }}">Quản lý đặt phòng</a></li>
+      <li><a href="{{ route('staff.customer') }}">Quản lý khách hàng</a></li>
+      <li><a href="{{ route('staff.employee') }}">Quản lý nhân viên</a></li>
+      <li><a href="{{ route('staff.service') }}">Quản lý dịch vụ</a></li>
+      <li><a href="{{ route('staff.invoice') }}">Quản lý hóa đơn</a></li>
+      <li><a href="{{ route('welcome') }}">Welcome</a></li>
+      <li><a href="{{ route('policy') }}">Điều khoản & chính sách</a></li>
+      <li><a href="{{ route('feedback') }}">Phản ánh ý kiến</a></li>
+    </ul>
+  </nav>
 
-    <div class="main-content">
-      <button id="backButton">← Quay lại danh sách phòng</button>
+  <div class="main-content">
+    <button id="backButton">← Quay lại danh sách phòng</button>
 
-      <div class="room-types-grid" id="roomTypesGrid">
-        @foreach(['Standard', 'Superior', 'Deluxe', 'Villa', 'Service'] as $type)
-        @php
-          $stats = $roomStats[$type] ?? null;
-          $total = $stats ? $stats->total : 0;
-          $available = $stats ? $stats->available : 0;
-          $occupied = $stats ? $stats->occupied : 0;
-          $cleaning = $stats ? $stats->cleaning : 0;
-          $maintenance = $stats ? $stats->maintenance : 0;
-        @endphp
-        <div class="room-type-card" data-type="{{ $type }}">
-          <div class="room-type-header">
-            <h3>{{ $type }}</h3>
-            <div class="room-count">{{ $total }} phòng</div>
-          </div>
-          <div class="room-status">
-            <span class="status-badge status-available">Trống: {{ $available }}</span>
-            <span class="status-badge status-occupied">Đã đặt: {{ $occupied }}</span>
-          </div>
-          <div class="room-status" style="margin-top: 5px;">
-            <span class="status-badge status-cleaning">Đang dọn dẹp: {{ $cleaning }}</span>
-            <span class="status-badge status-maintenance">Đang bảo trì: {{ $maintenance }}</span>
-          </div>
-          <a href="{{ route('staff.map') }}" class="btn-map">🗺️ Xem bản đồ</a>
+    <div class="room-types-grid" id="roomTypesGrid">
+      @foreach(['Standard', 'Superior', 'Deluxe', 'Villa', 'Service'] as $type)
+      @php
+      $stats = $roomStats[$type] ?? null;
+      $total = $stats ? $stats->total : 0;
+      $available = $stats ? $stats->available : 0;
+      $occupied = $stats ? $stats->occupied : 0;
+      $cleaning = $stats ? $stats->cleaning : 0;
+      $maintenance = $stats ? $stats->maintenance : 0;
+      @endphp
+      <div class="room-type-card" data-type="{{ $type }}">
+        <div class="room-type-header">
+          <h3>{{ $type }}</h3>
+          <div class="room-count">{{ $total }} phòng</div>
         </div>
-        @endforeach
+        <div class="room-status">
+          <span class="status-badge status-available">Trống: {{ $available }}</span>
+          <span class="status-badge status-occupied">Đã đặt: {{ $occupied }}</span>
+        </div>
+        <div class="room-status" style="margin-top: 5px;">
+          <span class="status-badge status-cleaning">Đang dọn dẹp: {{ $cleaning }}</span>
+          <span class="status-badge status-maintenance">Đang bảo trì: {{ $maintenance }}</span>
+        </div>
+        <a href="{{ route('staff.map') }}" class="btn-map">🗺️ Xem bản đồ</a>
       </div>
-
-      <div id="roomsGrid" class="rooms-grid">
-        <!-- Room boxes will be inserted here by JavaScript -->
-      </div>
+      @endforeach
     </div>
 
-    <!-- Modal for editing room -->
-    <div id="roomModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <div class="modal-header">
-          <h3>Chỉnh sửa thông tin phòng <span id="modalRoomNumber"></span></h3>
-        </div>
-        <form id="roomEditForm" action="{{ route('staff.room.update') }}" method="POST">
-          @csrf
-          <input type="hidden" id="editRoomId" name="roomId">
-          <div class="form-group">
-            <label for="editStatus">Trạng thái</label>
-            <select id="editStatus" name="status" required>
-              <option value="Available">Trống</option>
-              <option value="Occupied">Đã đặt</option>
-              <option value="Cleaning">Đang dọn dẹp</option>
-              <option value="Maintenance">Đang bảo trì</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="editSingleBeds">Số giường đơn</label>
-            <input type="number" id="editSingleBeds" name="singleBeds" min="0" max="5" required>
-          </div>
-          <div class="form-group">
-            <label for="editDoubleBeds">Số giường đôi</label>
-            <input type="number" id="editDoubleBeds" name="doubleBeds" min="0" max="5" required>
-          </div>
-          <div id="guestInfoSection">
-            <div class="form-group">
-              <label for="editGuestName">Tên khách hàng</label>
-              <input type="text" id="editGuestName" name="guestName">
-            </div>
-            <div class="form-group">
-              <label for="editCheckIn">Ngày check-in</label>
-              <input type="date" id="editCheckIn" name="checkIn">
-            </div>
-            <div class="form-group">
-              <label for="editCheckOut">Ngày check-out</label>
-              <input type="date" id="editCheckOut" name="checkOut">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="cancelEdit">Hủy</button>
-            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-          </div>
-        </form>
-      </div>
+    <div id="roomsGrid" class="rooms-grid">
+      <!-- Room boxes will be inserted here by JavaScript -->
     </div>
   </div>
+
+  <!-- Modal for editing room -->
+  <div id="roomModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div class="modal-header">
+        <h3>Chỉnh sửa thông tin phòng <span id="modalRoomNumber"></span></h3>
+      </div>
+      <form id="roomEditForm" action="{{ route('staff.room.update') }}" method="POST">
+        @csrf
+        <input type="hidden" id="editRoomId" name="roomId">
+        <div class="form-group">
+          <label for="editStatus">Trạng thái</label>
+          <select id="editStatus" name="status" required>
+            <option value="Available">Trống</option>
+            <option value="Occupied">Đã đặt</option>
+            <option value="Cleaning">Đang dọn dẹp</option>
+            <option value="Maintenance">Đang bảo trì</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editSingleBeds">Số giường đơn</label>
+          <input type="number" id="editSingleBeds" name="singleBeds" min="0" max="5" required>
+        </div>
+        <div class="form-group">
+          <label for="editDoubleBeds">Số giường đôi</label>
+          <input type="number" id="editDoubleBeds" name="doubleBeds" min="0" max="5" required>
+        </div>
+        <div id="guestInfoSection">
+          <div class="form-group">
+            <label for="editGuestName">Tên khách hàng</label>
+            <input type="text" id="editGuestName" name="guestName">
+          </div>
+          <div class="form-group">
+            <label for="editCheckIn">Ngày check-in</label>
+            <input type="date" id="editCheckIn" name="checkIn">
+          </div>
+          <div class="form-group">
+            <label for="editCheckOut">Ngày check-out</label>
+            <input type="date" id="editCheckOut" name="checkOut">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelEdit">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 </div>
 @endsection
 
 @section('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // User dropdown functionality
-  const dropdownToggle = document.querySelector('.dropdown-toggle');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-  
-  dropdownToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-  });
-  
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.user-dropdown')) {
-      dropdownMenu.style.display = 'none';
-    }
-  });
+  document.addEventListener('DOMContentLoaded', function() {
+    // User dropdown functionality
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
 
-  const roomTypesGrid = document.getElementById('roomTypesGrid');
-  const roomsGrid = document.getElementById('roomsGrid');
-  const backButton = document.getElementById('backButton');
-  const modal = document.getElementById('roomModal');
-  const modalClose = document.querySelector('.modal-close');
-  const cancelEdit = document.getElementById('cancelEdit');
-  const roomEditForm = document.getElementById('roomEditForm');
-  const guestInfoSection = document.getElementById('guestInfoSection');
-  const editStatus = document.getElementById('editStatus');
+    dropdownToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
 
-  // Xử lý click vào loại phòng
-  const roomTypeCards = document.querySelectorAll('.room-type-card');
-  roomTypeCards.forEach(card => {
-    card.addEventListener('click', function(e) {
-      // Nếu click vào button "Xem bản đồ", không xử lý
-      if (e.target.closest('.btn-map')) {
-        return;
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.user-dropdown')) {
+        dropdownMenu.style.display = 'none';
       }
-      
-      const roomType = this.getAttribute('data-type');
-      
-      roomTypesGrid.style.display = 'none';
-      roomsGrid.style.display = 'grid';
-      backButton.style.display = 'block';
+    });
 
-      fetch(`/staff/rooms/${roomType}`)
-      .then(res => res.json())
-      .then(rooms => {
-        roomsGrid.innerHTML = ''; // Clear cũ
+    const roomTypesGrid = document.getElementById('roomTypesGrid');
+    const roomsGrid = document.getElementById('roomsGrid');
+    const backButton = document.getElementById('backButton');
+    const modal = document.getElementById('roomModal');
+    const modalClose = document.querySelector('.modal-close');
+    const cancelEdit = document.getElementById('cancelEdit');
+    const roomEditForm = document.getElementById('roomEditForm');
+    const guestInfoSection = document.getElementById('guestInfoSection');
+    const editStatus = document.getElementById('editStatus');
 
-        rooms.forEach(room => {
-          const div = document.createElement('div');
-          div.className = `room-box ${room.Status.toLowerCase()}`;
-          div.innerHTML = `
+    // Xử lý click vào loại phòng
+    const roomTypeCards = document.querySelectorAll('.room-type-card');
+    roomTypeCards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Nếu click vào button "Xem bản đồ", không xử lý
+        if (e.target.closest('.btn-map')) {
+          return;
+        }
+
+        const roomType = this.getAttribute('data-type');
+
+        roomTypesGrid.style.display = 'none';
+        roomsGrid.style.display = 'grid';
+        backButton.style.display = 'block';
+
+        fetch(`/staff/rooms/${roomType}`)
+          .then(res => res.json())
+          .then(rooms => {
+            roomsGrid.innerHTML = ''; // Clear cũ
+
+            rooms.forEach(room => {
+              const div = document.createElement('div');
+              div.className = `room-box ${room.Status.toLowerCase()}`;
+              div.innerHTML = `
             <div class="room-number">${room.RoomNumber}</div>
             <div class="guest-info">${room.Status}</div>
             <div class="room-details">
               Giường đơn: ${room.Single_Bed} | Giường đôi: ${room.Double_Bed}
             </div>
           `;
-          div.addEventListener('click', () => openEditModal(room));
-          roomsGrid.appendChild(div);
-        });
-      })
-      .catch(err => {
-        console.error('Lỗi khi tải phòng:', err);
+              div.addEventListener('click', () => openEditModal(room));
+              roomsGrid.appendChild(div);
+            });
+          })
+          .catch(err => {
+            console.error('Lỗi khi tải phòng:', err);
+          });
+
       });
-
     });
-  });
 
-  // Xử lý nút quay lại
-  backButton.addEventListener('click', function() {
-    roomsGrid.style.display = 'none';
-    roomTypesGrid.style.display = 'grid';
-    backButton.style.display = 'none';
-  });
+    // Xử lý nút quay lại
+    backButton.addEventListener('click', function() {
+      roomsGrid.style.display = 'none';
+      roomTypesGrid.style.display = 'grid';
+      backButton.style.display = 'none';
+    });
 
-  // Xử lý đóng modal
-  function closeModal() {
-    modal.style.display = 'none';
-  }
-
-  modalClose.addEventListener('click', closeModal);
-  cancelEdit.addEventListener('click', closeModal);
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  // Xử lý hiện/ẩn thông tin khách hàng dựa trên trạng thái
-  editStatus.addEventListener('change', function() {
-    if (this.value === 'Occupied') {
-      guestInfoSection.style.display = 'block';
-      document.getElementById('editGuestName').required = true;
-      document.getElementById('editCheckIn').required = true;
-      document.getElementById('editCheckOut').required = true;
-    } else {
-      guestInfoSection.style.display = 'none';
-      document.getElementById('editGuestName').required = false;
-      document.getElementById('editCheckIn').required = false;
-      document.getElementById('editCheckOut').required = false;
+    // Xử lý đóng modal
+    function closeModal() {
+      modal.style.display = 'none';
     }
-  });
 
-  function displayRooms(rooms) {
-    rooms.forEach(room => {
-      const roomBox = document.createElement('div');
-      roomBox.className = `room-box ${room.Status.toLowerCase()}`;
-      
-      let content = `
+    modalClose.addEventListener('click', closeModal);
+    cancelEdit.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Xử lý hiện/ẩn thông tin khách hàng dựa trên trạng thái
+    editStatus.addEventListener('change', function() {
+      if (this.value === 'Occupied') {
+        guestInfoSection.style.display = 'block';
+        document.getElementById('editGuestName').required = true;
+        document.getElementById('editCheckIn').required = true;
+        document.getElementById('editCheckOut').required = true;
+      } else {
+        guestInfoSection.style.display = 'none';
+        document.getElementById('editGuestName').required = false;
+        document.getElementById('editCheckIn').required = false;
+        document.getElementById('editCheckOut').required = false;
+      }
+    });
+
+    function displayRooms(rooms) {
+      rooms.forEach(room => {
+        const roomBox = document.createElement('div');
+        roomBox.className = `room-box ${room.Status.toLowerCase()}`;
+
+        let content = `
         <div class="room-number">${room.RoomNumber}</div>
       `;
 
-      if (room.Status === 'Occupied' && room.guestName) {
-        const checkInDate = new Date(room.checkInDate).toLocaleDateString('vi-VN');
-        content += `
+        if (room.Status === 'Occupied' && room.guestName) {
+          const checkInDate = new Date(room.checkInDate).toLocaleDateString('vi-VN');
+          content += `
           <div class="guest-info">
             Khách: ${room.guestName}<br>
             Check-in: ${checkInDate}
           </div>
         `;
-      } else if (room.Status === 'Cleaning') {
-        content += '<div class="guest-info">Đang dọn dẹp</div>';
-      } else if (room.Status === 'Maintenance') {
-        content += '<div class="guest-info">Đang bảo trì</div>';
-      }
+        } else if (room.Status === 'Cleaning') {
+          content += '<div class="guest-info">Đang dọn dẹp</div>';
+        } else if (room.Status === 'Maintenance') {
+          content += '<div class="guest-info">Đang bảo trì</div>';
+        }
 
-      content += `
+        content += `
         <div class="room-details">
           ${room.Single_Bed} giường đơn, ${room.Double_Bed} giường đôi
         </div>
       `;
 
-      roomBox.innerHTML = content;
-      roomBox.title = `Phòng ${room.RoomNumber} - ${room.Status}`;
-      
-      roomBox.addEventListener('click', () => {
-        openEditModal(room);
+        roomBox.innerHTML = content;
+        roomBox.title = `Phòng ${room.RoomNumber} - ${room.Status}`;
+
+        roomBox.addEventListener('click', () => {
+          openEditModal(room);
+        });
+
+        roomsGrid.appendChild(roomBox);
       });
-
-      roomsGrid.appendChild(roomBox);
-    });
-  }
-
-  // Mở modal và điền thông tin phòng
-  function openEditModal(room) {
-    document.getElementById('modalRoomNumber').textContent = room.RoomNumber;
-    document.getElementById('editRoomId').value = room.RoomID;
-    document.getElementById('editStatus').value = room.Status;
-    document.getElementById('editSingleBeds').value = room.Single_Bed;
-    document.getElementById('editDoubleBeds').value = room.Double_Bed;
-    document.getElementById('editGuestName').value = room.guestName || '';
-    
-    if (room.checkInDate) {
-      document.getElementById('editCheckIn').value = room.checkInDate.split('T')[0];
-    } else {
-      document.getElementById('editCheckIn').value = '';
-    }
-    
-    if (room.checkOutDate) {
-      document.getElementById('editCheckOut').value = room.checkOutDate.split('T')[0];
-    } else {
-      document.getElementById('editCheckOut').value = '';
     }
 
-    if (room.Status === 'Occupied') {
-      guestInfoSection.style.display = 'block';
-      document.getElementById('editGuestName').required = true;
-      document.getElementById('editCheckIn').required = true;
-      document.getElementById('editCheckOut').required = true;
-    } else {
-      guestInfoSection.style.display = 'none';
-      document.getElementById('editGuestName').required = false;
-      document.getElementById('editCheckIn').required = false;
-      document.getElementById('editCheckOut').required = false;
-    }
+    // Mở modal và điền thông tin phòng
+    function openEditModal(room) {
+      document.getElementById('modalRoomNumber').textContent = room.RoomNumber;
+      document.getElementById('editRoomId').value = room.RoomID;
+      document.getElementById('editStatus').value = room.Status;
+      document.getElementById('editSingleBeds').value = room.Single_Bed;
+      document.getElementById('editDoubleBeds').value = room.Double_Bed;
+      document.getElementById('editGuestName').value = room.guestName || '';
 
-    modal.style.display = 'block';
-  }
-
-  // Xử lý submit form
-  roomEditForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    fetch(this.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Đã cập nhật thông tin phòng thành công!');
-        closeModal();
-        // Refresh danh sách phòng
-        const roomType = document.querySelector('.room-type-card[style*="none"]')?.getAttribute('data-type');
-        if (roomType) {
-          fetch(`/staff/rooms/${roomType}`)
-            .then(response => response.json())
-            .then(rooms => {
-              roomsGrid.innerHTML = '';
-              displayRooms(rooms);
-            });
-        }
+      if (room.checkInDate) {
+        document.getElementById('editCheckIn').value = room.checkInDate.split('T')[0];
       } else {
-        alert('Có lỗi xảy ra: ' + data.message);
+        document.getElementById('editCheckIn').value = '';
       }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Có lỗi xảy ra khi cập nhật thông tin phòng');
+
+      if (room.checkOutDate) {
+        document.getElementById('editCheckOut').value = room.checkOutDate.split('T')[0];
+      } else {
+        document.getElementById('editCheckOut').value = '';
+      }
+
+      if (room.Status === 'Occupied') {
+        guestInfoSection.style.display = 'block';
+        document.getElementById('editGuestName').required = true;
+        document.getElementById('editCheckIn').required = true;
+        document.getElementById('editCheckOut').required = true;
+      } else {
+        guestInfoSection.style.display = 'none';
+        document.getElementById('editGuestName').required = false;
+        document.getElementById('editCheckIn').required = false;
+        document.getElementById('editCheckOut').required = false;
+      }
+
+      modal.style.display = 'block';
+    }
+
+    // Xử lý submit form
+    roomEditForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Đã cập nhật thông tin phòng thành công!');
+            closeModal();
+            // Refresh danh sách phòng
+            const roomType = document.querySelector('.room-type-card[style*="none"]')?.getAttribute('data-type');
+            if (roomType) {
+              fetch(`/staff/rooms/${roomType}`)
+                .then(response => response.json())
+                .then(rooms => {
+                  roomsGrid.innerHTML = '';
+                  displayRooms(rooms);
+                });
+            }
+          } else {
+            alert('Có lỗi xảy ra: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Có lỗi xảy ra khi cập nhật thông tin phòng');
+        });
     });
   });
-});
 </script>
 @endsection

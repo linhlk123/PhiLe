@@ -62,6 +62,17 @@ h1, h2, h3, h4, h5, h6,
     padding: 0 20px;
 }
 
+/* Booking action bar sizing */
+.booking-form-wrapper {
+    max-width: 520px;
+    margin: 20px auto;
+    padding: 8px 12px;
+}
+
+.booking-form {
+    gap: 12px;
+}
+
 /* Header Styles */
 .header {
     background: #D0E5B4;
@@ -107,7 +118,7 @@ h1, h2, h3, h4, h5, h6,
   color: #184f2b;
   padding: 60px 80px;
   display: none;
-  min-height: 100vh;
+    min-height: 60vh;
   box-sizing: border-box;
 }
 

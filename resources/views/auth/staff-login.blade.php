@@ -174,7 +174,7 @@
 
                 <button type="submit" class="btn-submit">Đăng nhập</button>
                 <div class="return-links">
-                    <a href="{{ route('customer.login') }}">
+                    <a href="{{ route('login') }}">
                         <i class="fas fa-user"></i> Đăng nhập khách hàng
                     </a>
                     <a href="#">

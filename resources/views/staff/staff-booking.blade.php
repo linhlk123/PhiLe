@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Quản lý đặt phòng - Resort</title>
+  <title>Quản lý đặt phòng - Leviosa Resort</title>
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/staff.new.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -16,7 +17,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .staff-header h1 {
@@ -54,7 +55,7 @@
       top: 100%;
       background: white;
       border-radius: 5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       min-width: 180px;
       z-index: 1000;
       margin-top: 5px;
@@ -85,7 +86,7 @@
       padding: 20px;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       margin: 20px;
     }
 
@@ -235,7 +236,7 @@
     }
 
     .modal-close:hover {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .modal-body {
@@ -365,7 +366,7 @@
       background: white;
       border-radius: 8px;
       padding: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .stat-card h4 {
@@ -393,6 +394,7 @@
     }
   </style>
 </head>
+
 <body>
   <header class="staff-header">
     <h1>Quản lý đặt phòng</h1>
@@ -419,7 +421,7 @@
 
   <div style="display: flex; gap: 20px;">
     <!-- Danh mục panel -->
-    <div style="width: 250px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
+    <div style="width: 270px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
       <h3 style="margin-top: 0; color: #1d5a2e; border-bottom: 2px solid #1d5a2e; padding-bottom: 10px;">Danh mục</h3>
       <ul style="list-style: none; padding: 0;">
         <li style="margin: 10px 0;">
@@ -457,6 +459,21 @@
             <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
           </a>
         </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('welcome') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Welcome
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('policy') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Điều khoản & chính sách
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('feedback') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Phản ánh ý kiến
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -470,289 +487,297 @@
           <li><a href="{{ route('staff.employee') }}">Quản lý nhân viên</a></li>
           <li><a href="{{ route('staff.service') }}">Quản lý dịch vụ</a></li>
           <li><a href="{{ route('staff.invoice') }}">Quản lý hóa đơn</a></li>
+          <li><a href="{{ route('welcome') }}">Welcome</a></li>
+          <li><a href="{{ route('policy') }}">Điều khoản & chính sách</a></li>
+          <li><a href="{{ route('feedback') }}">Phản ánh ý kiến</a></li>
         </ul>
       </nav>
 
       <!-- Statistics Cards -->
       <div style="margin: 0 20px;">
         <div class="booking-stats">
-      <div class="stat-card">
-        <h4>Tổng đặt phòng</h4>
-        <div class="stat-number" id="totalBookings">{{ $bookings->count() }}</div>
-      </div>
-      <div class="stat-card">
-        <h4>Chờ xử lý</h4>
-        <div class="stat-number" style="color: #ef6c00;" id="pendingBookings">{{ $bookings->where('Status', 'Pending')->count() }}</div>
-      </div>
-      <div class="stat-card">
-        <h4>Đã xác nhận</h4>
-        <div class="stat-number" style="color: #2e7d32;" id="confirmedBookings">{{ $bookings->where('Status', 'Confirmed')->count() }}</div>
-      </div>
-      <div class="stat-card">
-        <h4>Đã hủy</h4>
-        <div class="stat-number" style="color: #c62828;" id="cancelledBookings">{{ $bookings->where('Status', 'Cancelled')->count() }}</div>
-      </div>
-    </div>
-
-    <div class="staff-table-container">
-    <div class="staff-tools">
-      <div class="search-filter">
-        <input type="text" id="bookingSearch" placeholder="Tìm kiếm theo tên khách hàng, số phòng, email..." 
-               style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 350px;">
-        <select id="statusFilter">
-          <option value="">Tất cả trạng thái</option>
-          <option value="Pending">Chờ xử lý</option>
-          <option value="Confirmed">Đã xác nhận</option>
-          <option value="Cancelled">Đã hủy</option>
-        </select>
-      </div>
-      <button id="refreshBtn" class="btn btn-primary" onclick="location.reload()">
-        <i class="fas fa-sync-alt"></i> Làm mới
-      </button>
-    </div>
-
-    <table class="staff-table">
-      <thead>
-        <tr>
-          <th>Mã đặt phòng</th>
-          <th>Tên khách hàng</th>
-          <th>Giới tính</th>
-          <th>SĐT</th>
-          <th>Email</th>
-          <th>Số phòng</th>
-          <th>Trạng thái</th>
-          <th>Tổng tiền</th>
-        </tr>
-      </thead>
-      <tbody id="bookingTableBody">
-        @forelse($bookings as $booking)
-        <tr onclick='openBookingDetail(@json($booking))' style="cursor: pointer;">
-          <td>{{ $booking->BookingID }}</td>
-          <td>{{ $booking->FullName }}</td>
-          <td>{{ $booking->Gender }}</td>
-          <td>{{ $booking->Phone }}</td>
-          <td>{{ $booking->Email }}</td>
-          <td>{{ $booking->RoomNumber }}</td>
-          <td>
-            <span class="status-badge status-{{ strtolower($booking->Status) }}">
-              @if($booking->Status === 'Pending')
-                Chờ xử lý
-              @elseif($booking->Status === 'Confirmed')
-                Đã xác nhận
-              @else
-                Đã hủy
-              @endif
-            </span>
-          </td>
-          <td>{{ number_format($booking->TotalAmount, 0, ',', '.') }} VNĐ</td>
-        </tr>
-        @empty
-        <tr>
-          <td colspan="8" style="text-align: center; padding: 40px; color: #999;">Chưa có đặt phòng nào</td>
-        </tr>
-        @endforelse
-      </tbody>
-    </table>
-  </div>
-
-    <!-- Modal chi tiết đặt phòng -->
-  <div id="bookingDetailModal" class="modal-overlay" onclick="closeModalOnOutsideClick(event)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Chi tiết đặt phòng #<span id="modalBookingId"></span></h2>
-        <button class="modal-close" onclick="closeBookingDetail()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="booking-detail-sections">
-          <!-- Thông tin đặt phòng -->
-          <div class="detail-section">
-            <h3>📝 Thông tin đặt phòng</h3>
-            <div class="detail-item">
-              <span class="detail-label">Mã đặt phòng:</span>
-              <span class="detail-value" id="detailBookingId"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Ngày đặt:</span>
-              <span class="detail-value" id="detailBookingDate"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Người lớn:</span>
-              <span class="detail-value" id="detailAdults"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Trẻ em:</span>
-              <span class="detail-value" id="detailChildren"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Tổng tiền:</span>
-              <span class="detail-value" id="detailTotalAmount" style="font-weight: 700; color: #c62828;"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Trạng thái:</span>
-              <span class="detail-value" id="detailStatus"></span>
-            </div>
+          <div class="stat-card">
+            <h4>Tổng đặt phòng</h4>
+            <div class="stat-number" id="totalBookings">{{ $bookings->count() }}</div>
           </div>
-
-          <!-- Thông tin khách hàng -->
-          <div class="detail-section">
-            <h3>👤 Thông tin khách hàng</h3>
-            <div class="detail-item">
-              <span class="detail-label">Họ tên:</span>
-              <span class="detail-value" id="detailCustomerName"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Giới tính:</span>
-              <span class="detail-value" id="detailGender"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Email:</span>
-              <span class="detail-value" id="detailEmail"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Số điện thoại:</span>
-              <span class="detail-value" id="detailPhone"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">CMND/CCCD:</span>
-              <span class="detail-value" id="detailIDNumber"></span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Địa chỉ:</span>
-              <span class="detail-value" id="detailAddress"></span>
-            </div>
+          <div class="stat-card">
+            <h4>Chờ xử lý</h4>
+            <div class="stat-number" style="color: #ef6c00;" id="pendingBookings">{{ $bookings->whereIn('Status', ['Pending','CheckedIn'])->count() }}</div>
+          </div>
+          <div class="stat-card">
+            <h4>Đã xác nhận</h4>
+            <div class="stat-number" style="color: #2e7d32;" id="confirmedBookings">{{ $bookings->where('Status', 'Confirmed')->count() }}</div>
+          </div>
+          <div class="stat-card">
+            <h4>Đã hủy</h4>
+            <div class="stat-number" style="color: #c62828;" id="cancelledBookings">{{ $bookings->where('Status', 'Cancelled')->count() }}</div>
           </div>
         </div>
 
-        <!-- Danh sách phòng đã đặt -->
-        <div class="rooms-list">
-          <h3 style="color: #1d5a2e; margin-top: 0; margin-bottom: 15px;">🏠 Danh sách phòng đã đặt</h3>
-          <div id="roomsList"></div>
+        <div class="staff-table-container">
+          <div class="staff-tools">
+            <div class="search-filter">
+              <input type="text" id="bookingSearch" placeholder="Tìm kiếm theo tên khách hàng, số phòng, email..."
+                style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 350px;">
+              <select id="statusFilter">
+                <option value="">Tất cả trạng thái</option>
+                <option value="Pending">Chờ xử lý</option>
+                <option value="CheckedIn">Đã check-in (chờ xử lý)</option>
+                <option value="Confirmed">Đã xác nhận</option>
+                <option value="Cancelled">Đã hủy</option>
+              </select>
+            </div>
+            <button id="refreshBtn" class="btn btn-primary" onclick="location.reload()">
+              <i class="fas fa-sync-alt"></i> Làm mới
+            </button>
+          </div>
+
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>Mã đặt phòng</th>
+                <th>Tên khách hàng</th>
+                <th>Giới tính</th>
+                <th>SĐT</th>
+                <th>Email</th>
+                <th>Số phòng</th>
+                <th>Trạng thái</th>
+                <th>Tổng tiền</th>
+              </tr>
+            </thead>
+            <tbody id="bookingTableBody">
+              @forelse($bookings as $booking)
+              <tr onclick='openBookingDetail(@json($booking))' style="cursor: pointer;">
+                <td>{{ $booking->BookingID }}</td>
+                <td>{{ $booking->FullName }}</td>
+                <td>{{ $booking->Gender }}</td>
+                <td>{{ $booking->Phone }}</td>
+                <td>{{ $booking->Email }}</td>
+                <td>{{ $booking->RoomNumber }}</td>
+                <td>
+                  @php($st = $booking->Status)
+                  <span class="status-badge status-{{ strtolower($st) }}">
+                    @if($st === 'Pending')
+                    Chờ xử lý
+                    @elseif($st === 'CheckedIn')
+                    Đã check-in (chờ xử lý)
+                    @elseif($st === 'Confirmed')
+                    Đã xác nhận
+                    @else
+                    Đã hủy
+                    @endif
+                  </span>
+                </td>
+                <td>{{ number_format($booking->TotalAmount, 0, ',', '.') }} VNĐ</td>
+              </tr>
+              @empty
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 40px; color: #999;">Chưa có đặt phòng nào</td>
+              </tr>
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Modal chi tiết đặt phòng -->
+        <div id="bookingDetailModal" class="modal-overlay" onclick="closeModalOnOutsideClick(event)">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Chi tiết đặt phòng #<span id="modalBookingId"></span></h2>
+              <button class="modal-close" onclick="closeBookingDetail()">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="booking-detail-sections">
+                <!-- Thông tin đặt phòng -->
+                <div class="detail-section">
+                  <h3>📝 Thông tin đặt phòng</h3>
+                  <div class="detail-item">
+                    <span class="detail-label">Mã đặt phòng:</span>
+                    <span class="detail-value" id="detailBookingId"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Ngày đặt:</span>
+                    <span class="detail-value" id="detailBookingDate"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Người lớn:</span>
+                    <span class="detail-value" id="detailAdults"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Trẻ em:</span>
+                    <span class="detail-value" id="detailChildren"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Tổng tiền:</span>
+                    <span class="detail-value" id="detailTotalAmount" style="font-weight: 700; color: #c62828;"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Trạng thái:</span>
+                    <span class="detail-value" id="detailStatus"></span>
+                  </div>
+                </div>
+
+                <!-- Thông tin khách hàng -->
+                <div class="detail-section">
+                  <h3>👤 Thông tin khách hàng</h3>
+                  <div class="detail-item">
+                    <span class="detail-label">Họ tên:</span>
+                    <span class="detail-value" id="detailCustomerName"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Giới tính:</span>
+                    <span class="detail-value" id="detailGender"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value" id="detailEmail"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Số điện thoại:</span>
+                    <span class="detail-value" id="detailPhone"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">CMND/CCCD:</span>
+                    <span class="detail-value" id="detailIDNumber"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Địa chỉ:</span>
+                    <span class="detail-value" id="detailAddress"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Danh sách phòng đã đặt -->
+              <div class="rooms-list">
+                <h3 style="color: #1d5a2e; margin-top: 0; margin-bottom: 15px;">🏠 Danh sách phòng đã đặt</h3>
+                <div id="roomsList"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" onclick="closeBookingDetail()">Đóng</button>
+              <button class="btn btn-danger" id="btnReject" onclick="updateBookingStatus('Cancelled')">Từ chối</button>
+              <button class="btn btn-success" id="btnConfirm" onclick="updateBookingStatus('Confirmed')">Xác nhận</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="closeBookingDetail()">Đóng</button>
-        <button class="btn btn-danger" id="btnReject" onclick="updateBookingStatus('Cancelled')">Từ chối</button>
-        <button class="btn btn-success" id="btnConfirm" onclick="updateBookingStatus('Confirmed')">Xác nhận</button>
-      </div>
-    </div>
-  </div>
-  </div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // User dropdown functionality
-      const dropdownToggle = document.querySelector('.dropdown-toggle');
-      const dropdownMenu = document.querySelector('.dropdown-menu');
-      
-      if (dropdownToggle && dropdownMenu) {
-        dropdownToggle.addEventListener('click', function(e) {
-          e.stopPropagation();
-          dropdownMenu.classList.toggle('show');
-        });
-        
-        document.addEventListener('click', function(e) {
-          if (!e.target.closest('.user-dropdown')) {
-            dropdownMenu.classList.remove('show');
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // User dropdown functionality
+          const dropdownToggle = document.querySelector('.dropdown-toggle');
+          const dropdownMenu = document.querySelector('.dropdown-menu');
+
+          if (dropdownToggle && dropdownMenu) {
+            dropdownToggle.addEventListener('click', function(e) {
+              e.stopPropagation();
+              dropdownMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function(e) {
+              if (!e.target.closest('.user-dropdown')) {
+                dropdownMenu.classList.remove('show');
+              }
+            });
+          }
+
+          // Search and filter functionality
+          const bookingSearch = document.getElementById('bookingSearch');
+          const statusFilter = document.getElementById('statusFilter');
+
+          bookingSearch.addEventListener('input', filterBookings);
+          statusFilter.addEventListener('change', filterBookings);
+
+          function filterBookings() {
+            const searchText = bookingSearch.value.toLowerCase();
+            const statusValue = statusFilter.value;
+
+            const tbody = document.getElementById('bookingTableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            rows.forEach(row => {
+              if (row.querySelector('td[colspan]')) return; // Skip empty state row
+
+              const text = row.textContent.toLowerCase();
+              const statusBadge = row.querySelector('.status-badge');
+              const matchesSearch = text.includes(searchText);
+              const matchesStatus = !statusValue || (statusBadge && statusBadge.classList.contains(`status-${statusValue.toLowerCase()}`));
+
+              row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+            });
           }
         });
-      }
 
-      // Search and filter functionality
-      const bookingSearch = document.getElementById('bookingSearch');
-      const statusFilter = document.getElementById('statusFilter');
+        let currentBookingId = null;
 
-      bookingSearch.addEventListener('input', filterBookings);
-      statusFilter.addEventListener('change', filterBookings);
+        function openBookingDetail(booking) {
+          currentBookingId = booking.BookingID;
 
-      function filterBookings() {
-        const searchText = bookingSearch.value.toLowerCase();
-        const statusValue = statusFilter.value;
+          // Populate modal - Thông tin booking
+          document.getElementById('modalBookingId').textContent = booking.BookingID;
+          document.getElementById('detailBookingId').textContent = booking.BookingID;
+          document.getElementById('detailBookingDate').textContent = formatDateTime(booking.BookingDate);
+          document.getElementById('detailAdults').textContent = booking.AdultAmount;
+          document.getElementById('detailChildren').textContent = booking.ChildAmount;
+          document.getElementById('detailTotalAmount').textContent = formatMoney(booking.TotalAmount) + ' VNĐ';
 
-        const tbody = document.getElementById('bookingTableBody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
+          const statusMap = {
+            'Pending': 'Chờ xử lý',
+            'CheckedIn': 'Đã check-in (chờ xử lý)',
+            'Confirmed': 'Đã xác nhận',
+            'Cancelled': 'Đã hủy'
+          };
+          const statusClass = `status-badge status-${booking.Status.toLowerCase()}`;
+          document.getElementById('detailStatus').innerHTML = `<span class="${statusClass}">${statusMap[booking.Status] || booking.Status}</span>`;
 
-        rows.forEach(row => {
-          if (row.querySelector('td[colspan]')) return; // Skip empty state row
-          
-          const text = row.textContent.toLowerCase();
-          const statusBadge = row.querySelector('.status-badge');
-          const matchesSearch = text.includes(searchText);
-          const matchesStatus = !statusValue || (statusBadge && statusBadge.classList.contains(`status-${statusValue.toLowerCase()}`));
+          // Customer info
+          document.getElementById('detailCustomerName').textContent = booking.FullName;
+          document.getElementById('detailGender').textContent = booking.Gender;
+          document.getElementById('detailEmail').textContent = booking.Email;
+          document.getElementById('detailPhone').textContent = booking.Phone;
+          document.getElementById('detailIDNumber').textContent = booking.IDNumber || 'Chưa cập nhật';
+          document.getElementById('detailAddress').textContent = booking.Address || 'Chưa cập nhật';
 
-          row.style.display = matchesSearch && matchesStatus ? '' : 'none';
-        });
-      }
-    });
+          // Fetch và hiển thị danh sách phòng từ BOOKING_ROOMS
+          fetchBookingRooms(booking.BookingID);
 
-    let currentBookingId = null;
+          // Show/hide action buttons based on status
+          const btnConfirm = document.getElementById('btnConfirm');
+          const btnReject = document.getElementById('btnReject');
 
-    function openBookingDetail(booking) {
-      currentBookingId = booking.BookingID;
-      
-      // Populate modal - Thông tin booking
-      document.getElementById('modalBookingId').textContent = booking.BookingID;
-      document.getElementById('detailBookingId').textContent = booking.BookingID;
-      document.getElementById('detailBookingDate').textContent = formatDateTime(booking.BookingDate);
-      document.getElementById('detailAdults').textContent = booking.AdultAmount;
-      document.getElementById('detailChildren').textContent = booking.ChildAmount;
-      document.getElementById('detailTotalAmount').textContent = formatMoney(booking.TotalAmount) + ' VNĐ';
-      
-      const statusMap = {
-        'Pending': 'Chờ xử lý',
-        'Confirmed': 'Đã xác nhận',
-        'Cancelled': 'Đã hủy'
-      };
-      const statusClass = `status-badge status-${booking.Status.toLowerCase()}`;
-      document.getElementById('detailStatus').innerHTML = `<span class="${statusClass}">${statusMap[booking.Status]}</span>`;
+          if (booking.Status === 'Pending' || booking.Status === 'CheckedIn') {
+            btnConfirm.style.display = 'inline-block';
+            btnReject.style.display = 'inline-block';
+          } else if (booking.Status === 'Confirmed') {
+            btnConfirm.style.display = 'none';
+            btnReject.style.display = 'inline-block';
+          } else {
+            btnConfirm.style.display = 'none';
+            btnReject.style.display = 'none';
+          }
 
-      // Customer info
-      document.getElementById('detailCustomerName').textContent = booking.FullName;
-      document.getElementById('detailGender').textContent = booking.Gender;
-      document.getElementById('detailEmail').textContent = booking.Email;
-      document.getElementById('detailPhone').textContent = booking.Phone;
-      document.getElementById('detailIDNumber').textContent = booking.IDNumber || 'Chưa cập nhật';
-      document.getElementById('detailAddress').textContent = booking.Address || 'Chưa cập nhật';
+          // Show modal
+          document.getElementById('bookingDetailModal').classList.add('active');
+        }
 
-      // Fetch và hiển thị danh sách phòng từ BOOKING_ROOMS
-      fetchBookingRooms(booking.BookingID);
+        // Hàm lấy danh sách phòng của booking
+        async function fetchBookingRooms(bookingId) {
+          const roomsList = document.getElementById('roomsList');
+          roomsList.innerHTML = '<p style="text-align: center; color: #999;">Đang tải...</p>';
 
-      // Show/hide action buttons based on status
-      const btnConfirm = document.getElementById('btnConfirm');
-      const btnReject = document.getElementById('btnReject');
-      
-      if (booking.Status === 'Pending') {
-        btnConfirm.style.display = 'inline-block';
-        btnReject.style.display = 'inline-block';
-      } else if (booking.Status === 'Confirmed') {
-        btnConfirm.style.display = 'none';
-        btnReject.style.display = 'inline-block';
-      } else {
-        btnConfirm.style.display = 'none';
-        btnReject.style.display = 'none';
-      }
+          try {
+            const response = await fetch(`/staff/booking/${bookingId}/rooms`);
+            const data = await response.json();
 
-      // Show modal
-      document.getElementById('bookingDetailModal').classList.add('active');
-    }
+            if (data.success && data.rooms.length > 0) {
+              let html = '';
+              data.rooms.forEach((room, index) => {
+                const checkIn = formatDate(room.CheckInDate);
+                const checkOut = formatDate(room.CheckOutDate);
+                const nights = calculateNights(room.CheckInDate, room.CheckOutDate);
 
-    // Hàm lấy danh sách phòng của booking
-    async function fetchBookingRooms(bookingId) {
-      const roomsList = document.getElementById('roomsList');
-      roomsList.innerHTML = '<p style="text-align: center; color: #999;">Đang tải...</p>';
-
-      try {
-        const response = await fetch(`/staff/booking/${bookingId}/rooms`);
-        const data = await response.json();
-
-        if (data.success && data.rooms.length > 0) {
-          let html = '';
-          data.rooms.forEach((room, index) => {
-            const checkIn = formatDate(room.CheckInDate);
-            const checkOut = formatDate(room.CheckOutDate);
-            const nights = calculateNights(room.CheckInDate, room.CheckOutDate);
-            
-            html += `
+                html += `
               <div class="room-item">
                 <div class="room-item-header">📍 Phòng ${room.RoomNumber} - ${room.TypeName}</div>
                 <div class="room-item-detail">
@@ -785,93 +810,96 @@
                 </div>
               </div>
             `;
-          });
-          roomsList.innerHTML = html;
-        } else {
-          roomsList.innerHTML = '<p style="text-align: center; color: #999;">Không có phòng nào</p>';
+              });
+              roomsList.innerHTML = html;
+            } else {
+              roomsList.innerHTML = '<p style="text-align: center; color: #999;">Không có phòng nào</p>';
+            }
+          } catch (error) {
+            console.error('Error fetching rooms:', error);
+            roomsList.innerHTML = '<p style="text-align: center; color: #f44336;">Lỗi khi tải danh sách phòng</p>';
+          }
         }
-      } catch (error) {
-        console.error('Error fetching rooms:', error);
-        roomsList.innerHTML = '<p style="text-align: center; color: #f44336;">Lỗi khi tải danh sách phòng</p>';
-      }
-    }
 
-    // Hàm tính số đêm
-    function calculateNights(checkIn, checkOut) {
-      const start = new Date(checkIn);
-      const end = new Date(checkOut);
-      const diffTime = Math.abs(end - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays;
-    }
-
-    function closeBookingDetail() {
-      document.getElementById('bookingDetailModal').classList.remove('active');
-      currentBookingId = null;
-    }
-
-    function closeModalOnOutsideClick(event) {
-      if (event.target === event.currentTarget) {
-        closeBookingDetail();
-      }
-    }
-
-    function updateBookingStatus(status) {
-      if (!currentBookingId) return;
-
-      const statusMap = {
-        'Confirmed': 'xác nhận',
-        'Cancelled': 'từ chối'
-      };
-
-      if (!confirm(`Bạn có chắc chắn muốn ${statusMap[status]} đặt phòng này?`)) {
-        return;
-      }
-
-      fetch(`/staff/booking/${currentBookingId}/status`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({ status: status })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert(data.message);
-          location.reload(); // Reload to show updated data
-        } else {
-          alert('Có lỗi xảy ra: ' + data.message);
+        // Hàm tính số đêm
+        function calculateNights(checkIn, checkOut) {
+          const start = new Date(checkIn);
+          const end = new Date(checkOut);
+          const diffTime = Math.abs(end - start);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          return diffDays;
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Có lỗi xảy ra khi cập nhật trạng thái');
-      });
-    }
 
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    }
+        function closeBookingDetail() {
+          document.getElementById('bookingDetailModal').classList.remove('active');
+          currentBookingId = null;
+        }
 
-    function formatDateTime(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      return `${day}/${month}/${year} ${hours}:${minutes}`;
-    }
+        function closeModalOnOutsideClick(event) {
+          if (event.target === event.currentTarget) {
+            closeBookingDetail();
+          }
+        }
 
-    function formatMoney(amount) {
-      return new Intl.NumberFormat('vi-VN').format(amount);
-    }
-  </script>
+        function updateBookingStatus(status) {
+          if (!currentBookingId) return;
+
+          const statusMap = {
+            'Confirmed': 'xác nhận',
+            'Cancelled': 'từ chối'
+          };
+
+          if (!confirm(`Bạn có chắc chắn muốn ${statusMap[status]} đặt phòng này?`)) {
+            return;
+          }
+
+          fetch(`/staff/booking/${currentBookingId}/status`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+              },
+              body: JSON.stringify({
+                status: status
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert(data.message);
+                location.reload(); // Reload to show updated data
+              } else {
+                alert('Có lỗi xảy ra: ' + data.message);
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Có lỗi xảy ra khi cập nhật trạng thái');
+            });
+        }
+
+        function formatDate(dateString) {
+          const date = new Date(dateString);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          return `${day}/${month}/${year}`;
+        }
+
+        function formatDateTime(dateString) {
+          const date = new Date(dateString);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          const hours = String(date.getHours()).padStart(2, '0');
+          const minutes = String(date.getMinutes()).padStart(2, '0');
+          return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
+        function formatMoney(amount) {
+          return new Intl.NumberFormat('vi-VN').format(amount);
+        }
+      </script>
 </body>
+
 </html>

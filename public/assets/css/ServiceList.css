@@ -1,4 +1,4 @@
-* {
+/* * {
   box-sizing: border-box;
   font-family: "SVN Gilroy", sans-serif;
 }
@@ -7,8 +7,17 @@ body {
   margin: 0;
   background-color: #f7f9f5;
   color: #2e3b2b;
+} */
+
+.service-page {
+  background-color: #f7f9f5;
+  color: #2e3b2b;
+  font-family: "SVN Gilroy", sans-serif;
 }
 
+.service-page * {
+  box-sizing: border-box;
+}
 
 .top-service {
   text-align: center;

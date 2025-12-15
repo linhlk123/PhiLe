@@ -6,6 +6,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('home', ['currentYear' => date('Y')]);
@@ -16,76 +17,80 @@ Route::prefix('staff')->name('staff.')->group(function () {
     // Đăng nhập
     Route::get('/login', [StaffController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [StaffController::class, 'login']);
-    
+
     Route::middleware('auth:staff')->group(function () {
         Route::get('/room', [StaffController::class, 'staffRoom'])->name('room');
         Route::get('/staff-room', [StaffController::class, 'staffRoom'])->name('staff-room');
-        
+
         Route::get('/rooms/{type}', [StaffController::class, 'getRoomsByType'])->name('rooms.byType');
         Route::post('/room/update', [RoomController::class, 'update'])->name('room.update');
         Route::post('/staff/logout', [StaffController::class, 'logout'])->name('staff.logout');
-        
+
         // Booking management routes
         Route::get('/booking', [StaffController::class, 'bookingManagement'])->name('booking');
         Route::put('/booking/{id}/status', [StaffController::class, 'updateBookingStatus'])->name('booking.updateStatus');
         Route::get('/booking/{id}/rooms', [StaffController::class, 'getBookingRooms'])->name('booking.rooms');
-        
+
         // Customer management routes
         Route::get('/customer', [StaffController::class, 'customerManagement'])->name('customer');
         Route::get('/customer/{id}', [StaffController::class, 'getCustomer'])->name('customer.get');
         Route::post('/customer', [StaffController::class, 'storeCustomer'])->name('customer.store');
         Route::put('/customer/{id}', [StaffController::class, 'updateCustomer'])->name('customer.update');
         Route::delete('/customer/{id}', [StaffController::class, 'deleteCustomer'])->name('customer.delete');
-        
+
         // Employee management routes
         Route::get('/employee', [StaffController::class, 'employeeManagement'])->name('employee');
         Route::get('/employee/{id}', [StaffController::class, 'getEmployee'])->name('employee.get');
         Route::post('/employee', [StaffController::class, 'storeEmployee'])->name('employee.store');
         Route::put('/employee/{id}', [StaffController::class, 'updateEmployee'])->name('employee.update');
         Route::delete('/employee/{id}', [StaffController::class, 'deleteEmployee'])->name('employee.delete');
-        
+
         // Service management routes
         Route::get('/service', [StaffController::class, 'serviceManagement'])->name('service');
         Route::get('/service/{id}', [StaffController::class, 'getService'])->name('service.get');
         Route::post('/service', [StaffController::class, 'storeService'])->name('service.store');
         Route::put('/service/{id}', [StaffController::class, 'updateService'])->name('service.update');
         Route::delete('/service/{id}', [StaffController::class, 'deleteService'])->name('service.delete');
-        
+
         // Service usage routes
         Route::get('/service-usage/{id}', [StaffController::class, 'getServiceUsage'])->name('service.usage.get');
         Route::post('/service-usage', [StaffController::class, 'storeServiceUsage'])->name('service.usage.store');
         Route::put('/service-usage/{id}', [StaffController::class, 'updateServiceUsage'])->name('service.usage.update');
         Route::delete('/service-usage/{id}', [StaffController::class, 'deleteServiceUsage'])->name('service.usage.delete');
         Route::put('/service-usage/{id}/assign-room', [StaffController::class, 'assignRoomToServiceUsage'])->name('service.usage.assignRoom');
-        
+
         // Profile routes
         Route::get('/profile', [StaffController::class, 'showProfile'])->name('profile');
         Route::put('/profile', [StaffController::class, 'updateProfile'])->name('profile.update');
         Route::post('/change-password', [StaffController::class, 'changePassword'])->name('change.password');
-        
+
         // Invoice management routes
         Route::get('/invoice', [StaffController::class, 'invoiceManagement'])->name('invoice');
         Route::get('/invoice/{id}', [StaffController::class, 'getPayment'])->name('invoice.get');
         Route::post('/invoice', [StaffController::class, 'storePayment'])->name('invoice.store');
         Route::put('/invoice/{id}', [StaffController::class, 'updatePayment'])->name('invoice.update');
         Route::delete('/invoice/{id}', [StaffController::class, 'deletePayment'])->name('invoice.delete');
-        
+
         // Map routes
         Route::get('/map', [StaffController::class, 'showMap'])->name('map');
     });
-
 });
 
 // Register routes
-Route::get('/register', function() {
+Route::get('/register', function () {
     return view('customer-signin');
 })->name('register');
 Route::post('/register', [CustomerController::class, 'register'])->name('customer.register');
 
+// Route::get('/register', function(){
+//     return view('customer-signin');
+// })->name('register');
+
+
 // Đăng nhập
-Route::get('/login', function() {
+Route::get('/login', function () {
     return view('customer-signin');
-})->name('customer.login');
+})->name('login');
 Route::post('/login', [CustomerController::class, 'login']);
 
 // Đăng xuất
@@ -96,12 +101,12 @@ Route::get('/dbconn', function () {
 });
 
 //Trang xem phòng
-Route::get('/booking', function() {
+Route::get('/booking', function () {
     return view('booking');
 })->name('booking');
 
 // Trang đặt phòng
-Route::get('/booking-room', function() {
+Route::get('/booking-room', function () {
     $user = auth()->guard('customer')->user();
     return view('booking_room', compact('user'));
 })->name('booking.room');
@@ -114,22 +119,22 @@ Route::post('/booking-room', [BookingController::class, 'store'])->name('booking
 Route::get('/staff/rooms/{type}', [StaffController::class, 'getRoomsByType'])->name('staff.rooms.byType');
 
 // API lấy danh sách phòng cho booking
-Route::get('/api/rooms/all-by-type', [RoomController::class, 'getAllRoomsByType'])->name('api.rooms.allByType');
+// Route::get('/api/rooms/all-by-type', [RoomController::class, 'getAllRoomsByType'])->name('api.rooms.allByType');
 
-// API lấy phòng available cho booking room
+// // API lấy phòng available cho booking room
 Route::get('/api/rooms/available', [BookingController::class, 'getAvailableRooms'])->name('api.rooms.available');
 
 // Test route để debug
-Route::get('/test-rooms', function() {
-    $rooms = \App\Models\Room::all();
-    $roomTypes = \App\Models\RoomType::all();
-    return response()->json([
-        'rooms_count' => $rooms->count(),
-        'room_types_count' => $roomTypes->count(),
-        'rooms' => $rooms,
-        'room_types' => $roomTypes
-    ]);
-});
+// Route::get('/test-rooms', function() {
+//     $rooms = \App\Models\Room::all();
+//     $roomTypes = \App\Models\RoomType::all();
+//     return response()->json([
+//         'rooms_count' => $rooms->count(),
+//         'room_types_count' => $roomTypes->count(),
+//         'rooms' => $rooms,
+//         'room_types' => $roomTypes
+//     ]);
+// });
 
 
 Route::get('/services', function () {
@@ -138,3 +143,110 @@ Route::get('/services', function () {
 
 // Route đặt dịch vụ
 Route::post('/services/book', [ServiceController::class, 'bookService'])->name('services.book');
+
+// Checkin page & actions
+Route::get('/checkin', [BookingController::class, 'showCheckinPage'])->name('checkin.page');
+Route::post('/checkin/{bookingId}', [BookingController::class, 'performCheckin'])->name('checkin.perform');
+Route::post('/checkin/{bookingId}/cancel', [BookingController::class, 'cancelCheckin'])->name('checkin.cancel');
+
+//mới
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+
+//lienhe
+use Illuminate\Http\Request;
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+Route::post('/contact', function (Request $request) {
+    $request->validate([
+        'name'    => 'required',
+        'email'   => 'required|email',
+        'message' => 'required',
+    ]);
+
+    // Tạm thời chỉ hiển thị thông báo (chưa lưu DB)
+    return back()->with('success', 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm.');
+})->name('contact.submit');
+
+//Điều khoản chính sách
+Route::get('/policy', function () {
+    return view('policy');
+})->name('policy');
+
+//Phản ánh ý kiến
+use App\Http\Controllers\FeedbackController;
+
+// Hiển thị trang
+Route::get('/feedback', function () {
+    return view('feedback');
+})->name('feedback');
+
+// Xử lý submit
+Route::post('/feedback/send', [FeedbackController::class, 'store'])
+    ->name('feedback.send');
+
+// Thông tin cá nhân khách hàng
+// Route::get('/profile', [CustomerController::class, 'showProfile'])->name('customer.profile');
+// Route::put('/profile', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
+// Route::post('/profile/change-password', [CustomerController::class, 'changePassword'])->name('customer.change.password');
+
+use App\Http\Controllers\CustomerPaymentController;
+
+Route::middleware('auth:customer')->group(function () {
+
+    Route::get('/profile', [CustomerController::class, 'showProfile'])
+        ->name('customer.profile');
+
+    Route::get('/customer/payments', [CustomerPaymentController::class, 'index'])
+        ->name('customer.payments');
+});
+//Trang payment
+
+// DEBUG ROUTE
+Route::get('/debug/booking/{bookingId}', function($bookingId) {
+    $booking = \App\Models\Booking::find($bookingId);
+    
+    if (!$booking) {
+        return response()->json([
+            'error' => 'Booking not found',
+            'bookingId' => $bookingId,
+            'all_bookings' => \App\Models\Booking::select('BookingID', 'CustomerID', 'Status')->get()
+        ]);
+    }
+    
+    $bookingRooms = \App\Models\BookingRoom::where('BookingID', $bookingId)->get();
+    
+    return response()->json([
+        'booking' => $booking,
+        'bookingRooms_count' => $bookingRooms->count(),
+        'bookingRooms' => $bookingRooms,
+        'services' => $booking->services,
+        'customer' => $booking->customer,
+        'message' => $bookingRooms->count() == 0 ? 'BOOKING NÀY KHÔNG CÓ PHÒNG! Cần thêm data vào BOOKING_ROOMS' : 'OK'
+    ]);
+});
+
+// Route danh sách booking cần thanh toán
+Route::get('/payment-list', [PaymentController::class, 'showPaymentListPage'])
+    ->name('payment.list')
+    ->middleware('auth:customer');
+
+Route::get('/payment/{bookingId}',  [PaymentController::class, 'checkout'])->name('payment.checkout');
+Route::post('/payment/{bookingId}', [PaymentController::class, 'store'])->name('payment.store');
+Route::get('/payment-success/{paymentId}', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/invoice/{paymentId}', [PaymentController::class, 'invoice'])->name('payment.invoice');
+
+// 2. Route TRUNG GIAN MỚI: Tìm đơn hàng active và chuyển hướng (Dùng cho Menu)
+Route::get('/my-active-checkout', [PaymentController::class, 'findActiveBooking'])
+    ->name('customer.checkout.active')
+    ->middleware('auth:customer'); // BẮT BUỘC có middleware
+

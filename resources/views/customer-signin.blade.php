@@ -328,7 +328,7 @@
             </div>
 
             <!-- Form đăng nhập -->
-            <form class="auth-form active" id="signin-form" action="{{ route('customer.login') }}" method="POST">
+            <form class="auth-form active" id="signin-form" action="{{ route('login') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="login-email">Email</label>

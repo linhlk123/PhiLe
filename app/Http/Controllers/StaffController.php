@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Models\Staff;
 use App\Models\Service;
@@ -12,6 +10,9 @@ use App\Models\ServiceUsage;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
@@ -23,9 +24,10 @@ class StaffController extends Controller
         return view('auth.staff-login');
     }
 
+
     /**
-     * Xử lý đăng nhập (dùng password dạng text)
-     */
+     * Xử lý đăng nhập 
+     **/
     public function login(Request $request)
     {
         try {
@@ -46,26 +48,52 @@ class StaffController extends Controller
                 ], 401);
             }
 
-            // So sánh password text
-            if ($staff->password === $validated['password']) {
-                Log::info('Password matches for staff:', ['id' => $staff->StaffID]);
+            // Kiểm tra mật khẩu: ưu tiên bcrypt, fallback plaintext rồi nâng cấp
+            $rawInput = $validated['password'];
+            $stored = $staff->password;
+            $isHashed = is_string($stored) && preg_match('/^\$2y\$\d{2}\$/', $stored);
+            $authOk = false;
 
-                Auth::guard('staff')->login($staff);
-                $request->session()->regenerate();
-
-                return redirect()->route('staff.staff-room')->with('success', 'Đăng nhập thành công!');
+            if ($isHashed) {
+                $authOk = Hash::check($rawInput, $stored);
+            } else {
+                // DB còn plaintext: so sánh trực tiếp và nâng cấp nếu đúng
+                if (hash_equals($stored, $rawInput)) {
+                    $authOk = true;
+                    // Nâng cấp lên bcrypt
+                    $staff->password = $rawInput; // mutator sẽ hash
+                    $staff->save();
+                    Log::info('Upgraded plaintext staff password to hash', ['staff_id' => $staff->StaffID]);
+                }
             }
 
+            if (!$authOk) {
+                Log::warning('Staff login failed', ['email' => $validated['Email']]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email hoặc mật khẩu không chính xác.'
+                ], 401);
+            }
 
-            Log::warning('Password mismatch for staff:', [
-                'id' => $staff->StaffID,
-                'provided_password' => $validated['password']
-            ]);
+            // Đăng nhập guard staff (session based)
+            Auth::guard('staff')->login($staff);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Email hoặc mật khẩu không chính xác.'
-            ], 401);
+            // Nếu request muốn JSON (Ajax/API) trả JSON, nếu không thì redirect
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đăng nhập thành công',
+                    'staff' => [
+                        'id' => $staff->StaffID,
+                        'FullName' => $staff->FullName,
+                        'Email' => $staff->Email,
+                        'Role' => $staff->Role,
+                    ],
+                    'redirect' => route('staff.staff-room')
+                ]);
+            }
+
+            return redirect()->route('staff.staff-room');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Staff login validation error:', ['errors' => $e->errors()]);
@@ -919,15 +947,19 @@ class StaffController extends Controller
                 'confirmPassword' => 'required|string|same:newPassword',
             ]);
 
-            // Kiểm tra mật khẩu hiện tại (plain text)
-            if ($staff->password !== $validated['currentPassword']) {
+            $currentInput = $validated['currentPassword'];
+            $stored = $staff->password;
+            $isHashed = is_string($stored) && preg_match('/^\$2y\$\d{2}\$/', $stored);
+
+            $match = $isHashed ? Hash::check($currentInput, $stored) : hash_equals($stored, $currentInput);
+            if (!$match) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Mật khẩu hiện tại không chính xác!'
                 ], 400);
             }
 
-            // Cập nhật mật khẩu mới (plain text)
+            // Cập nhật mật khẩu mới (sẽ được hash bởi mutator)
             $staff->password = $validated['newPassword'];
             $staff->save();
 
@@ -1244,12 +1276,12 @@ class StaffController extends Controller
             $customer = Customer::findOrFail($id);
             
             // Check if customer has bookings
-            if ($customer->bookings()->count() > 0) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Không thể xóa khách hàng đã có đặt phòng'
-                ], 400);
-            }
+            // if ($customer->bookings()->count() > 0) {
+            //     return response()->json([
+            //         'success' => false,
+            //         'message' => 'Không thể xóa khách hàng đã có đặt phòng'
+            //     ], 400);
+            // }
 
             $customer->delete();
 

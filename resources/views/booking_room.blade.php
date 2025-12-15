@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -56,41 +57,42 @@
         #btn-add-room:hover {
             background: #45a049 !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
 
 </head>
+
 <body>
     <div class="booking-form-container">
         {{-- Hiển thị thông báo success/error --}}
         @if(session('success'))
-            <div style="background: #4caf50; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-                <i class="fas fa-check-circle"></i> {{ session('success') }}
-            </div>
+        <div style="background: #4caf50; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        </div>
         @endif
 
         @if(session('error'))
-            <div style="background: #f44336; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-                <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-            </div>
+        <div style="background: #f44336; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        </div>
         @endif
 
         @if($errors->any())
-            <div style="background: #f44336; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-                <ul style="margin: 0; padding-left: 20px;">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div style="background: #f44336; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <ul style="margin: 0; padding-left: 20px;">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
 
         <form id="booking-form" class="booking-form" action="{{ route('booking.store') }}" method="POST">
             @csrf
             <h2>Đặt phòng Leviosa Resort</h2>
             <p>Trải nghiệm kỳ nghỉ tuyệt vời tại ốc đảo của chúng tôi.</p>
-            
+
             <div class="form-row">
                 <div class="form-group">
                     <label for="check-in">Ngày nhận phòng</label>
@@ -112,11 +114,11 @@
                     <input type="number" id="children" name="children" value="0" min="0">
                 </div>
             </div>
-                <div class="button-group">
-                    <button type="button" id="btn-open-image-map" class="second-btn">
-                        Xem sơ đồ resort
-                    </button>
-                </div>
+            <div class="button-group">
+                <button type="button" id="btn-open-image-map" class="second-btn">
+                    Xem sơ đồ resort
+                </button>
+            </div>
 
             {{-- Container cho danh sách phòng đã chọn --}}
             <div id="selected-rooms-container">
@@ -130,19 +132,19 @@
                         <div class="form-group">
                             <label for="bed-type-0">Loại giường</label>
                             <select id="bed-type-0" name="rooms[0][bed-type]" class="bed-type-select" disabled>
-                                <option value="any">-- Chọn loại giường --</option> 
+                                <option value="any">-- Chọn loại giường --</option>
                                 <option value="double">Giường Đôi (Double)</option>
                                 <option value="single">Giường Đơn (Single)</option>
                                 <option value="mixed">Nhiều loại (Mixed)</option>
                             </select>
                         </div>
-                        <div class="form-group group-bed-count-total"> 
+                        <div class="form-group group-bed-count-total">
                             <label for="bed-count-0">Số lượng giường (Tổng)</label>
                             <select id="bed-count-0" name="rooms[0][bed-count]" class="bed-count-select" disabled>
                                 <option value="any">-- Chọn số giường --</option>
                                 @for ($i = 1; $i <= 8; $i++)
                                     <option value="{{ $i }}">{{ $i }} giường</option>
-                                @endfor
+                                    @endfor
                             </select>
                         </div>
                     </div>
@@ -168,9 +170,9 @@
                             <option value="villa">Villa (Hồ bơi riêng)</option>
                         </select>
                     </div>
-                    
+
                     <input type="hidden" id="selected-room-id-0" name="rooms[0][selected-room-id]" class="selected-room-id">
-                    
+
                     {{-- Nút chọn phòng cho phòng này --}}
                     <div class="form-group" style="text-align: center;">
                         <button type="button" class="btn-open-room-selector secondary-btn" data-room-index="0">
@@ -189,19 +191,19 @@
 
             <div class="form-group">
                 <label for="full-name">Họ và tên</label>
-                <input type="text" id="full-name" name="full-name" 
-                       placeholder="Ví dụ: Nguyễn Văn A" 
-                       value="{{ $user->FullName ?? '' }}"
-                       {{ $user ? 'readonly' : '' }} 
-                       required>
+                <input type="text" id="full-name" name="full-name"
+                    placeholder="Ví dụ: Nguyễn Văn A"
+                    value="{{ $user->FullName ?? '' }}"
+                    {{ $user ? 'readonly' : '' }}
+                    required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" 
-                       placeholder="email@example.com" 
-                       value="{{ $user->Email ?? '' }}"
-                       {{ $user ? 'readonly' : '' }} 
-                       required>
+                <input type="email" id="email" name="email"
+                    placeholder="email@example.com"
+                    value="{{ $user->Email ?? '' }}"
+                    {{ $user ? 'readonly' : '' }}
+                    required>
             </div>
 
             <div class="booking-summary">
@@ -216,10 +218,10 @@
     <div id="room-map-modal" class="modal-overlay">
         <div class="modal-content large">
             <button id="modal-close-btn" class="modal-close">&times;</button>
-            
+
             <h3>Sơ đồ Resort Leviosa</h3>
             <p>Vui lòng chọn một phòng còn trống và phù hợp với số lượng khách.</p>
-            
+
             <div class="room-map-legend">
                 <div class="legend-item">
                     <span class="room-box-legend available"></span> Khả dụng
@@ -240,7 +242,7 @@
 
             <div id="map-areas-container" class="map-areas-content">
             </div>
-            
+
             <button id="btn-confirm-room" class="submit-btn" disabled>Xác nhận phòng</button>
         </div>
     </div>
@@ -249,9 +251,9 @@
     <div id="image-map-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="image-map-close-btn" class="modal-close">&times;</button>
-            
+
             <h3>SƠ ĐỒ TỔNG QUAN LEVIOSA RESORT</h3>
-            
+
             <img src="{{ asset('assets/images/Resort Map.png') }}" alt="Sơ đồ tổng quan Leviosa Resort">
         </div>
     </div>
@@ -259,28 +261,28 @@
     <script>
         // Biến đếm số phòng
         let roomCount = 1;
-        
+
         // Biến lưu index của phòng đang được chọn
         let currentRoomIndex = null;
 
         // Hàm mở modal chọn phòng cho phòng cụ thể
         window.openRoomSelectorForRoom = function(roomIndex) {
             currentRoomIndex = roomIndex;
-            
+
             // Lấy ngày check-in và check-out
             const checkIn = document.getElementById('check-in').value;
             const checkOut = document.getElementById('check-out').value;
-            
+
             if (!checkIn || !checkOut) {
                 alert('Vui lòng chọn ngày nhận và trả phòng trước khi chọn phòng.');
                 return;
             }
-            
+
             if (new Date(checkOut) <= new Date(checkIn)) {
                 alert('Ngày trả phòng phải sau ngày nhận phòng.');
                 return;
             }
-            
+
             // Mở modal (sẽ gọi hàm trong booking_room.js)
             const event = new CustomEvent('openRoomModal', {
                 detail: {
@@ -305,11 +307,11 @@
         document.getElementById('btn-add-room').addEventListener('click', function() {
             const container = document.getElementById('selected-rooms-container');
             const newIndex = roomCount;
-            
+
             const roomItem = document.createElement('div');
             roomItem.className = 'room-selection-item';
             roomItem.setAttribute('data-room-index', newIndex);
-            
+
             roomItem.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <h4 style="margin: 0; color: #1a237e;">Phòng ${newIndex + 1}</h4>
@@ -369,10 +371,10 @@
                     </button>
                 </div>
             `;
-            
+
             container.appendChild(roomItem);
             roomCount++;
-            
+
             // Thông báo
             alert(`Đã thêm Phòng ${newIndex + 1}. Vui lòng chọn phòng trên sơ đồ resort.`);
         });
@@ -406,7 +408,7 @@
                 const roomItem = e.target.closest('.room-selection-item');
                 const mixedDetails = roomItem.querySelector('.group-bed-mixed-details');
                 const bedCountTotal = roomItem.querySelector('.group-bed-count-total');
-                
+
                 if (e.target.value === 'mixed') {
                     mixedDetails.style.display = 'flex';
                     bedCountTotal.style.display = 'none';
@@ -418,4 +420,5 @@
         });
     </script>
 </body>
+
 </html>

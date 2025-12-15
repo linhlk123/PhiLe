@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Quản lý hóa đơn - Resort</title>
+  <title>Quản lý hóa đơn - Leviosa Resort</title>
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/staff.new.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,7 +15,7 @@
       border-radius: 10px;
       padding: 20px;
       margin: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .invoice-tools {
@@ -163,6 +164,7 @@
     }
   </style>
 </head>
+
 <body>
   <header class="staff-header">
     <h1>Quản lý hóa đơn</h1>
@@ -189,7 +191,7 @@
 
   <div style="display: flex; gap: 20px;">
     <!-- Danh mục panel -->
-    <div style="width: 250px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
+    <div style="width: 270px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
       <h3 style="margin-top: 0; color: #1d5a2e; border-bottom: 2px solid #1d5a2e; padding-bottom: 10px;">Danh mục</h3>
       <ul style="list-style: none; padding: 0;">
         <li style="margin: 10px 0;">
@@ -227,23 +229,41 @@
             <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
           </a>
         </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('welcome') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Welcome
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('policy') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Điều khoản & chính sách
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('feedback') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Phản ánh ý kiến
+          </a>
+        </li>
       </ul>
     </div>
 
     <!-- Main content -->
     <div style="flex: 1;">
       <nav class="top-nav">
-        <ul>
+        {{-- <ul>
           <li><a href="{{ route('staff.staff-room') }}">Quản lý phòng</a></li>
           <li><a href="{{ route('staff.booking') }}">Quản lý đặt phòng</a></li>
           <li><a href="{{ route('staff.invoice') }}" class="active">Quản lý hóa đơn</a></li>
-        </ul>
+          <li><a href="{{ route('welcome') }}">Welcome</a></li>
+          <li><a href="{{ route('policy') }}">Điều khoản & chính sách</a></li>
+          <li><a href="{{ route('feedback') }}">Phản ánh ý kiến</a></li>
+        </ul> --}}
       </nav>
 
       <div class="invoice-table-container">
         <div class="invoice-tools">
-          <input type="text" id="invoiceSearch" placeholder="Tìm kiếm hóa đơn..." 
-                style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 300px;">
+          <input type="text" id="invoiceSearch" placeholder="Tìm kiếm hóa đơn..."
+            style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 300px;">
           <button id="addInvoiceBtn" class="btn btn-primary">+ Thêm hóa đơn</button>
         </div>
 
@@ -271,10 +291,10 @@
               <td>{{ $payment->RoomNumbers ?? 'N/A' }}</td>
               <td>
                 @if($payment->CheckInDate && $payment->CheckOutDate)
-                  {{ \Carbon\Carbon::parse($payment->CheckInDate)->format('d/m/Y') }} - 
-                  {{ \Carbon\Carbon::parse($payment->CheckOutDate)->format('d/m/Y') }}
+                {{ \Carbon\Carbon::parse($payment->CheckInDate)->format('d/m/Y') }} -
+                {{ \Carbon\Carbon::parse($payment->CheckOutDate)->format('d/m/Y') }}
                 @else
-                  N/A
+                N/A
                 @endif
               </td>
               <td>{{ \Carbon\Carbon::parse($payment->PaymentDate)->format('d/m/Y H:i') }}</td>
@@ -321,12 +341,12 @@
           <select id="bookingId" required>
             <option value="">Chọn mã đặt phòng</option>
             @foreach($bookings as $booking)
-            <option value="{{ $booking->BookingID }}" 
-                    data-customer="{{ $booking->CustomerName ?? 'N/A' }}"
-                    data-rooms="{{ $booking->RoomNumbers ?? 'N/A' }}"
-                    data-room-total="{{ $booking->RoomTotal ?? 0 }}"
-                    data-service-total="{{ $booking->ServiceTotal ?? 0 }}"
-                    data-amount="{{ $booking->TotalAmount ?? 0 }}">
+            <option value="{{ $booking->BookingID }}"
+              data-customer="{{ $booking->CustomerName ?? 'N/A' }}"
+              data-rooms="{{ $booking->RoomNumbers ?? 'N/A' }}"
+              data-room-total="{{ $booking->RoomTotal ?? 0 }}"
+              data-service-total="{{ $booking->ServiceTotal ?? 0 }}"
+              data-amount="{{ $booking->TotalAmount ?? 0 }}">
               Booking #{{ $booking->BookingID }} - {{ $booking->CustomerName ?? 'N/A' }} (Phòng: {{ $booking->RoomNumbers ?? 'N/A' }})
             </option>
             @endforeach
@@ -389,12 +409,12 @@
       // User dropdown functionality
       const dropdownToggle = document.querySelector('.dropdown-toggle');
       const dropdownMenu = document.querySelector('.dropdown-menu');
-      
+
       dropdownToggle.addEventListener('click', function(e) {
         e.stopPropagation();
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
       });
-      
+
       document.addEventListener('click', function(e) {
         if (!e.target.closest('.user-dropdown')) {
           dropdownMenu.style.display = 'none';
@@ -410,7 +430,7 @@
           const roomTotal = parseFloat(selectedOption.getAttribute('data-room-total')) || 0;
           const serviceTotal = parseFloat(selectedOption.getAttribute('data-service-total')) || 0;
           const totalAmount = parseFloat(selectedOption.getAttribute('data-amount')) || 0;
-          
+
           document.getElementById('customerName').value = customerName;
           document.getElementById('roomNumbers').value = roomNumbers;
           document.getElementById('roomTotal').value = roomTotal.toLocaleString('vi-VN') + ' VNĐ';
@@ -449,7 +469,7 @@
 
       invoiceForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const paymentId = document.getElementById('paymentId').value;
         const formData = {
           bookingId: document.getElementById('bookingId').value,
@@ -459,41 +479,41 @@
           paymentStatus: document.getElementById('paymentStatus').value
         };
 
-        const url = paymentId 
-          ? `/staff/invoice/${paymentId}` 
-          : '/staff/invoice';
-        
+        const url = paymentId ?
+          `/staff/invoice/${paymentId}` :
+          '/staff/invoice';
+
         const method = paymentId ? 'PUT' : 'POST';
 
         fetch(url, {
-          method: method,
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert(data.message);
-            location.reload();
-          } else {
-            alert('Lỗi: ' + data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Có lỗi xảy ra khi lưu hóa đơn!');
-        });
+            method: method,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrfToken,
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert(data.message);
+              location.reload();
+            } else {
+              alert('Lỗi: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi lưu hóa đơn!');
+          });
       });
 
       // Search functionality
       invoiceSearch.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
         const rows = document.querySelectorAll('#invoiceTableBody tr');
-        
+
         rows.forEach(row => {
           const text = row.textContent.toLowerCase();
           row.style.display = text.includes(searchTerm) ? '' : 'none';
@@ -503,39 +523,39 @@
       // Global functions
       window.editInvoice = function(id) {
         fetch(`/staff/invoice/${id}`, {
-          headers: {
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': csrfToken
-          }
-        })
-        .then(response => response.json())
-        .then(payment => {
-          document.getElementById('invoiceModalTitle').textContent = 'Chỉnh sửa hóa đơn';
-          document.getElementById('paymentId').value = payment.PaymentID;
-          document.getElementById('bookingId').value = payment.BookingID;
-          document.getElementById('customerName').value = payment.CustomerName || 'N/A';
-          document.getElementById('roomNumbers').value = payment.RoomNumbers || 'N/A';
-          
-          // Hiển thị chi phí phòng và chi phí dịch vụ
-          const roomTotal = parseFloat(payment.RoomTotal) || 0;
-          const serviceTotal = parseFloat(payment.ServiceTotal) || 0;
-          document.getElementById('roomTotal').value = roomTotal.toLocaleString('vi-VN') + ' VNĐ';
-          document.getElementById('serviceTotal').value = serviceTotal.toLocaleString('vi-VN') + ' VNĐ';
-          
-          // Format datetime for input
-          const date = new Date(payment.PaymentDate);
-          document.getElementById('paymentDate').value = date.toISOString().slice(0, 16);
-          
-          document.getElementById('amount').value = payment.Amount;
-          document.getElementById('paymentMethod').value = payment.PaymentMethod;
-          document.getElementById('paymentStatus').value = payment.PaymentStatus;
+            headers: {
+              'Accept': 'application/json',
+              'X-CSRF-TOKEN': csrfToken
+            }
+          })
+          .then(response => response.json())
+          .then(payment => {
+            document.getElementById('invoiceModalTitle').textContent = 'Chỉnh sửa hóa đơn';
+            document.getElementById('paymentId').value = payment.PaymentID;
+            document.getElementById('bookingId').value = payment.BookingID;
+            document.getElementById('customerName').value = payment.CustomerName || 'N/A';
+            document.getElementById('roomNumbers').value = payment.RoomNumbers || 'N/A';
 
-          invoiceModal.style.display = 'block';
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Có lỗi xảy ra khi tải thông tin hóa đơn!');
-        });
+            // Hiển thị chi phí phòng và chi phí dịch vụ
+            const roomTotal = parseFloat(payment.RoomTotal) || 0;
+            const serviceTotal = parseFloat(payment.ServiceTotal) || 0;
+            document.getElementById('roomTotal').value = roomTotal.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('serviceTotal').value = serviceTotal.toLocaleString('vi-VN') + ' VNĐ';
+
+            // Format datetime for input
+            const date = new Date(payment.PaymentDate);
+            document.getElementById('paymentDate').value = date.toISOString().slice(0, 16);
+
+            document.getElementById('amount').value = payment.Amount;
+            document.getElementById('paymentMethod').value = payment.PaymentMethod;
+            document.getElementById('paymentStatus').value = payment.PaymentStatus;
+
+            invoiceModal.style.display = 'block';
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi tải thông tin hóa đơn!');
+          });
       };
 
       window.deleteInvoice = function(id) {
@@ -544,25 +564,25 @@
         }
 
         fetch(`/staff/invoice/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json'
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert(data.message);
-            location.reload();
-          } else {
-            alert('Lỗi: ' + data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Có lỗi xảy ra khi xóa hóa đơn!');
-        });
+            method: 'DELETE',
+            headers: {
+              'X-CSRF-TOKEN': csrfToken,
+              'Accept': 'application/json'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert(data.message);
+              location.reload();
+            } else {
+              alert('Lỗi: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi xóa hóa đơn!');
+          });
       };
 
       window.printInvoice = function(id) {
@@ -574,4 +594,5 @@
     });
   </script>
 </body>
+
 </html>

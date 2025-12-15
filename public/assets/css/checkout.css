@@ -1,0 +1,321 @@
+/* ================================================= */
+/* 1. GLOBAL VARIABLES & AESTHETIC ENHANCEMENTS      */
+/* ================================================= */
+
+:root {
+    --clr-primary: #184f2b;
+    --clr-secondary: #184f2b;
+    --clr-background: #f6f8f2;
+    --clr-header-bg: #d0e5b4;
+    --clr-danger: #c0392b;
+    --clr-sec: var(--clr-primary);
+    --white: #ffffff;
+    --border-radius-lg: 20px;
+    --border-radius-sm: 8px;
+    --transition: 0.4s ease;
+}
+
+/* ================================================= */
+/* 4. PAYMENT STYLES - AESTHETIC ENHANCEMENTS        */
+/* ================================================= */
+
+.payment-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    min-height: 100vh;
+    background-image: url("../images/background_payment.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.payment-card {
+    background: white;
+    width: 600px;
+    padding: 32px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--clr-primary);
+    margin-bottom: 25px;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--clr-primary);
+    margin-bottom: 15px;
+}
+
+.payment-section {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d9e8d9;
+}
+
+/* KHỐI CUSTOMER INFO */
+.customer-info .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed #d9e8d9;
+    font-size: 15px;
+}
+.customer-info strong {
+    color: var(--clr-primary);
+    font-weight: 600;
+}
+
+.info-log {
+    color: var(--clr-danger);
+    font-weight: 600;
+}
+
+.info-log a {
+    color: var(--clr-primary);
+    text-decoration: underline;
+}
+
+/* KHỐI COUPON SECTION */
+.coupon-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.coupon-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius-sm);
+    font-size: 16px;
+}
+.btn-apply {
+    padding: 10px 15px;
+    background-color: var(--clr-secondary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+.btn-apply:hover {
+    background-color: #a86c25;
+}
+.coupon-message.success {
+    color: #0c8b4a;
+    font-style: italic;
+    font-size: 14px;
+}
+.coupon-message.error {
+    color: var(--clr-danger);
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* ITEM BOXES */
+.item-box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: var(--clr-background);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid #d8e8d6;
+    transition: box-shadow 0.3s ease, border-color 0.3s;
+}
+.item-box:hover {
+    box-shadow: 0 4px 12px rgba(24, 79, 43, 0.08);
+    border-color: var(--clr-primary);
+}
+
+.item-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d4f34;
+}
+
+.item-desc {
+    font-size: 14px;
+    color: #556b5f;
+}
+
+.item-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--clr-primary);
+}
+
+.empty-text {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+/* SUMMARY */
+.payment-summary {
+    background: #f0fbf0;
+    padding: 20px;
+    border: 2px solid var(--clr-primary);
+    border-radius: var(--border-radius-sm);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #badcba;
+    font-weight: bold;
+    color: var(--clr-danger);
+}
+
+.summary-row .discount {
+    color: var(--clr-danger);
+    font-weight: bold;
+}
+
+/* ================================================= */
+/* 5. KHỐI THANH TOÁN (CARD/QR)                      */
+/* ================================================= */
+
+.payment-details {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 1px solid #d9e8d9;
+    border-radius: var(--border-radius-sm);
+    background: var(--clr-background);
+}
+
+.payment-method-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.payment-method-content.active {
+    display: block;
+}
+
+.card-form .form-group {
+    margin-bottom: 15px;
+}
+.card-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.card-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius-sm);
+    box-sizing: border-box;
+}
+.card-form .half-width {
+    display: flex;
+    gap: 20px;
+}
+.card-form .half-width > div {
+    flex: 1;
+}
+
+.qr-box {
+    text-align: center;
+    padding: 15px;
+}
+.qr-image {
+    width: 200px;
+    height: auto;
+    border: 5px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+.qr-note {
+    font-size: 15px;
+    color: var(--clr-primary);
+    margin-bottom: 5px;
+}
+
+/* NÚT THANH TOÁN */
+
+.payment-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-pay {
+    flex: 1;
+    text-align: center;
+    padding: 14px;
+    background: var(--clr-background);
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--red);
+    text-decoration: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.btn-pay.card {
+    background: #1d5c3d;
+}
+
+/* TRẠNG THÁI VÔ HIỆU HÓA  */
+.btn-pay.btn-disabled,
+.btn-pay:disabled {
+    background-color: var(--clr-primary, #184f2b) !important;
+    color: var(--white) !important;
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+/* nút xác nhận thanh toán */
+.confirm-payment {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn-confirm-pay {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #1d5c3d, #2f8f63);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-confirm-pay:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+/* HIỆU ỨNG CHUYỂN ĐỘNG */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

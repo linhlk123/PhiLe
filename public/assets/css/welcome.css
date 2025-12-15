@@ -1,0 +1,55 @@
+/* HERO SECTION */
+.welcome-hero {
+    height: 100vh;
+    background-image: url("/assets/images/BG_Welcome.png");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Lớp phủ tối để chữ dễ đọc */
+.welcome-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.welcome-content {
+    position: relative;
+    text-align: center;
+    color: #fff;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.welcome-content h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.welcome-content p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.welcome-btn {
+    display: inline-block;
+    padding: 14px 36px;
+    background-color: #c9a14a;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.welcome-btn:hover {
+    background-color: #b08c3a;
+}

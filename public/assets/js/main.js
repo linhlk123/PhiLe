@@ -57,30 +57,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ====== FORM VALIDATION ======
-  const forms = document.querySelectorAll("form");
-  forms.forEach(form => {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const inputs = this.querySelectorAll("[required]");
-      let isValid = true;
+  // // ====== FORM VALIDATION ======
+  // const forms = document.querySelectorAll("form");
+  // forms.forEach(form => {
+  //   form.addEventListener("submit", function (e) {
+  //     e.preventDefault();
+  //     const inputs = this.querySelectorAll("[required]");
+  //     let isValid = true;
 
-      inputs.forEach(input => {
-        if (!input.value.trim()) {
-          isValid = false;
-          input.classList.add("error");
-        } else {
-          input.classList.remove("error");
-        }
-      });
+  //     inputs.forEach(input => {
+  //       if (!input.value.trim()) {
+  //         isValid = false;
+  //         input.classList.add("error");
+  //       } else {
+  //         input.classList.remove("error");
+  //       }
+  //     });
 
-      if (isValid) {
-        console.log("Form submitted");
-        this.reset();
-        showNotification("Cảm ơn bạn đã liên hệ!");
-      }
-    });
-  });
+  //     if (isValid) {
+  //       console.log("Form submitted");
+  //       this.reset();
+  //       showNotification("Cảm ơn bạn đã liên hệ!");
+  //     }
+  //   });
+  // });
 
   function showNotification(message) {
     const notification = document.createElement("div");

@@ -53,6 +53,12 @@ class Booking extends Model
         return $this->hasMany(ServiceUsage::class, 'BookingID');
     }
 
+    // Alias cho serviceUsages
+    public function services()
+    {
+        return $this->hasMany(ServiceUsage::class, 'BookingID');
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class, 'BookingID', 'BookingID');

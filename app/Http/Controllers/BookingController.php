@@ -118,8 +118,8 @@ class BookingController extends Controller
 
             $roomList = implode(', ', $roomNumbers);
             return redirect()->back()->with('success', 
-                "Đặt phòng thành công! Mã đặt phòng: #{$booking->BookingID}<br>" .
-                "Phòng: {$roomList}<br>" .
+                "Đặt phòng thành công! Mã đặt phòng: #{$booking->BookingID}" .
+                "Phòng: {$roomList}" .
                 "Tổng tiền: " . number_format($totalBookingAmount, 0, ',', '.') . " VNĐ"
             );
 
@@ -173,6 +173,66 @@ class BookingController extends Controller
                 'success' => false,
                 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * Checkin page: join BOOKING_ROOMS, BOOKINGS, ROOMS, ROOM_TYPES
+     */
+    public function showCheckinPage()
+    {
+        $customer = auth()->guard('customer')->user();
+        $customerName = $customer ? $customer->FullName ?? ($customer->CustomerName ?? '') : '';
+
+        $bookingRooms = DB::table('BOOKING_ROOMS as br')
+            ->join('BOOKINGS as b', 'b.BookingID', '=', 'br.BookingID')
+            ->join('ROOMS as r', 'r.RoomID', '=', 'br.RoomID')
+            ->join('ROOM_TYPES as rt', 'rt.RoomTypeID', '=', 'r.RoomTypeID')
+            ->select(
+                'br.RoomID',
+                'br.CheckInDate',
+                'br.CheckOutDate',
+                'br.TotalAmount',
+                'b.AdultAmount',
+                'b.ChildAmount',
+                'b.BookingID',
+                'b.Status',
+                'r.RoomNumber',
+                'rt.TypeName'
+            )
+            ->when($customer, function($q) use ($customer) {
+                // chỉ lấy booking của customer đang đăng nhập nếu có
+                $q->where('b.CustomerID', $customer->CustomerID);
+            })
+            ->orderBy('br.CheckInDate', 'desc')
+            ->get();
+
+        return view('checkin', compact('bookingRooms', 'customerName'));
+    }
+
+    /**
+     * Perform Checkin: update BOOKINGS.Status => 'CheckedIn'
+     */
+    public function performCheckin($bookingId)
+    {
+        try {
+            DB::table('BOOKINGS')->where('BookingID', $bookingId)->update(['Status' => 'CheckedIn']);
+            return redirect()->route('checkin.page')->with('success', 'Checkin thành công.');
+        } catch (\Exception $e) {
+            return redirect()->route('checkin.page')->with('error', 'Lỗi: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Cancel Checkin: update BOOKINGS.Status => 'Pending'
+     */
+    public function cancelCheckin($bookingId)
+    {
+        try {
+            DB::table('BOOKINGS')->where('BookingID', $bookingId)->update(['Status' => 'Pending']);
+            return redirect()->route('checkin.page')->with('success', 'Đã hủy Checkin.');
+        } catch (\Exception $e) {
+            return redirect()->route('checkin.page')->with('error', 'Lỗi: ' . $e->getMessage());
         }
     }
 }

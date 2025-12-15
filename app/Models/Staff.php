@@ -6,6 +6,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Illuminate\Support\Facades\Hash;
+
 class Staff extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -31,9 +33,13 @@ class Staff extends Authenticatable
         return $this->hasMany(Booking::class, 'StaffID');
     }
 
-    // ⚠ Không mã hoá mật khẩu khi lưu
+    // Tự hash khi gán Password (tránh quên)
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = $value;
+        if (is_string($value) && !preg_match('/^\$2y\$\d{2}\$/', $value)) {
+            $this->attributes['password'] = Hash::make($value);
+        } else {
+            $this->attributes['password'] = $value;
+        }
     }
 }

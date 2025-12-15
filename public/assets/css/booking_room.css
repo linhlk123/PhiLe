@@ -8,7 +8,7 @@
     align-items: center;
     padding: 60px 20px; /* Thêm khoảng đệm trên/dưới */
     min-height: 100vh;
-    background-image: url('../images/background.jpg'); 
+    background-image: url('../images/BG_BookingForm.jpg'); 
     background-size: cover; /* Đảm bảo ảnh phủ kín */
     background-position: center center; /* Căn giữa ảnh */
     background-repeat: no-repeat; /* Không lặp lại ảnh */

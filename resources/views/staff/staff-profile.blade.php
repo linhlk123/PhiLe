@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Thông tin cá nhân - Resort</title>
+  <title>Thông tin cá nhân - Leviosa Resort</title>
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/staff.new.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,7 +15,7 @@
       border-radius: 10px;
       padding: 20px;
       margin: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .profile-header {
@@ -139,7 +140,7 @@
       top: 100%;
       background: white;
       border-radius: 5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       width: 150px;
       z-index: 1000;
     }
@@ -198,6 +199,7 @@
     }
   </style>
 </head>
+
 <body>
   <header class="staff-header">
     <h1>Thông tin cá nhân</h1>
@@ -224,7 +226,7 @@
 
   <div style="display: flex; gap: 20px;">
     <!-- Danh mục panel -->
-    <div style="width: 250px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
+    <div style="width: 270px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
       <h3 style="margin-top: 0; color: #1d5a2e; border-bottom: 2px solid #1d5a2e; padding-bottom: 10px;">Danh mục</h3>
       <ul style="list-style: none; padding: 0;">
         <li style="margin: 10px 0;">
@@ -250,33 +252,52 @@
         <li style="margin: 10px 0;">
           <a href="{{ route('staff.service') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
             <i class="fas fa-concierge-bell" style="margin-right: 8px;"></i>Quản lý dịch vụ
-        </a>
-      </li>
-      <li style="margin: 10px 0;">
-        <a href="{{ route('staff.invoice') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
-          <i class="fas fa-file-invoice-dollar" style="margin-right: 8px;"></i>Quản lý hóa đơn
-        </a>
-      </li>
-      <li style="margin: 10px 0;">
-        <a href="{{ route('staff.profile') }}" style="text-decoration: none; color: #1d5a2e; display: block; padding: 8px 12px; border-radius: 5px; background: rgba(29, 90, 46, 0.1); transition: all 0.3s;">
-          <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
-        </a>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Main content -->
-  <div style="flex: 1;">
-    <nav class="top-nav">
-      <ul>
-        <li><a href="{{ route('staff.staff-room') }}">Quản lý phòng</a></li>
-        <li><a href="{{ route('staff.booking') }}">Quản lý đặt phòng</a></li>
-        <li><a href="{{ route('staff.customer') }}">Quản lý khách hàng</a></li>
-        <li><a href="{{ route('staff.employee') }}">Quản lý nhân viên</a></li>
-        <li><a href="{{ route('staff.service') }}">Quản lý dịch vụ</a></li>
-        <li><a href="{{ route('staff.invoice') }}">Quản lý hóa đơn</a></li>
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('staff.invoice') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-file-invoice-dollar" style="margin-right: 8px;"></i>Quản lý hóa đơn
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('staff.profile') }}" style="text-decoration: none; color: #1d5a2e; display: block; padding: 8px 12px; border-radius: 5px; background: rgba(29, 90, 46, 0.1); transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('welcome') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Welcome
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('policy') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Điều khoản & chính sách
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('feedback') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Phản ánh ý kiến
+          </a>
+        </li>
       </ul>
-    </nav>      <div class="profile-container">
+    </div>
+
+    <!-- Main content -->
+    <div style="flex: 1;">
+      <nav class="top-nav">
+        <ul>
+          <li><a href="{{ route('staff.staff-room') }}">Quản lý phòng</a></li>
+          <li><a href="{{ route('staff.booking') }}">Quản lý đặt phòng</a></li>
+          <li><a href="{{ route('staff.customer') }}">Quản lý khách hàng</a></li>
+          <li><a href="{{ route('staff.employee') }}">Quản lý nhân viên</a></li>
+          <li><a href="{{ route('staff.service') }}">Quản lý dịch vụ</a></li>
+          <li><a href="{{ route('staff.invoice') }}">Quản lý hóa đơn</a></li>
+          <li><a href="{{ route('welcome') }}">Welcome</a></li>
+          <li><a href="{{ route('policy') }}">Điều khoản & chính sách</a></li>
+          <li><a href="{{ route('feedback') }}">Phản ánh ý kiến</a></li>
+        </ul>
+      </nav>
+      <div class="profile-container">
         <div class="profile-header">
           <div class="profile-avatar">
             <i class="fas fa-user"></i>
@@ -380,7 +401,7 @@
       const profileForm = document.getElementById('profileForm');
       profileForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const formData = new FormData(this);
         const data = {};
         formData.forEach((value, key) => {
@@ -388,26 +409,26 @@
         });
 
         fetch('/staff/profile', {
-          method: 'PUT',
-          headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert('Thông tin đã được cập nhật thành công!');
-            location.reload();
-          } else {
-            alert('Có lỗi xảy ra: ' + data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Có lỗi xảy ra khi cập nhật thông tin');
-        });
+            method: 'PUT',
+            headers: {
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Thông tin đã được cập nhật thành công!');
+              location.reload();
+            } else {
+              alert('Có lỗi xảy ra: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi cập nhật thông tin');
+          });
       });
 
       // Change password modal functionality
@@ -452,28 +473,29 @@
         });
 
         fetch('/staff/change-password', {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert('Mật khẩu đã được thay đổi thành công!');
-            closeModal();
-          } else {
-            alert('Có lỗi xảy ra: ' + data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Có lỗi xảy ra khi đổi mật khẩu');
-        });
+            method: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Mật khẩu đã được thay đổi thành công!');
+              closeModal();
+            } else {
+              alert('Có lỗi xảy ra: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi đổi mật khẩu');
+          });
       });
     });
   </script>
 </body>
+
 </html>

@@ -3,16 +3,16 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="{{ asset('assets/images/LEVIOSA_logo.png') }}" alt="Legacy Hoi An Resort">
+                    <img src="{{ asset('assets/images/LEVIOSA_logo.png') }}" alt="Leviosa Resort">
                 </div>
-                
+
                 <div class="footer-info">
-                    <h4>LEGACY HOI AN RESORT</h4>
-                    <p>Cẩm Thanh, Hội An, Quảng Nam, Việt Nam</p>
-                    <p>Email: info@legacyhoian.com</p>
+                    <h4>LEVIOSA RESORT</h4>
+                    <p>Khu phố 6, phường Linh Trung, Thủ Đức, TP.Hồ Chí Minh</p>
+                    <p>Email: info@leviosa.com</p>
                     <p>Tel: +84 235 3927 999</p>
                 </div>
-                
+
                 <div class="footer-links">
                     <h4>Liên Kết Nhanh</h4>
                     <ul>
@@ -22,7 +22,7 @@
                         <li><a href="#">Liên hệ</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-social">
                     <h4>Theo Dõi Chúng Tôi</h4>
                     <div class="social-icons">
@@ -33,9 +33,9 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p>&copy; 2025 Legacy Hoi An Resort. All rights reserved.</p>
+                <p>&copy; 2025 Leviosa Resort. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -52,5 +52,6 @@
 
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/js/booking.js') }}"></script>
-</body>
-</html>
+    </body>
+
+    </html>

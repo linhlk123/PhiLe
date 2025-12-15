@@ -1,0 +1,56 @@
+/* ===== TERMS PAGE ===== */
+.terms-section {
+    padding: 80px 10%;
+    background: #f9f9f6;
+}
+
+/* CONTAINER CHUNG */
+.terms-container {
+    background: #fff;
+    padding: 50px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* HEADER 2 */
+.terms-container h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #2f3e2f;
+}
+
+/* TEXT */
+.terms-container p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* LIST */
+.terms-container ul {
+    padding-left: 20px;
+}
+
+.terms-container ul li {
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .terms-section {
+        padding: 60px 6%;
+    }
+
+    .terms-container {
+        padding: 35px 25px;
+    }
+
+    .terms-container h2 {
+        font-size: 24px;
+    }
+}

@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -44,7 +45,7 @@ class CustomerController extends Controller
                 'Email' => $validated['Email'],
                 'IDNumber' => $validated['IDNumber'],
                 'Address' => $validated['Address'],
-                'Password' => $validated['password'], // <-- chữ P hoa đúng theo DB
+                'Password' => $validated['password'],
             ]);
 
             Log::info('Customer created successfully:', ['id' => $customer->CustomerID]);
@@ -91,27 +92,23 @@ class CustomerController extends Controller
 
             $customer = Customer::where('Email', $validated['Email'])->first();
 
-            if (!$customer) {
-                Log::warning('Customer not found for email:', ['email' => $validated['Email']]);
+            // So sánh với mật khẩu đã băm
+            if (!$customer || !Hash::check($validated['password'], $customer->Password)) {
+                Log::warning('Customer login failed', ['email' => $validated['Email']]);
                 return response()->json([
                     'success' => false,
                     'message' => 'Email hoặc mật khẩu không chính xác.'
                 ], 401);
             }
 
-            // So sánh password text
-            if ($customer->Password === $validated['password']) {
-                Log::info('Password matches for customer:', ['id' => $customer->CustomerID]);
+            Auth::guard('customer')->login($customer);
+            $request->session()->regenerate();
 
-                Auth::guard('customer')->login($customer);
-                $request->session()->regenerate();
-
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Đăng nhập thành công!',
-                    'redirect' => route('home')
-                ]);
-            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng nhập thành công!',
+                'redirect' => route('home')
+            ]);
 
             Log::warning('Password mismatch for customer:', [
                 'id' => $customer->CustomerID,
@@ -122,7 +119,6 @@ class CustomerController extends Controller
                 'success' => false,
                 'message' => 'Email hoặc mật khẩu không chính xác.'
             ], 401);
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation error:', ['errors' => $e->errors()]);
             return response()->json([
@@ -144,10 +140,44 @@ class CustomerController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::guard('customer')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        try {
+            $customer = Auth::guard('customer')->user();
+            if ($customer) {
+                Log::info('Customer logout', ['id' => $customer->CustomerID, 'email' => $customer->Email]);
+            }
 
-        return redirect('/');
+            Auth::guard('customer')->logout();
+
+            // Hủy toàn bộ session cũ
+            $request->session()->invalidate();
+            // Tạo lại CSRF token
+            $request->session()->regenerateToken();
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đã đăng xuất',
+                    'redirect' => route('home')
+                ]);
+            }
+
+            return redirect()->route('home');
+        } catch (\Throwable $e) {
+            Log::error('Logout error', ['message' => $e->getMessage()]);
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lỗi đăng xuất'
+                ], 500);
+            }
+            return redirect()->route('home')->with('error', 'Lỗi đăng xuất');
+        }
+    }
+
+    public function showProfile()
+    {
+        $customer = Auth::guard('customer')->user();
+
+        return view('profile', compact('customer'));
     }
 }

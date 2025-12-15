@@ -22,4 +22,16 @@ class Room extends Model
     {
         return $this->belongsTo(RoomType::class, 'RoomTypeID', 'RoomTypeID');
     }
+
+    // Accessor để lấy giá phòng từ RoomType
+    public function getPricePerNightAttribute()
+    {
+        return $this->roomType ? $this->roomType->PricePerNight : 0;
+    }
+
+    // Accessor để lấy tên phòng
+    public function getRoomNameAttribute()
+    {
+        return $this->RoomNumber . ' - ' . ($this->roomType ? $this->roomType->TypeName : 'N/A');
+    }
 }

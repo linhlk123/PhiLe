@@ -28,3 +28,97 @@
     color: #1d5a2e;
     font-weight: 500;
 }
+
+.menu-toggle {
+    margin-left: -100px;
+}
+
+.logo {
+    margin-left: 200px;
+}
+
+.header-actions {
+    margin-right: -100px;
+}
+
+/* ===== MENU MOBILE ===== */
+.menu-close {
+    position: absolute;
+    top: 18px;
+    left: 250px;
+    background: transparent;
+    border: none;
+    font-size: 50px;
+    color: #1d5a2e;
+    cursor: pointer;
+    font-weight: 400;
+    z-index: 10;
+    width: 40px;
+}
+
+.menu-close:hover {
+    opacity: 0.6;
+}
+
+/* ===== Mới ===== */
+/* ===== OVERLAY ===== */
+.nav-wrapper {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+}
+
+.nav-wrapper.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+.nav-menu {
+    position: absolute;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    padding: 30px 20px;
+    transition: 0.3s ease;
+}
+
+.nav-wrapper.active .nav-menu {
+    left: 0;
+}
+
+/* DANH SÁCH MENU */
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+}
+
+.nav-list li {
+    margin-bottom: 16px;
+}
+
+.nav-list a {
+    text-decoration: none;
+    font-size: 25px;
+    color: #333;
+    font-weight: 500;
+}
+
+.nav-list a:hover {
+    color: #c9a14a;
+}
+
+.main-nav {
+    width: auto;
+    background: transparent !important;
+}
+

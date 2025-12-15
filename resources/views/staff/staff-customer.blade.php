@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Quản lý khách hàng - Resort</title>
+  <title>Quản lý khách hàng - Leviosa Resort</title>
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/staff.new.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,7 +14,7 @@
       padding: 20px;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       margin: 20px;
     }
 
@@ -189,7 +190,7 @@
       top: 100%;
       background: white;
       border-radius: 5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       width: 150px;
       z-index: 1000;
     }
@@ -239,6 +240,7 @@
     }
   </style>
 </head>
+
 <body>
   <header class="staff-header">
     <h1>Quản lý khách hàng</h1>
@@ -267,7 +269,7 @@
 
   <div style="display: flex; gap: 20px;">
     <!-- Danh mục panel -->
-    <div style="width: 250px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
+    <div style="width: 270px; background: white; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); height: fit-content;">
       <h3 style="margin-top: 0; color: #1d5a2e; border-bottom: 2px solid #1d5a2e; padding-bottom: 10px;">Danh mục</h3>
       <ul style="list-style: none; padding: 0;">
         <li style="margin: 10px 0;">
@@ -276,7 +278,7 @@
           </a>
         </li>
         <li style="margin: 10px 0;">
-          <a href="{{ route('staff.booking') }}" style="text-decoration: none; color: #1d5a2e; display: block; padding: 8px 12px; border-radius: 5px; background: rgba(29, 90, 46, 0.1); transition: all 0.3s;">
+          <a href="{{ route('staff.booking') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
             <i class="fas fa-calendar-check" style="margin-right: 8px;"></i>Quản lý đặt phòng
           </a>
         </li>
@@ -305,6 +307,21 @@
             <i class="fas fa-id-card" style="margin-right: 8px;"></i>Thông tin cá nhân
           </a>
         </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('welcome') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Welcome
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('policy') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Điều khoản & chính sách
+          </a>
+        </li>
+        <li style="margin: 10px 0;">
+          <a href="{{ route('feedback') }}" style="text-decoration: none; color: #455a64; display: block; padding: 8px 12px; border-radius: 5px; transition: all 0.3s;">
+            <i class="fas fa-id-card" style="margin-right: 8px;"></i>Phản ánh ý kiến
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -318,13 +335,16 @@
           <li><a href="{{ route('staff.employee') }}">Quản lý nhân viên</a></li>
           <li><a href="{{ route('staff.service') }}">Quản lý dịch vụ</a></li>
           <li><a href="{{ route('staff.invoice') }}">Quản lý hóa đơn</a></li>
+          <li><a href="{{ route('welcome') }}">Welcome</a></li>
+          <li><a href="{{ route('policy') }}">Điều khoản & chính sách</a></li>
+          <li><a href="{{ route('feedback') }}">Phản ánh ý kiến</a></li>
         </ul>
       </nav>
 
       <div class="staff-table-container">
         <div class="staff-tools">
-          <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng (tên, SĐT, email, CCCD)..." 
-                 style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 400px;">
+          <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng (tên, SĐT, email, CCCD)..."
+            style="padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 400px;">
           <button id="addCustomerBtn" class="btn btn-primary">
             <i class="fas fa-plus"></i> Thêm khách hàng
           </button>
@@ -345,29 +365,29 @@
           </thead>
           <tbody id="customerTableBody">
             @forelse($customers as $customer)
-              <tr data-id="{{ $customer->CustomerID }}">
-                <td>{{ $customer->CustomerID }}</td>
-                <td>{{ $customer->FullName }}</td>
-                <td>{{ $customer->Gender }}</td>
-                <td>{{ $customer->Phone }}</td>
-                <td>{{ $customer->Email }}</td>
-                <td>{{ $customer->IDNumber }}</td>
-                <td>{{ $customer->Address }}</td>
-                <td>
-                  <button onclick="editCustomer({{ $customer->CustomerID }})" class="btn btn-secondary">
-                    <i class="fas fa-edit"></i> Sửa
-                  </button>
-                  <button onclick="deleteCustomer({{ $customer->CustomerID }})" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Xóa
-                  </button>
-                </td>
-              </tr>
+            <tr data-id="{{ $customer->CustomerID }}">
+              <td>{{ $customer->CustomerID }}</td>
+              <td>{{ $customer->FullName }}</td>
+              <td>{{ $customer->Gender }}</td>
+              <td>{{ $customer->Phone }}</td>
+              <td>{{ $customer->Email }}</td>
+              <td>{{ $customer->IDNumber }}</td>
+              <td>{{ $customer->Address }}</td>
+              <td>
+                <button onclick="editCustomer({{ $customer->CustomerID }})" class="btn btn-secondary">
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button onclick="deleteCustomer({{ $customer->CustomerID }})" class="btn btn-danger">
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
             @empty
-              <tr>
-                <td colspan="8" style="text-align: center; padding: 20px; color: #999;">
-                  Chưa có khách hàng nào trong hệ thống
-                </td>
-              </tr>
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 20px; color: #999;">
+                Chưa có khách hàng nào trong hệ thống
+              </td>
+            </tr>
             @endforelse
           </tbody>
         </table>
@@ -384,12 +404,12 @@
             @csrf
             <input type="hidden" id="customerId" name="customer_id">
             <input type="hidden" id="formMethod" name="_method" value="POST">
-            
+
             <div class="form-group">
               <label for="customerName">Họ và tên *</label>
               <input type="text" id="customerName" name="FullName" required>
             </div>
-            
+
             <div class="form-group">
               <label for="customerGender">Giới tính *</label>
               <select id="customerGender" name="Gender" required>
@@ -398,32 +418,32 @@
                 <option value="Khác">Khác</option>
               </select>
             </div>
-            
+
             <div class="form-group">
               <label for="customerPhone">Số điện thoại *</label>
               <input type="tel" id="customerPhone" name="Phone" required>
             </div>
-            
+
             <div class="form-group">
               <label for="customerEmail">Email *</label>
               <input type="email" id="customerEmail" name="Email" required>
             </div>
-            
+
             <div class="form-group">
               <label for="customerIdNumber">CCCD/CMND *</label>
               <input type="text" id="customerIdNumber" name="IDNumber" required>
             </div>
-            
+
             <div class="form-group">
               <label for="customerAddress">Địa chỉ *</label>
               <input type="text" id="customerAddress" name="Address" required>
             </div>
-            
+
             <div class="form-group">
               <label for="customerPassword">Mật khẩu <span id="passwordHint">(để trống nếu không đổi)</span></label>
               <input type="password" id="customerPassword" name="Password">
             </div>
-            
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" id="cancelCustomerEdit">Hủy</button>
               <button type="submit" class="btn btn-primary">Lưu</button>
@@ -437,10 +457,10 @@
   <script>
     // Setup CSRF token for all AJAX requests
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    
+
     // Store original customer data for search
     let allCustomers = @json($customers);
-    
+
     const customerModal = document.getElementById('customerModal');
     const addCustomerBtn = document.getElementById('addCustomerBtn');
     const closeCustomerModal = document.querySelector('#customerModal .modal-close');
@@ -456,7 +476,7 @@
       alertDiv.className = `alert alert-${type} show`;
       alertDiv.textContent = message;
       alertContainer.appendChild(alertDiv);
-      
+
       setTimeout(() => {
         alertDiv.classList.remove('show');
         setTimeout(() => alertDiv.remove(), 300);
@@ -485,10 +505,10 @@
       try {
         const response = await fetch(`/staff/customer/${id}`);
         const data = await response.json();
-        
+
         if (data.success) {
           const customer = data.customer;
-          
+
           document.getElementById('customerModalTitle').textContent = 'Chỉnh sửa thông tin khách hàng';
           document.getElementById('customerId').value = customer.CustomerID;
           document.getElementById('formMethod').value = 'PUT';
@@ -500,7 +520,7 @@
           document.getElementById('customerAddress').value = customer.Address;
           document.getElementById('customerPassword').value = '';
           document.getElementById('passwordHint').textContent = '(để trống nếu không đổi)';
-          
+
           customerModal.classList.add('active');
         }
       } catch (error) {
@@ -511,7 +531,7 @@
     // Delete customer
     window.deleteCustomer = async function(id) {
       if (!confirm('Bạn có chắc muốn xóa khách hàng này?')) return;
-      
+
       try {
         const response = await fetch(`/staff/customer/${id}`, {
           method: 'DELETE',
@@ -520,9 +540,9 @@
             'Content-Type': 'application/json'
           }
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
           showAlert('Xóa khách hàng thành công!');
           // Remove row from table
@@ -540,16 +560,16 @@
     // Submit form (Add/Edit)
     customerForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
+
       const formData = new FormData(customerForm);
       const customerId = document.getElementById('customerId').value;
       const method = document.getElementById('formMethod').value;
-      
+
       let url = '/staff/customer';
       if (customerId) {
         url += `/${customerId}`;
       }
-      
+
       try {
         const response = await fetch(url, {
           method: 'POST',
@@ -558,13 +578,13 @@
           },
           body: formData
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
           showAlert(customerId ? 'Cập nhật khách hàng thành công!' : 'Thêm khách hàng thành công!');
           customerModal.classList.remove('active');
-          
+
           // Reload page to show updated data
           setTimeout(() => location.reload(), 1000);
         } else {
@@ -578,13 +598,13 @@
     // Search functionality
     customerSearch.addEventListener('input', function() {
       const searchTerm = this.value.toLowerCase().trim();
-      
+
       if (searchTerm === '') {
         // Show all customers
         renderCustomerTable(allCustomers);
       } else {
         // Filter customers
-        const filteredCustomers = allCustomers.filter(customer => 
+        const filteredCustomers = allCustomers.filter(customer =>
           customer.FullName.toLowerCase().includes(searchTerm) ||
           customer.Phone.includes(searchTerm) ||
           customer.Email.toLowerCase().includes(searchTerm) ||
@@ -606,7 +626,7 @@
         `;
         return;
       }
-      
+
       customerTableBody.innerHTML = customers.map(customer => `
         <tr data-id="${customer.CustomerID}">
           <td>${customer.CustomerID}</td>
@@ -644,4 +664,5 @@
     }
   </script>
 </body>
+
 </html>
