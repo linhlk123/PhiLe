@@ -188,11 +188,15 @@ class BookingController extends Controller
             ->join('BOOKINGS as b', 'b.BookingID', '=', 'br.BookingID')
             ->join('ROOMS as r', 'r.RoomID', '=', 'br.RoomID')
             ->join('ROOM_TYPES as rt', 'rt.RoomTypeID', '=', 'r.RoomTypeID')
+            ->leftJoin(DB::raw('(SELECT BookingID, SUM(TotalPrice) as ServiceTotal FROM SERVICE_USAGES GROUP BY BookingID) as su'), 'b.BookingID', '=', 'su.BookingID')
             ->select(
                 'br.RoomID',
                 'br.CheckInDate',
                 'br.CheckOutDate',
-                'br.TotalAmount',
+                DB::raw('CASE 
+                    WHEN br.RoomID >= 216 THEN br.TotalAmount + COALESCE(su.ServiceTotal, 0)
+                    ELSE br.TotalAmount
+                END as TotalAmount'),
                 'b.AdultAmount',
                 'b.ChildAmount',
                 'b.BookingID',

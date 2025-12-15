@@ -63,6 +63,7 @@ class PaymentController extends Controller
                 $join->on('b.BookingID', '=', 'p.BookingID')
                      ->where('p.PaymentStatus', '=', 'Đã thanh toán');
             })
+            ->leftJoin(DB::raw('(SELECT BookingID, SUM(TotalPrice) as ServiceTotal FROM SERVICE_USAGES GROUP BY BookingID) as su'), 'b.BookingID', '=', 'su.BookingID')
             ->where('b.CustomerID', $customerId)
             ->whereIn('b.Status', ['Pending', 'CheckedIn', 'checkout'])
             ->select(
@@ -74,7 +75,10 @@ class PaymentController extends Controller
                 'br.RoomID',
                 'br.CheckInDate',
                 'br.CheckOutDate',
-                'br.TotalAmount',
+                DB::raw('CASE 
+                    WHEN br.RoomID >= 216 THEN br.TotalAmount + COALESCE(su.ServiceTotal, 0)
+                    ELSE br.TotalAmount
+                END as TotalAmount'),
                 'r.RoomNumber',
                 'rt.TypeName',
                 DB::raw('CASE 
@@ -231,7 +235,7 @@ class PaymentController extends Controller
             $price = $bs->service->Price;
             $total = $price * $bs->Quantity;
 
-            $bs->TotalServicePrice = $total;
+            $bs->TotalPrice = $total;
             $bs->save();
 
             $serviceTotal += $total;
